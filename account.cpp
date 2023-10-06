@@ -56,7 +56,7 @@ class Account {
             return false;
         }
 
-        virtual void getInfo() {
+        void getInfo() {
             cout << "Account ID : " << ID << endl;
             
         }
@@ -69,8 +69,10 @@ class Info {
         string Position;
         string Contact;
     public:
-        void ChangeDirect(int index);
-        void GetDirect(int index, string value);
+        string getName() {return Name;}
+        string getDoBirth() {return DoBirth;}
+        string getPosition() {return Position;}
+        string getName() {return Name;}
 };
 
 class EmployeeAccount : public Account {
@@ -85,7 +87,7 @@ class EmployeeAccount : public Account {
         void UpdateSch();
         void GetSalary();
         void UpdateSalary();
-        void getInfo() override {
+        void getInfo() {
             cout << "Account ID : " << getID();
         }
 };
