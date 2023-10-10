@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "e:/New Course/PBL2",
-      "program": "e:/New Course/PBL2/build/Debug/outDebug",
+      "cwd": "e:/New Course/PBL2/PBL2",
+      "program": "e:/New Course/PBL2/PBL2/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

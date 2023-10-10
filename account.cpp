@@ -7,21 +7,24 @@ using namespace std;
 
 
 class Account {
-    private:
+    protected:
         string ID;
-        string Password;
+        string password;
     public: 
-        Account(string ID = "account", string pwd = "123456") 
-            : ID(ID), Password(pwd) {};
+        Account(string ID = "account", string pwd = "000000") 
+            : ID(ID), password(pwd) {};
 
         bool checkPwd(string check){
-            return check == Password;
+            return check == password;
         }
         string getID(){
             return ID;
         }
         string getPwd(){
-            return Password;
+            return password;
+        }
+        void setPwd(string input){
+            password = input;
         }
         bool ChangePwd(){
             string old;
@@ -35,15 +38,13 @@ class Account {
             } 
 
             cout << "Enter your NEW password: ";
-            cin >> Password;
+            cin >> password;
             cout << "Password Changed!";
             return true;
         }
-
         void saveAcc(fstream& f) {
-            f << ID << ":" << Password << "\n";
+            f << ID << ":" << password << "\n";
         }
-
         bool login() {
             string inputPwd;
             cout << "Enter your password: ";
@@ -55,7 +56,6 @@ class Account {
             cout << "Login failed. Incorrect password." << endl;
             return false;
         }
-
         void getInfo() {
             cout << "Account ID : " << ID << endl;
             
@@ -64,32 +64,42 @@ class Account {
 
 class Info {
     private:
-        string Name;
-        string DoBirth;
-        string Position;
-        string Contact;
+        string name;
+        string doBirth;
+        string position;
+        string contact;
     public:
-        string getName() {return Name;}
-        string getDoBirth() {return DoBirth;}
-        string getPosition() {return Position;}
-        string getName() {return Name;}
+        void getInfo() {
+            cout << "- Name: " << name << endl;
+            cout << "- Date of birth: " << doBirth << endl;
+            cout << "- Position: " << position << endl;
+            cout << "- Contact: " << contact << endl;
+        }
+        void setName(string input) {name = input;};
+        void setDate(string input) {doBirth = input;};
+        void setPos(string input) {position = input;};
+        void setContact(string input) {contact = input;};
+
 };
 
 class EmployeeAccount : public Account {
     private: 
-        Info Details;
+        Info details;
+        int salary;
         LinkedList <string, string> Schedule;
-        int Salary;
     public:
-        void GetInfo();
-        void UpdateInfo();
+        void ShowInfo(){
+            cout << "ID: " << ID << endl;
+            details.getInfo();
+            cout << "- Salary: " << salary << " vnd" << endl;
+        }
+        void UpdateInfo(){
+
+        };
         void GetSch();
         void UpdateSch();
         void GetSalary();
         void UpdateSalary();
-        void getInfo() {
-            cout << "Account ID : " << getID();
-        }
 };
 
 class ManagerAccount : public Account {
@@ -116,17 +126,18 @@ Account Login(){
     cout << "Enter your user ID: ";
     cin >> userID;
     bool userFound = false;
-    string line;
+    string line, savedPwd;
     while (getline(file, line)) {
         size_t pos = line.find(":");
         string savedID = line.substr(0, pos);
+        savedPwd = line.substr(pos + 1);
         if (savedID == userID) {
-            userFound = true;
+            userFound = true;            
             break;
         }
     }
     if (userFound) {
-        Account user(userID);
+        Account user(userID, savedPwd);
         if (user.login()){ file.close(); return user;}
     } else
         cout << "User not found. Please register a new account." << endl;

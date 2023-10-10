@@ -114,7 +114,6 @@
   },
   "dataworkspace.excludedProjects": [
     "note/note.sqlproj"
-  ]
-
-
+  ],
+  "C_Cpp_Runner.msvcSecureNoWarnings": false
 }

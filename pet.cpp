@@ -48,7 +48,7 @@ public:
 };
 
 class Pet {
-private:
+protected:
     string id;
     string name;
     string species_id;
@@ -58,14 +58,10 @@ private:
     bool gender; // true ~ male, false ~ female
 
 public:
-    Pet() : age(0), gender(true) {}
-    Pet(const Pet &other) : id(other.id), name(other.name), species_id(other.species_id), health(other.health), details(other.details), age(other.age), gender(other.gender) {}
+    Pet() : age(0), gender(true) {
+        // Tự động gán ID mới có thứ tự tiếp theo với ID cuối cùng được lưu trong file.
+    }
 
-    string getId() const { return id; }
-    string getName() const { return name; }
-    string getSpeciesId() const { return species_id; }
-    string getHealth() const { return health; }
-    int getAge() const { return age; }
     string getGender() const {
         if (gender) return "male";
             else return "female";
@@ -87,14 +83,7 @@ public:
         firstSymbol(mode,i,s);
         cout << "Special Needs : " << details.getSNeeds() << endl;
     }
-
-    void setId(const string &newId) { id = newId; }
-    void setName(const string &newName) { name = newName; }
-    void setSpeciesId(const string &newSpeciesId) { species_id = newSpeciesId; }
-    void setHealth(const string &newHealth) { health = newHealth; }
-    void setAge(int newAge) { age = newAge; }
-    void setGender(bool newGender) { gender = newGender; }
-
+    
     void editDetails() {
         int c;
         cout << "EDIT ";
@@ -139,8 +128,8 @@ public:
             cout << "Edit other (enter 0 to escape): ";
             cin >> c;
         } while (c != 0);
-        system("cls");
     }
+
 };
 
 
@@ -155,23 +144,28 @@ class CustomerPet : public Pet {
         CustomerPet(const CustomerPet &other) 
             : Pet(other), owner_id(other.owner_id), service_used(other.service_used), current_status(other.current_status) {}
 
-        string getOwnerId() const { return owner_id; }
-        string getServiceUsed() const { return service_used; }
-        string getCurrentStatus() const { return current_status; }
-
-        void setOwnerId(const string &newOI) { owner_id = newOI; }
-        void setServiceUsed(const string &newSU) { service_used = newSU; }
-        void setCurrentStatus(const string &newCS) { current_status = newCS; }
+        void SetNew(){
+            cout << "SET NEW CUSTOMER PET:" << endl;
+            cout << "> Name: "; cin.ignore(); getline(cin, name);
+            cout << "> Age: "; cin >> age;
+            cout << "> Gender (1-male, 0-female): "; cin >> gender;
+            cout << "> Owner ID: "; cin >> owner_id;
+            cout << "> Service Used ID: "; cin >> service_used;
+            cout << "> Current Status: "; cin.ignore(); getline(cin, current_status);
+            cout << "> Health: "; cin.ignore(); getline(cin, health);
+            editDetails();
+            system("cls");
+        }
 
         void showAll() {
             cout << "CUSTOMER'S PET INFOMATION: " << endl;
-            cout << "- ID: " << getId() << endl;
-            cout << "- Name: " << getName() << endl;
-            cout << "- Age: " << getAge() << endl;
+            cout << "- ID: " << id << endl;
+            cout << "- Name: " << name << endl;
+            cout << "- Age: " << age << endl;
             cout << "- Gender: " << getGender() << endl;
             cout << "- Owner: " << getCustomerName(owner_id)<< endl;
             showDetails(1);
-            cout << "- Health: " << getHealth() << endl;
+            cout << "- Health: " << health << endl;
             cout << "- Service Used: " << getServiceName(service_used) << endl;
             cout << "- Current Status: " << current_status << endl;
         }
@@ -198,9 +192,8 @@ class ShopPet : public Pet {
 
 int main() {
     CustomerPet a;
-    a.editDetails();
+    a.SetNew();
     a.showAll();
-    cout << "Press Enter to exit..."; 
     system("pause");
     return 0;
 }
