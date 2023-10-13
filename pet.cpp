@@ -152,7 +152,7 @@ class CustomerPet : public Pet {
             cout << "> Owner ID: "; cin >> owner_id;
             cout << "> Service Used ID: "; cin >> service_used;
             cout << "> Current Status: "; cin.ignore(); getline(cin, current_status);
-            cout << "> Health: "; cin.ignore(); getline(cin, health);
+            cout << "> Health: "; getline(cin, health);
             editDetails();
             system("cls");
         }
@@ -190,10 +190,8 @@ class ShopPet : public Pet {
 
 
 
-int main() {
+void NewPet() {
     CustomerPet a;
     a.SetNew();
     a.showAll();
-    system("pause");
-    return 0;
 }
