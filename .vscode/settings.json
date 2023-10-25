@@ -1,7 +1,4 @@
 {
-  "terminal.integrated.env.windows": {
-    "PATH": "${env:PATH};C:\\sqlite"
-  },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
   "C_Cpp_Runner.debuggerPath": "gdb",
@@ -58,11 +55,9 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
+  "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
     "*.embeddedhtml": "html",
-    "ostream": "cpp",
-    "new": "cpp",
-    "iosfwd": "cpp",
     "array": "cpp",
     "atomic": "cpp",
     "bit": "cpp",
@@ -70,6 +65,7 @@
     "cctype": "cpp",
     "clocale": "cpp",
     "cmath": "cpp",
+    "codecvt": "cpp",
     "compare": "cpp",
     "concepts": "cpp",
     "cstdarg": "cpp",
@@ -98,22 +94,19 @@
     "tuple": "cpp",
     "type_traits": "cpp",
     "utility": "cpp",
+    "fstream": "cpp",
     "initializer_list": "cpp",
     "iomanip": "cpp",
+    "iosfwd": "cpp",
     "iostream": "cpp",
     "istream": "cpp",
     "limits": "cpp",
+    "new": "cpp",
+    "ostream": "cpp",
     "ranges": "cpp",
     "sstream": "cpp",
     "stdexcept": "cpp",
     "streambuf": "cpp",
-    "typeinfo": "cpp",
-    "map": "cpp",
-    "fstream": "cpp",
-    "cinttypes": "cpp"
-  },
-  "dataworkspace.excludedProjects": [
-    "note/note.sqlproj"
-  ],
-  "C_Cpp_Runner.msvcSecureNoWarnings": false
+    "typeinfo": "cpp"
+  }
 }

@@ -113,6 +113,7 @@ class ManagerAccount : public Account {
         void UpdateEL();
 };
 
+
 Account Login(){
     fstream file;
     file.open("..\\database\\account\\allacc.txt", ios::in | ios::out | ios::app);
@@ -158,8 +159,16 @@ Account Signin(){
     string newID, newPassword;
     cout << "Enter a new user ID: ";
     cin >> newID;
+    while (newID == "account"){
+        cout << "Please enter another id :";
+        cin >> newID;
+    }
     cout << "Enter a new password: ";
     cin >> newPassword;
+    while (newPassword.length() < 6 || newPassword.length() > 15){
+        cout << "Password length must be of 6-15 characters: ";
+        cin >> newPassword;
+    }
     Account newUser(newID, newPassword);
     newUser.saveAcc(file);
     cout << "New account registered successfully!" << endl;
@@ -167,27 +176,29 @@ Account Signin(){
     return newUser;
 }
 
-int main() {
-    Account User;
+bool LogIO(Account &User) {
     int choice;
-    cout << "Enter '1' to log in, '2' to create a new account, or '0' to quit: ";
+    cout << ">>  MAIN MENU  <<" << endl;
+    cout << "   1. Login" << endl;
+    cout << "   2. Sign in" << endl;
+    cout << "   0. Exit" << endl;
+
     cin >> choice;
-
-    if (choice == 1) {
-        User = Login();
-    } 
-    
-    else if (choice == 2) {
-        User = Signin();
-    } 
-    
-    else if (choice == 0) 
-        cout << "Exiting program." << endl;
-    
-    else 
-        cout << "Invalid choice. Exiting program." << endl;
-
-    return 0;
+    system("cls");
+    switch(choice) {
+        case 1:
+            User = Login();
+            return true;
+        case 2:
+            User = Signin();
+            return true;
+        case 0:
+            cout << "Exiting program." << endl;
+            return false;
+        default: 
+            cout << "Invalid choice. Exiting program." << endl;
+            return false;
+    }
 }
 
 

@@ -5,6 +5,62 @@
 #include "linkedlist.cpp"
 using namespace std;
 #define UDF "undefined"
+void firstSymbol(int mode, int number, char symbol) {
+    if (mode == 0) cout << number << ". ";
+        else cout << symbol << " ";
+}
+
+class Info {
+    private:
+        string name;
+        string doBirth;
+        string position;
+        string contact;
+    public:
+        Info(string n = UDF, string date = UDF, string pos = UDF, string ct = UDF): name(n), doBirth(date), position(pos), contact(ct){};
+        void getInfo(int mode = 1){
+            firstSymbol(mode, 1, '-'); cout << "Name: " << name << endl;
+            firstSymbol(mode, 2, '-'); cout << "Date of birth: " << doBirth << endl;
+            firstSymbol(mode, 3, '-'); cout << "Position: " << position << endl;
+            firstSymbol(mode, 4, '-'); cout << "Contact: " << contact << endl;
+        }
+        void UpdateInfo(){
+            int c;
+            cout << "UPDATE ACCOUNT INFORMATION: " << endl;
+            getInfo(0);
+            cout << ">> Enter number 1-4 to edit, others to escape: ";
+            cin >> c;
+            cin.ignore();
+            do {
+                switch (c) {
+                case 1:
+                    cout << ">> Name: ";
+                    getline(cin, name); 
+                    break;
+                case 2:
+                    cout << ">> Date of birth: ";
+                    getline(cin, doBirth); 
+                    break;
+                case 3:
+                    cout << ">> Position: ";
+                    getline(cin, position); 
+                    break;
+                case 4:
+                    cout << ">> Contact: ";
+                    getline(cin, contact); 
+                    break;
+                default:
+                    cout << "Exit ..." << endl;
+                    system("cls");
+                    return;
+                };
+                cout << "Edit other (enter 0 to escape): ";
+                cin >> c;
+            } while (c != 0);
+            system("cls");
+        }
+    
+};
 
 class Account {
     protected:
@@ -30,6 +86,10 @@ class Account {
         void setPwd(string input){
             password = input;
         }
+
+        bool check(){
+            return status;
+        }
         bool ChangePwd(){
             string old;
             Start:
@@ -51,28 +111,9 @@ class Account {
         }
         void Login();
         void Signin();
+        void UpdateInfo(){details.UpdateInfo();}
 };
 
-class Info {
-    private:
-        string name;
-        string doBirth;
-        string position;
-        string contact;
-    public:
-        Info(string n = UDF, string date = UDF, string pos = UDF, string ct = UDF): name(n), doBirth(date), position(pos), contact(ct){};
-        void getInfo(){
-            cout << "- Name: " << name << endl;
-            cout << "- Date of birth: " << doBirth << endl;
-            cout << "- Position: " << position << endl;
-            cout << "- Contact: " << contact << endl;
-        }
-        void setName(string input) {name = input;};
-        void setDate(string input) {doBirth = input;};
-        void setPos(string input) {position = input;};
-        void setContact(string input) {contact = input;};
-
-};
 
 class EmployeeAccount : public Account {
     private: 
@@ -172,17 +213,18 @@ bool LogIO(EmployeeAccount &User) {
     switch(choice) {
         case 1:
             User.Login();
-            return true;
+            break;
         case 2:
             User.Signin();
-            return true;
+            break;
         case 0:
             cout << "Exiting program." << endl;
-            return false;
+            break;  
         default: 
             cout << "Invalid choice. Exiting program." << endl;
-            return false;
+            break;
     }
+    return User.check();
 }
 
 
