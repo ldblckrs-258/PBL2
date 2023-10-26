@@ -3,11 +3,32 @@
 #include <string>
 #include <fstream>
 #include "linkedlist.cpp"
+#include <limits>
+#include <conio.h>
 using namespace std;
 #define UDF "undefined"
+
 void firstSymbol(int mode, int number, char symbol) {
     if (mode == 0) cout << number << ". ";
         else cout << symbol << " ";
+}
+
+string hideInput() {
+    string str;
+    
+    char ch;
+    while ((ch = _getch()) != '\r') { 
+        if (ch == 8) { 
+            if (!str.empty()) {
+                str.pop_back();
+                cout << "\b \b"; 
+            }
+        } else {
+            str.push_back(ch);
+            cout << '*';
+        }
+    }
+    return str;
 }
 
 class Info {
@@ -164,7 +185,7 @@ void Account:: Login(){
     if (userFound) {
         string inputPwd;
         cout << "Enter your password: ";
-        cin >> inputPwd;
+        inputPwd = hideInput();
         if (checkPwd(inputPwd)) {
             cout << "Logged in successfully!" << endl;
             status = true;
@@ -183,18 +204,43 @@ void Account:: Signin(){
         cout << "Error opening file." << endl;
         return ;
     }
-    cout << "Enter a new user ID: ";
-    cin >> ID;
-    while (ID == "account"){
-        cout << "Please enter another id :";
+
+    bool userFound = false;
+    do {
+        if (userFound) {
+            cout << "ID already exists, please enter another !" << endl;;
+        }
+        userFound = false;
+        cout << "Enter a new user ID: ";
         cin >> ID;
-    }
+        string line;
+        while (getline(file, line)) {
+            size_t pos = line.find(":");
+            string savedID = line.substr(0, pos);
+            password = line.substr(pos + 1);
+            if (savedID == ID) {
+                userFound = true;            
+                break;
+            }
+        }
+        if (ID == "account") userFound = true; 
+    } while (userFound);
+
+
     cout << "Enter a new password: ";
-    cin >> password;
+    password = hideInput();
     while (password.length() < 6 || password.length() > 15){
         cout << "Password length must be of 6-15 characters: ";
-        cin >> password;
+        password  = hideInput();
     }
+    string repwd;
+    do {
+        cout << "Re-enter password: ";
+        repwd = hideInput();
+        if (repwd != password) {
+            cout << "Incorrect, please confirm again! " << endl;}
+        else break;
+    } while(1);
     status = true;
     saveAcc(file);
     cout << "New account registered successfully!" << endl;
@@ -203,28 +249,38 @@ void Account:: Signin(){
 
 bool LogIO(EmployeeAccount &User) {
     int choice;
-    cout << ">>  MAIN MENU  <<" << endl;
-    cout << "   1. Login" << endl;
-    cout << "   2. Sign in" << endl;
-    cout << "   0. Exit" << endl;
+    do {
+        system("cls");
+        cout << ">>  MAIN MENU  <<" << endl;
+        cout << "   1. Login" << endl;
+        cout << "   2. Sign in" << endl;
+        cout << "   0. Exit" << endl;
 
-    cin >> choice;
-    system("cls");
-    switch(choice) {
-        case 1:
-            User.Login();
-            break;
-        case 2:
-            User.Signin();
-            break;
-        case 0:
-            cout << "Exiting program." << endl;
-            break;  
-        default: 
-            cout << "Invalid choice. Exiting program." << endl;
-            break;
-    }
-    return User.check();
+        cin >> choice;
+        system("cls");
+        switch(choice) {
+            case 1:
+                User.Login();
+                if (User.check()) return User.check();
+                break;
+            case 2:
+                User.Signin();
+                if (User.check()) return User.check();
+                break;
+            case 0:
+                cout << "Exiting program." << endl;
+                return false;
+                break;  
+            default: 
+                cout << "Invalid choice. Exiting program." << endl;
+                return false;
+                break;
+        }
+            cout << "1. Return to menu" << endl;
+            cout << "0. Exit program" << endl;
+            cin >> choice;
+            if (!choice) return false;
+    } while(1);
 }
 
 
