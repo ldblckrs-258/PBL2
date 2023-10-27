@@ -1,9 +1,10 @@
 #include <iostream>
-#include <Windows.h>
+#include <windows.h>
 #include "account2.cpp"
 // #include "pet.cpp"
 
 using namespace std;
+
 
 int main() {
     system("cls");
@@ -12,6 +13,6 @@ int main() {
         system("cls");
         User.UpdateInfo();
         User.ShowInfo();
-        // NewPet();
     }
+    system("pause");
 }

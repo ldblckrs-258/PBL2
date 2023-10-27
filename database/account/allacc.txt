@@ -1,4 +1,2 @@
-
-account1:123456
-account2:123456
-account3:123456
+admin1:123321
+admin2:123321
