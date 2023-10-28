@@ -2,7 +2,7 @@
 #include <string>
 #include <windows.h>
 #include <iomanip>
-
+#include "FuncLib.h"
 using namespace std;
 
 string getServiceName(const string &id){
@@ -15,11 +15,6 @@ string getCustomerName(const string &id){
     string value = "undefined";
     // Get customer name from 'database/data/Customer.xlsx' by ID
     return value;
-}
-
-void firstSymbol(int mode, int number, char symbol) {
-    if (mode == 0) cout << number << ". ";
-        else cout << symbol << " ";
 }
 
 class Crs { // Pet's Characteristic

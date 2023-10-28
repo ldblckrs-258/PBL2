@@ -1,11 +1,11 @@
 {
     "configurations": [
         {
-            "name": "windows-cygwin-gcc-x64",
+            "name": "mingw64",
             "includePath": [
                 "${workspaceFolder}/**"
             ],
-            "compilerPath": "C:/TDM-GCC-32/bin/g++.exe",
+            "compilerPath": "C:/mingw64/bin/gcc.exe",
             "cStandard": "${default}",
             "cppStandard": "${default}",
             "intelliSenseMode": "linux-gcc-x64",
