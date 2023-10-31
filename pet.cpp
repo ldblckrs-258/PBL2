@@ -2,7 +2,11 @@
 #include <string>
 #include <windows.h>
 #include <iomanip>
-#include "FuncLib.h"
+#include <fstream>
+#include <vector>
+#include "FuncLib.cpp"
+#include "Cursor.cpp"
+#define UDF "undefined"
 using namespace std;
 
 string getServiceName(const string &id){
@@ -17,6 +21,12 @@ string getCustomerName(const string &id){
     return value;
 }
 
+string getSpeciesName(const string &id){
+    string value = "undefined";
+    // Get customer name from 'database/data/Species.xlsx' by ID
+    return value;
+}
+
 class Crs { // Pet's Characteristic
 private:
     double weight; // kilogram
@@ -26,9 +36,10 @@ private:
     string s_need;
 
 public:
-    Crs() : weight(0.0), height(0.0), intelligence(0) {}
-    Crs(const Crs &other) : weight(other.weight), height(other.height), temperament(other.temperament), intelligence(other.intelligence), s_need(other.s_need) {}
-
+    Crs() : weight(0.0), height(0.0), s_need("None") {
+        temperament = UDF;
+        intelligence = 5;
+    }
     double getWeight() const { return weight; }
     double getHeight() const { return height; }
     string getTemperament() const { return temperament; }
@@ -47,14 +58,16 @@ protected:
     string id;
     string name;
     string species_id;
-    string health;
+    string status;
     Crs details;
     int age; // months
     bool gender; // true ~ male, false ~ female
 
 public:
-    Pet() : age(0), gender(true) {
-        // Tự động gán ID mới có thứ tự tiếp theo với ID cuối cùng được lưu trong file.
+    Pet(string pid = "p0", string sid = "s0") : id(pid), name(UDF), gender(true) {
+        species_id = sid;
+        age = 0;
+        status = UDF;
     }
 
     string getGender() const {
@@ -62,67 +75,191 @@ public:
             else return "female";
     }
 
-    void showDetails(int mode = 0) const {
-        if (mode==0)
-            cout << "PET'S CHARACTERISTIC: " << endl;
-        int i=1;
-        char s = '+';
-        firstSymbol(mode,i++,s);
-        cout << "Weight : " << details.getWeight() << " kg"<< endl;
-        firstSymbol(mode,i++,s);
-        cout << "Height : " << details.getHeight() << " m" << endl;
-        firstSymbol(mode,i++,s);
-        cout << "Temperament : " << details.getTemperament() << endl;
-        firstSymbol(mode,i++,s);
-        cout << "Intelligence Level : " << details.getIntelligence() << "/10" << endl;
-        firstSymbol(mode,i,s);
-        cout << "Special Needs : " << details.getSNeeds() << endl;
+    void showDetails(int except = -1){
+        system("cls");
+        printFile("..\\source\\PetInfo.txt");
+        if (except != 0)    {gotoXY(34,3);   cout << id;}
+        if (except != 1)    {gotoXY(34,5);   cout << name;}
+        if (except != 2)    {gotoXY(34,7);   cout << age << " months";}
+        if (except != 3)    {gotoXY(34,9);   cout << getGender();}
+        if (except != 4)    {gotoXY(34,11);   cout << species_id;}
+        if (except != 5)    {gotoXY(34,13);   cout << status;}
+
+        if (except != 11)    {gotoXY(103,6);   cout << details.getHeight() << " m";}
+        if (except != 12)    {gotoXY(103,8);   cout << details.getWeight() << " kg";}
+        if (except != 13)    {gotoXY(103,10);   cout << details.getTemperament() ;}
+        if (except != 14)    {gotoXY(103,12);   cout << details.getIntelligence() << "/10";}
+        if (except != 15)    {gotoXY(103,14);   cout << details.getSNeeds();}
+
+        gotoXY(0,21);
     }
     
-    void editDetails() {
+    void editChar() {
         int c;
-        cout << "EDIT ";
         showDetails();
-        cout << ">> Enter number 1-5 to edit, others to escape: ";
-        cin >> c;
+        cout << ">> Press a number 1-5 to edit, others to escape: ";
+        c = pickMenu();
         double i1; 
         string i2;
         do {
             switch (c) {
             case 1:
-                cout << "Change pet's weight to : ";
-                cin >> i1;
-                details.setWeight(i1);
-                break;
-            case 2:
-                cout << "Change pet's height to : ";
-                cin >> i1;
+                showDetails(11);
+                cout << ">> Enter height (a positive decimal)";
+                gotoXY(103,6);  
+                cin >> i1;  clearCin();
+                gotoXY(0,21);
                 details.setHeight(i1);
                 break;
+            case 2:
+                showDetails(12);
+                cout << ">> Enter weight (a positive decimal)";
+                gotoXY(103,8);  
+                cin >> i1;  clearCin();  
+                gotoXY(0,21);
+                details.setWeight(i1);
+                break;
             case 3:
-                cout << "Change pet's temperament to : ";
-                cin.ignore();
-                getline(cin, i2);
+                showDetails(13);
+                cout << ">> Enter temperament";
+                gotoXY(103,10);  
+                getline(cin, i2);  gotoXY(0,21);
                 details.setTemperament(i2);
                 break;
             case 4:
-                cout << "Change pet's intelligence level to : ";
-                cin >> i1;
+                showDetails(14);
+                cout << ">> Enter intelligence level (an integer from 0 to 10)";
+                gotoXY(103,12);  
+                cin >> i1;  clearCin();  
+                gotoXY(0,21);
                 details.setIntelligence(int(i1));
                 break;
             case 5:
-                cout << "Change pet's special needs to : ";
-                cin.ignore();
-                getline(cin, i2);
+                showDetails(15);
+                cout << ">> Enter special needs";
+                gotoXY(103,14);  
+                getline(cin, i2);  
+                gotoXY(0,21);
                 details.setSNeeds(i2);
                 break;
             default:
                 cout << "Exit ..." << endl;
                 return;
             };
-            cout << "Edit other (enter 0 to escape): ";
-            cin >> c;
+            drawLine(' ', 100); moveCursor(-100,0);
+            cout << "Edit other (0 to escape): ";
+            cin.clear();
+            c = pickMenu();
         } while (c != 0);
+    }
+
+    void loadFull() {
+        string fileName = "..\\database\\pet\\customerPet\\" + id + ".txt";
+        fstream file;
+        file.open(fileName, ios::in );
+        if (!file.is_open()) {
+            cerr << "Error opening file to load pet information." << fileName<< endl;
+            return;
+        }
+
+        string line;
+        int lineCount = 0;
+        while (getline(file, line)) {
+            int it = 0; double dt = 0;
+            switch (lineCount)
+            {
+            case 0:
+                id = line;
+                break;
+            case 1:
+                name = line;
+                break;
+            case 2:
+                try{it = stoi(line);}
+                catch(const invalid_argument& e){
+                    cerr << e.what() << '\n';
+                }
+                age = it;
+                break;
+            case 3:
+                gender = (line == "1") ? true : false ;
+                break;
+            case 4:
+                species_id = line;
+                break;
+            case 5:
+                status = line;
+                break;
+            case 8:
+                try {dt = stod(line);}
+                catch(const invalid_argument& e){
+                    cerr << e.what() << '\n';
+                }
+                details.setHeight(dt);
+                break;
+            case 9:
+                try {dt = stod(line);}
+                catch(const invalid_argument& e){
+                    cerr << e.what() << '\n';
+                }
+                details.setWeight(dt);
+                break;
+            case 10:
+                details.setTemperament(line);
+                break;
+            case 11:
+                try{it = stoi(line);}
+                catch(const invalid_argument& e){
+                    cerr << e.what() << '\n';
+                }
+                details.setIntelligence(it);
+                break;
+            case 12:
+                details.setSNeeds(line);
+                break;
+            default:
+                break;
+            }
+            ++lineCount;
+        }
+        file.close();
+    }
+
+    void saveInfo() {
+        string fileName = "..\\database\\pet\\customerPet\\" + id + ".txt";
+        fstream file;
+        file.open(fileName, ios::out);
+
+        if (!file.is_open()) {
+            cerr << "Error opening file to save pet information." << endl;
+            return;
+        }
+        
+        file << id << endl;
+        file << name << endl;
+        file << age << endl;
+        file << gender << endl;
+        file << species_id << endl;
+        file << status << endl;
+        file.close();
+    }
+
+    void saveChar() {
+        string fileName = "..\\database\\pet\\customerPet\\" + id + ".txt";
+        fstream file;
+        file.open(fileName, ios::out | ios::app);
+
+        if (!file.is_open()) {
+            cerr << "Error opening file to save pet information." << endl;
+            return;
+        }
+        
+        file << details.getHeight() << endl;
+        file << details.getWeight() << endl;
+        file << details.getTemperament() << endl;
+        file << details.getIntelligence() << endl;
+        file << details.getSNeeds() << endl;
+        file.close();
     }
 
 };
@@ -132,37 +269,219 @@ class CustomerPet : public Pet {
     private:
         string owner_id;
         string service_used; // id
-        string current_status;
 
     public:
-        CustomerPet(string oid = "0", string sid = "0") : owner_id(oid), service_used(sid) {}
-        CustomerPet(const CustomerPet &other) 
-            : Pet(other), owner_id(other.owner_id), service_used(other.service_used), current_status(other.current_status) {}
-
-        void SetNew(){
-            cout << "SET NEW CUSTOMER PET:" << endl;
-            cout << "> Name: "; cin.ignore(); getline(cin, name);
-            cout << "> Age: "; cin >> age;
-            cout << "> Gender (1-male, 0-female): "; cin >> gender;
-            cout << "> Owner ID: "; cin >> owner_id;
-            cout << "> Service Used ID: "; cin >> service_used;
-            cout << "> Current Status: "; cin.ignore(); getline(cin, current_status);
-            cout << "> Health: "; getline(cin, health);
-            editDetails();
-            system("cls");
+        CustomerPet(string pid = "cp0", string sid = "s0", string oid = "c0" ) : Pet(pid, sid), owner_id(oid), service_used(sid) {}
+        void setPet(){
+            int choice;
+            do {
+                showDetails();  
+                cout << endl << endl;
+                printFile("..\\source\\PetOption.txt");
+                choice = pickMenu();                
+                switch (choice)
+                {
+                case 1:
+                    editInfo();
+                    break;
+                case 2:
+                    editChar();
+                    break;
+                default:
+                    break;
+                }
+            } while(choice);
+            saveFull();
         }
 
-        void showAll() {
-            cout << "CUSTOMER'S PET INFOMATION: " << endl;
-            cout << "- ID: " << id << endl;
-            cout << "- Name: " << name << endl;
-            cout << "- Age: " << age << endl;
-            cout << "- Gender: " << getGender() << endl;
-            cout << "- Owner: " << getCustomerName(owner_id)<< endl;
-            showDetails(1);
-            cout << "- Health: " << health << endl;
-            cout << "- Service Used: " << getServiceName(service_used) << endl;
-            cout << "- Current Status: " << current_status << endl;
+        void editInfo() {
+            int c;
+            showDetails();
+                    cout << ">> Press a number 1-7 to edit, others to escape: ";
+            c = pickMenu();
+            do {
+                switch (c) {
+                case 1:
+                    showDetails(1);
+                    cout << ">> Enter pet name";
+                    gotoXY(34,5);  
+                    getline(cin, name);  
+                    gotoXY(0,21);
+                    break;
+                case 2:
+                    showDetails(2);
+                    cout << ">> Enter age (an integer)";
+                    gotoXY(34,7);  
+                    cin >> age;  clearCin();  
+                    gotoXY(0,21);
+                    break;
+                case 3:
+                    showDetails(3);
+                    cout << ">> Enter gender (1 for male, 0 for female)";
+                    gotoXY(34,9);  
+                    cin >> gender;  clearCin();
+                    gotoXY(0,21);
+                    break;
+                case 4:
+                    showDetails(4);
+                    cout << ">> Enter species id";
+                    gotoXY(34,11);  
+                    getline(cin, species_id);   
+                    gotoXY(0,21);
+                    break;
+                case 5:
+                    showDetails(5);
+                    cout << ">> Enter current status";
+                    gotoXY(34,13);  
+                    getline(cin, status);   
+                    gotoXY(0,21);
+                    break;
+                case 6:
+                    showDetails(6);
+                    cout << ">> Enter owner id";
+                    gotoXY(34,15);                  
+                    getline(cin, owner_id);   
+                    gotoXY(0,21);
+                    break;
+                case 7:
+                    showDetails(7);
+                    cout << ">> Enter service used id";
+                    gotoXY(34,17);  
+                    getline(cin, service_used);   
+                    gotoXY(0,21);
+                    break;
+                default:
+                    cout << "Exit ..." << endl;
+                    return;
+                };
+                cout << "Edit other (press 0 to escape): ";
+                c = pickMenu();
+            } while (c != 0);
+        }
+
+        void showDetails(int except = -1) {
+            Pet::showDetails(except);
+            if (except != 6) {gotoXY(34,15);   cout << owner_id;}
+            if (except != 7) {gotoXY(34,17);   cout << service_used;}
+            gotoXY(0,21);
+        }
+
+        void loadFull() {
+            Pet::loadFull();
+            string fileName = "..\\database\\pet\\customerPet\\" + id + ".txt";
+            fstream file;
+            file.open(fileName, ios::in );
+            if (!file.is_open()) {
+                cerr << "Error opening file to load pet information." << fileName<< endl;
+                return;
+            }
+            string line;
+            int lineCount = 0;
+            while (getline(file, line)) {
+                switch (lineCount)
+                {
+                case 6:
+                    owner_id = line;
+                    break;
+                case 7:
+                    service_used = line;
+                    break;
+                default:
+                    break;
+                }
+                ++lineCount;
+            }
+            file.close();
+        }
+
+        void saveFull() {
+            string fileName = "..\\database\\pet\\customerPet\\" + id + ".txt";
+            fstream file;
+            file.open(fileName, ios::out | ios::app);
+
+            if (!file.is_open()) {
+                cerr << "Error opening file to save pet information." << endl;
+                return;
+            }
+            saveInfo();
+            file << owner_id << endl << service_used << endl;
+            saveChar();
+            saveToAll();
+        }
+
+        void saveToAll() {
+            string fileName = "..\\database\\pet\\allCPets.txt";
+
+            ifstream fileIn(fileName);
+            string line;
+            while (getline(fileIn, line)) 
+                if (line == id) return;
+            fileIn.close();
+
+            ofstream fileOut(fileName, ios::app);
+            if (!fileOut.is_open()) {
+                cerr << "Error opening file to save Customer Pet ID.\n";
+                return;
+            }
+
+            fileOut << id << endl;
+            fileOut.close();            
+        }
+        
+        void setNextID() {
+            string fileName = "..\\database\\pet\\allCPets.txt";
+            string lastID;
+
+            ifstream fileIn(fileName);
+            string line;
+            while (getline(fileIn, line)) {
+                if (!line.empty())
+                    lastID = line;
+            }
+            fileIn.close();
+            if (lastID.empty()) {
+                id = "cp1";
+            }
+            size_t lastDP = lastID.find_first_of("0123456789");
+            if (lastDP == string::npos) {
+                id = "cp1";
+            }
+            else {
+                string p = lastID.substr(0, lastDP);
+                string s = lastID.substr(lastDP);
+                int is = stoi(s);
+                id = p + to_string(is+1);
+            }
+        }
+
+        void newPet(){
+            setNextID();
+            setPet();
+            saveFull();
+        }
+
+        void existPet(){            
+            system("cls");
+            printFile("..\\source\\InputID.txt");
+            gotoXY(67,3);
+            cin >> id;
+            moveLine(2);
+            bool exist = false;
+            string fileName = "..\\database\\pet\\allCPets.txt";
+            ifstream fileIn(fileName);
+            string line;
+            while (getline(fileIn, line)) 
+                if (line == id){
+                    exist = true;
+                    break;
+                }
+            fileIn.close();
+            if (exist){
+                loadFull();
+                setPet();
+            }
+            else holdString("ID does not exist, please re-enter or create a new profile!");
+
         }
 
 };
@@ -183,10 +502,87 @@ class ShopPet : public Pet {
 
 };
 
+void ViewAllCP() {
+    system("cls");
+    printFile("..\\source\\AllCPSample1.txt");
+    string allCP = "..\\database\\pet\\allCPets.txt";
+    ifstream allCPFile(allCP);
+    if(!allCPFile.is_open()){
+        cerr << "Error opening " << allCP << endl;
+        return;
+    }
 
+    vector<string> sID;
+    string line;
+    while (allCPFile >> line) {
+        sID.push_back(line);
+    }
+    allCPFile.close();
 
-void NewPet() {
-    CustomerPet a;
-    a.SetNew();
-    a.showAll();
+    for (const string &aID : sID) {
+        string aCP = "..\\database\\pet\\customerPet\\" + aID + ".txt";
+        ifstream aCPFile(aCP);
+
+        if (!aCPFile.is_open()) {
+            continue;
+        }
+        printFile("..\\source\\AllCPSample2.txt");
+        string aline;
+        int lineCount = 0;
+        while (getline(aCPFile, aline)) {
+            switch (lineCount)
+            {
+            case 0:
+                moveCursor(8,-2);   cout << aline;   moveLine(2);
+                break;
+            case 1:
+                moveCursor(21,-2);   cout << aline;   moveLine(2);
+                break;
+            case 4:
+                moveCursor(47,-2);   cout << aline;   moveLine(2);
+                break;
+            case 5:
+                moveCursor(118,-2);   cout << aline;   moveLine(2);
+                break;
+            case 6:
+                moveCursor(82,-2);   cout << aline;   moveLine(2);
+                break;
+            default:
+                break;
+            }
+            ++lineCount;
+        }
+        aCPFile.close();
+    }
+    moveLine(-1);
+    printFile("..\\source\\AllCPSample3.txt");
+}
+
+void petMenu(){
+    system("cls");
+    printFile("..\\source\\PetMenu.txt");
+    int choice = 0;
+    CustomerPet CP;
+    do {
+        choice = pickMenu();
+        if (choice == 1){
+            CP.newPet();
+            system("cls");
+            printFile("..\\source\\PetMenu.txt");
+        }
+        else if (choice == 2){
+            CP.existPet();
+            system("cls");
+            printFile("..\\source\\PetMenu.txt");
+        }
+        else if (choice == 3){
+            ViewAllCP();
+            printFile("..\\source\\PetMenu.txt");
+        }
+        else {  choice = 0; }
+    } while (choice);
+}
+
+int main(){
+    petMenu();
 }

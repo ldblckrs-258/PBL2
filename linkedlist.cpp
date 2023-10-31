@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-using namespace std;
 
 template <typename T, typename P>
 class LinkedList {
@@ -86,9 +85,9 @@ class LinkedList {
         void display() {
             Node* current = head;
             while (current) {
-                cout << current->data << " ";
+                std::cout << current->data << " ";
                 current = current->next;
             }
-            cout << endl;
+            std::cout << std::endl;
         }
 };

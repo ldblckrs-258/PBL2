@@ -4,16 +4,14 @@
 #include "Account.h"
 #include "EmployeeAccount.h"
 #include "ManagerAccount.h"
-#include "MyDefine.h"
-using namespace std;
 
 bool LogIO(EmployeeAccount &User) {
     int choice;
+    bool check;
     do {
         system("cls");
-        printFile(string(Folder) + "source\\MenuDraw.txt");
+        printFile(getFolder() + "source\\MenuDraw.txt");
         choice = pickMenu();
-        system("cls");
         switch(choice) {
             case 1:
                 User.Login();
@@ -22,7 +20,7 @@ bool LogIO(EmployeeAccount &User) {
                     return User.check();}
                 break;
             case 2:
-                User.Signin();
+                if (!User.Signin()) break;
                 if (User.check()) return User.check();
                 break;
             case 0:
@@ -34,9 +32,9 @@ bool LogIO(EmployeeAccount &User) {
                 return false;
                 break;
         }
-            cout << "1. Return to menu" << endl;
-            cout << "0. Exit program" << endl;
-            cin >> choice;
+            system("cls");
+            printFile(getFolder() + "source\\MenuOrExit.txt");
+            choice = pickMenu();
             if (!choice) return false;
     } while(1);
 }

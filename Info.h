@@ -4,7 +4,6 @@
 #include <string>
 #define UDF "undefined"
 using namespace std;
-
 class Info {
     private:
         string name;
@@ -14,7 +13,7 @@ class Info {
 
     public:
         Info(string n = UDF, string date = "01/01/1970", string pos = UDF, string ct = UDF);
-        void getInfo(int mode = 1);
+        void getInfo();
         void UpdateInfo();
         string getName();
         string getDoBirth();

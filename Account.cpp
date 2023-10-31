@@ -2,8 +2,7 @@
 #include <iostream>
 #include "FuncLib.h"
 #include <fstream>
-#include "MyDefine.h"
-using namespace std;
+#include "Cursor.h"
 Account::Account(string ID, string pwd) : ID(ID), password(pwd) {
     if (ID == "account" && password == "000000")
         status = false;
@@ -51,7 +50,7 @@ bool Account::ChangePwd() {
 
 void Account::saveAcc() {
     fstream file;
-    file.open(string(Folder) + "database\\account\\allacc.txt", ios::out | ios::app);
+    file.open(getFolder() + "database\\account\\allacc.txt", ios::out | ios::app);
     if (!file.is_open()) {
         cout << "Error opening file." << endl;
         return;
@@ -60,16 +59,20 @@ void Account::saveAcc() {
     file.close();
 }
 
-void Account::Login() {
+bool Account::Login() {
     fstream file;
-    file.open(string(Folder) +"database\\account\\allacc.txt", ios::in | ios::out | ios::app);
+    file.open(getFolder() +"database\\account\\allacc.txt", ios::in | ios::out | ios::app);
     if (!file.is_open()) {
         cout << "Error opening file." << endl;
-        return;
+        return false;
     }
-
-    cout << "Enter your user ID: ";
-    cin >> ID;
+    system("cls");
+    printFile(getFolder() + "source\\LoginBox.txt");
+    int choice;
+    // cout << "Enter your user ID: ";
+    gotoXY(67,3); 
+    getline(cin, ID);
+    gotoXY(0,8);
     bool userFound = false;
     string line;
     while (getline(file, line)) {
@@ -84,74 +87,81 @@ void Account::Login() {
     file.close();
     if (userFound) {
         string inputPwd;
-        cout << "Enter your password: ";
+        // cout << "Enter your password: ";
+        gotoXY(67,5);
         inputPwd = hideInput();
+        gotoXY(0,8);
         holdString("Login your account...", 1);
         if (checkPwd(inputPwd)) {
             cout << "Logged in successfully!" << endl;
             status = true;
-            return;
+            return true;
         }
-        cout << "Login failed. Incorrect password." << endl;
-    } else
-        cout << "User not found. Please register a new account." << endl;
-    return;
+        holdString("Login failed. Incorrect password!");
+        return false;
+    } 
+    else {
+        holdString("User not found. Please register a new account!");
+        return false;
+    }
 }
 
-void Account::Signin() {
+bool Account::Signin() {
     fstream file;
-    file.open(string(Folder) + "database\\account\\allacc.txt", ios::in);
+    file.open(getFolder() + "database\\account\\allacc.txt", ios::in);
     if (!file.is_open()) {
-        cout << "Error opening file." << endl;
-        return;
+        holdString("Error opening file allacc.txt !");
+        return false;
     }
-
+    int choice;
     bool userFound = false;
-    do {
-        if (userFound) {
-            cout << "ID already exists, please enter another !" << endl;;
-        }
-        userFound = false;
-        cout << "Enter a new user ID: ";
-        cin >> ID;
-        string line;
-        while (getline(file, line)) {
-            size_t pos = line.find(":");
-            string savedID = line.substr(0, pos);
-            password = line.substr(pos + 1);
-            if (savedID == ID) {
-                userFound = true;
-                break;
-            }
-        }
-        if (ID == "account")
+    string line;
+    system("cls");
+    printFile(getFolder() + "source\\SigninBox.txt");
+    gotoXY(73,3); 
+    getline(cin, ID);
+    gotoXY(0,10);
+    while (getline(file, line)) {
+        size_t pos = line.find(":");
+        string savedID = line.substr(0, pos);
+        password = line.substr(pos + 1);
+        if (savedID == ID) {
             userFound = true;
-    } while (userFound);
-    file.close();
-
-    cout << "Enter a new password: ";
-    password = hideInput();
-    while (password.length() < 6 || password.length() > 15) {
-        cout << "Password length must be of 6-15 characters: ";
-        password = hideInput();
-    }
-    string repwd;
-    do {
-        cout << "Re-enter password: ";
-        repwd = hideInput();
-        if (repwd != password) {
-            cout << "Incorrect, please confirm again! " << endl;
-        } else
             break;
-    } while (1);
+        }
+    }
+    file.close();
+    if (userFound){
+        holdString("ID already exists, please enter another !");
+        return false;
+    }
+
+    gotoXY(73,5);
+    password = hideInput();
+    gotoXY(0,10);
+    if (password.length() < 6 || password.length() > 15) {
+        holdString("Password length must be of 6-15 characters!");
+        return false;
+    }
+
+    string repwd;
+    gotoXY(73,7);
+    repwd = hideInput();
+    gotoXY(0,10);
+    if (repwd != password) {
+        holdString("Incorrect, please confirm again!", 2);
+        return false;
+    }
+
     saveAcc();
     status = true;
     holdString("New account registered successfully!", 0.5);
     holdString("Login your account...", 1);
+    return true;
 }
 
 void Account:: saveFull(){
-    string fileName = string(Folder) + "database\\account\\employee\\" + ID + ".txt";
+    string fileName = getFolder() + "database\\account\\employee\\" + ID + ".txt";
     fstream file;
     file.open(fileName, ios::out );
 
@@ -168,7 +178,7 @@ void Account:: saveFull(){
 }
 
 void Account:: loadFull(){
-    string fileName = string(Folder) + "database\\account\\employee\\" + ID + ".txt";
+    string fileName = getFolder() + "database\\account\\employee\\" + ID + ".txt";
     fstream file;
     file.open(fileName, ios::in );
 

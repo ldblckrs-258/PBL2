@@ -111,7 +111,12 @@
     "chrono": "cpp",
     "ratio": "cpp",
     "stop_token": "cpp",
-    "thread": "cpp"
+    "thread": "cpp",
+    "filesystem": "cpp",
+    "numbers": "cpp",
+    "semaphore": "cpp",
+    "condition_variable": "cpp",
+    "mutex": "cpp"
   },
   "c-cpp-compile-run.c-compiler": "C:\\mingw64\\bin\\gcc.exe",
   "c-cpp-compile-run.cpp-compiler": "C:\\mingw64\\bin\\g++.exe"

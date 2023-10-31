@@ -1,27 +1,24 @@
 #include <iostream>
 #include "Info.h"
 #include "FuncLib.h"
+#include "Cursor.h"
 #include <string>
 #include <sstream>
-using namespace std;
 
 Info::Info(string n, string date, string pos, string ct) : name(n), doBirth(date), position(pos), contact(ct) {}
 
-void Info::getInfo(int mode) {
-    firstSymbol(mode, 1, '-');
-    cout << "Name: " << name << endl;
-    firstSymbol(mode, 2, '-');
-    cout << "Date of birth: " << doBirth << endl;
-    firstSymbol(mode, 3, '-');
-    cout << "Position: " << position << endl;
-    firstSymbol(mode, 4, '-');
-    cout << "Contact: " << contact << endl;
+void Info::getInfo() {
+    system("cls");
+    printFile(getFolder() + "\\source\\EmployeeTable.txt");
+    gotoXY(69,5);   cout << name;
+    gotoXY(69,7);   cout << doBirth;
+    gotoXY(69,9);   cout << position;
+    gotoXY(69,11);   cout << contact;
+    gotoXY(0,15);
 }
 
 void Info::UpdateInfo() {
     int c;
-    cout << "UPDATE ACCOUNT INFORMATION: " << endl;
-    getInfo(0);
     cout << "Enter number 1-4 to edit, others to escape: ";
     cin >> c;
     cin.ignore();
