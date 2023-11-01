@@ -1,7 +1,7 @@
 #ifndef MANAGERACCOUNT_H
 #define MANAGERACCOUNT_H
 
-#include "Account.h"
+#include "./Account.h"
 
 class ManagerAccount : public Account {
 private:

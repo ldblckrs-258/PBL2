@@ -1,4 +1,4 @@
-#include "ManagerAccount.h"
+#include "./ManagerAccount.h"
 #include <iostream>
 
 void ManagerAccount::GetInfo() {

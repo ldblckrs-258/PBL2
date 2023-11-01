@@ -1,9 +1,9 @@
 #include <iostream>
-#include "FuncLib.h"
-#include "Info.h"
-#include "Account.h"
-#include "EmployeeAccount.h"
-#include "ManagerAccount.h"
+#include "./code/mylib/FuncLib.h"
+#include "./code/account/Info.h"
+#include "./code/account/Account.h"
+#include "./code/account/EmployeeAccount.h"
+#include "./code/account/ManagerAccount.h"
 
 bool LogIO(EmployeeAccount &User) {
     int choice;

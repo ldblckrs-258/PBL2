@@ -4,5 +4,5 @@
 void gotoXY(int , int );
 void getCursorPosition(int &, int &);
 void moveCursor(int , int );
-
+void moveLine(int );
 #endif

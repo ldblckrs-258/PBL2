@@ -1,8 +1,8 @@
-#include "Account.h"
+#include "./Account.h"
 #include <iostream>
-#include "FuncLib.h"
+#include "../mylib/FuncLib.h"
 #include <fstream>
-#include "Cursor.h"
+#include "../mylib/Cursor.h"
 Account::Account(string ID, string pwd) : ID(ID), password(pwd) {
     if (ID == "account" && password == "000000")
         status = false;

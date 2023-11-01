@@ -1,7 +1,7 @@
 #include <iostream>
-#include "Info.h"
-#include "FuncLib.h"
-#include "Cursor.h"
+#include "./Info.h"
+#include "../mylib/FuncLib.h"
+#include "../mylib/Cursor.h"
 #include <string>
 #include <sstream>
 

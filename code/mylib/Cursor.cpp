@@ -1,4 +1,4 @@
-#include "Cursor.h"
+#include "./Cursor.h"
 #include <windows.h>
 
 void gotoXY(int x, int y) {
@@ -23,4 +23,17 @@ void moveCursor(int x, int y){
     int dx, dy;
     getCursorPosition(dx, dy);
     gotoXY(x+dx, y+dy);
+}
+
+void moveLine(int n){
+    COORD coord;
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    GetConsoleScreenBufferInfo(hStdout, &csbi);
+
+    coord.X = 0;
+    coord.Y = csbi.dwCursorPosition.Y + n;
+
+    SetConsoleCursorPosition(hStdout, coord);
 }

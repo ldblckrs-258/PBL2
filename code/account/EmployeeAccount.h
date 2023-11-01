@@ -1,7 +1,7 @@
 #ifndef EMPLOYEEACCOUNT_H
 #define EMPLOYEEACCOUNT_H
 
-#include "Account.h"
+#include "./Account.h"
 
 class EmployeeAccount : public Account {
 private:

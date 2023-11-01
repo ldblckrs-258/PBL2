@@ -1,9 +1,9 @@
-#include "Account.h"
-#include "EmployeeAccount.h"
+#include "./Account.h"
+#include "./EmployeeAccount.h"
 #include <iostream>
 #include <fstream>
-#include "FuncLib.h"
-#include "Cursor.h"
+#include "../mylib/FuncLib.h"
+#include "../mylib/Cursor.h"
 
 EmployeeAccount::EmployeeAccount(int s) : Account(), salary(s) {}
 

@@ -1,9 +1,9 @@
 #ifndef ACCOUNT_H
 #define ACCOUNT_H
 
-#include "Info.h"
+#include "./Info.h"
 #include <string>
-#include "linkedlist.cpp"
+#include "../mylib/linkedlist.cpp"
 
 class Account {
     protected:

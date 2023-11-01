@@ -119,5 +119,6 @@
     "mutex": "cpp"
   },
   "c-cpp-compile-run.c-compiler": "C:\\mingw64\\bin\\gcc.exe",
-  "c-cpp-compile-run.cpp-compiler": "C:\\mingw64\\bin\\g++.exe"
+  "c-cpp-compile-run.cpp-compiler": "C:\\mingw64\\bin\\g++.exe",
+  "C_Cpp.errorSquiggles": "enabled"
 }
