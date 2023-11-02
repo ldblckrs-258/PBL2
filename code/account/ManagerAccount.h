@@ -5,7 +5,7 @@
 
 class ManagerAccount : public Account {
 private:
-    LinkedList <string, string> EmployeeList;
+    LinkedList <std::string, std::string> EmployeeList;
 
 public:
     void GetInfo();

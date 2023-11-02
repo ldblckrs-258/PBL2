@@ -5,68 +5,81 @@
 #include <string>
 #include <sstream>
 
-Info::Info(string n, string date, string pos, string ct) : name(n), doBirth(date), position(pos), contact(ct) {}
+Info::Info(std::string n, std::string date, std::string pos, std::string ct) : name(n), doBirth(date), position(pos), contact(ct) {}
 
-void Info::getInfo() {
+void Info::getInfo(std::string sfname, int except) {
     system("cls");
-    printFile(getFolder() + "\\source\\EmployeeTable.txt");
-    gotoXY(69,5);   cout << name;
-    gotoXY(69,7);   cout << doBirth;
-    gotoXY(69,9);   cout << position;
-    gotoXY(69,11);   cout << contact;
-    gotoXY(0,15);
+    printFile(getFolder() + "\\source\\" + sfname);
+    bool full = true;
+    if (sfname == "InfoTable.txt")  full = false;
+    if (except !=1) {gotoXY(69,full ? 5 : 3);   std::cout << name;}
+    if (except !=2) {gotoXY(69,full ? 7 : 5);   std::cout << doBirth;}
+    if (except !=3) {gotoXY(69,full ? 9 : 7);   std::cout << position;}
+    if (except !=4) {gotoXY(69,full ? 11 : 9);   std::cout << contact;}
+    gotoXY(0,full ? 15 : 11);
 }
 
 void Info::UpdateInfo() {
     int c;
-    cout << "Enter number 1-4 to edit, others to escape: ";
-    cin >> c;
-    cin.ignore();
+    std::string temp;
     do {
+        getInfo("InfoTable.txt");
+        std::cout << "Press number 1-4 to edit, 0 to escape: ";
+        c = pickMenu();
         switch (c) {
             case 1:
-                cout << ">> Name: ";
-                getline(cin, name);
+                getInfo("InfoTable.txt",1);
+                std::cout << ">> Enter Name: ";
+                gotoXY(69,3);
+                getline(std::cin, name);
+                gotoXY(0,11);
                 break;
             case 2:
                 do {
-                    if (!isValidDateFormat(doBirth))
-                        cout << "Invalid format, example: 01/01/1970" << endl;
-                    cout << ">> Date of birth (dd/mm/yyyy): ";
-                    getline(cin, doBirth);
-                } while (!isValidDateFormat(doBirth));
+                    getInfo("InfoTable.txt",2);
+                    if (!isValidDateFormat(temp))
+                        std::cout << "Invalid format, example: 01/01/1970" << std::endl;
+                    std::cout << ">> Enter Date of birth (dd/mm/yyyy): ";
+                    gotoXY(69,5);
+                    getline(std::cin, temp);
+                    gotoXY(0,11);
+                } while (!isValidDateFormat(temp));
+                doBirth = temp;
                 break;
             case 3:
-                cout << ">> Position: ";
-                getline(cin, position);
+                getInfo("InfoTable.txt",3);
+                std::cout << ">> Enter Position: ";
+                gotoXY(69,7);
+                getline(std::cin, position);
+                gotoXY(0,11);
                 break;
             case 4:
-                cout << ">> Contact: ";
-                getline(cin, contact);
+                getInfo("InfoTable.txt",4);
+                std::cout << ">> Contact: ";
+                gotoXY(69,9);
+                getline(std::cin, contact);
+                gotoXY(0,11);
                 break;
             default:
-                cout << "Exit ..." << endl;
+                std::cout << "Exit ..." << std::endl;
                 system("cls");
                 return;
         };
-        cout << "Edit other (enter 0 to escape): ";
-        cin >> c;
-        cin.ignore();
     } while (c != 0);
     system("cls");
 }
 
-string Info::getName() { return name; }
-string Info::getDoBirth() { return doBirth; }
-string Info::getPosition() { return position; }
-string Info::getContact() { return contact; }
+std::string Info::getName() { return name; }
+std::string Info::getDoBirth() { return doBirth; }
+std::string Info::getPosition() { return position; }
+std::string Info::getContact() { return contact; }
 
-void Info::setName(string input) { name = input; }
-void Info::setDoBirth(string input) { doBirth = input; }
-void Info::setPosition(string input) { position = input; }
-void Info::setContact(string input) { contact = input; }
+void Info::setName(std::string input) { name = input; }
+void Info::setDoBirth(std::string input) { doBirth = input; }
+void Info::setPosition(std::string input) { position = input; }
+void Info::setContact(std::string input) { contact = input; }
 
-bool isValidDateFormat(const string& dateStr) {
+bool isValidDateFormat(const std::string& dateStr) {
     if (dateStr.length() != 10) {
         return false;
     }
@@ -75,7 +88,7 @@ bool isValidDateFormat(const string& dateStr) {
         return false;
     }
 
-    istringstream iss(dateStr);
+    std::istringstream iss(dateStr);
     int day, month, year;
     char separator1, separator2;
     

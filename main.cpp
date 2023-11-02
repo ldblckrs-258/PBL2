@@ -1,9 +1,9 @@
 #include <iostream>
 #include "./code/mylib/FuncLib.h"
-#include "./code/account/Info.h"
-#include "./code/account/Account.h"
 #include "./code/account/EmployeeAccount.h"
 #include "./code/account/ManagerAccount.h"
+#include "./code/pet/CustomerPet.h"
+#include "./code/pet/ShopPet.h"
 
 bool LogIO(EmployeeAccount &User) {
     int choice;
@@ -24,11 +24,11 @@ bool LogIO(EmployeeAccount &User) {
                 if (User.check()) return User.check();
                 break;
             case 0:
-                cout << "Exiting program." << endl;
+                std::cout << "Exiting program." << std::endl;
                 return false;
                 break;  
             default: 
-                cout << "Invalid choice. Exiting program." << endl;
+                std::cout << "Invalid choice. Exiting program." << std::endl;
                 return false;
                 break;
         }
@@ -46,6 +46,10 @@ int main() {
         system("cls");
         User.UpdateInfo();
         User.ShowInfo();
+        // User.ChangePwd();
     }
+
+    // CustomerPet a("cp03");
+    // a.existPet();
     system("pause");
 }

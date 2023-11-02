@@ -3,26 +3,26 @@
 #include "../mylib/FuncLib.h"
 #include <fstream>
 #include "../mylib/Cursor.h"
-Account::Account(string ID, string pwd) : ID(ID), password(pwd) {
+Account::Account(std::string ID, std::string pwd) : ID(ID), password(pwd) {
     if (ID == "account" && password == "000000")
         status = false;
     else
         status = true;
 }
 
-bool Account::checkPwd(string check) {
+bool Account::checkPwd(std::string check) {
     return check == password;
 }
 
-string Account::getID() {
+std::string Account::getID() {
     return ID;
 }
 
-string Account::getPwd() {
+std::string Account::getPwd() {
     return password;
 }
 
-void Account::setPwd(string input) {
+void Account::setPwd(std::string input) {
     password = input;
 }
 
@@ -31,28 +31,64 @@ bool Account::check() {
 }
 
 bool Account::ChangePwd() {
-    string old;
-    Start:
-    cout << "Enter your OLD password: ";
-    cin >> old;
-    if (old == "0")
-        return false;
-    else if (!checkPwd(old)) {
-        cout << "The old password is incorrect, please re-enter (or Enter 0 to exit) " << endl;
-        goto Start;
-    }
+    int choice;
+    std::string cp, np, cnp;
+    do {
+        system("cls");
+        printFile(getFolder() + "source\\ChangePwd.txt");
+        gotoXY(73,3); 
+        cp = hideInput();
+        gotoXY(0,10);
+        if (cp != password){
+            std::cout << "Current password you entered is incorrect, press 1 to re-enter, 0 to escape!";
+            choice = pickMenu();
+            if (choice != 1) return false;
+        }
+        else break;
+    }   while (1);
 
-    cout << "Enter your NEW password: ";
-    cin >> password;
-    cout << "Password Changed!";
+    do {
+        system("cls");
+        printFile(getFolder() + "source\\ChangePwd.txt");
+        gotoXY(73,3); 
+        drawLine('*', cp.length());
+        gotoXY(73,5);
+        np = hideInput();
+        gotoXY(0,10);
+        if (np.length() < 6 || np.length() > 15) {
+            std::cout << "Password length must be of 6-15 characters, press 1 to re-enter, 0 to escape!";
+            choice = pickMenu();
+            if (choice != 1) return false;
+        }
+        else break;
+    }   while (1);
+
+    do {
+        system("cls");
+        printFile(getFolder() + "source\\ChangePwd.txt");
+        gotoXY(73,3); 
+        drawLine('*', cp.length());
+        gotoXY(73,5);
+        drawLine('*', np.length());
+        gotoXY(73,7); 
+        cnp = hideInput();
+        gotoXY(0,10);
+        if (cnp != np){
+            std::cout << "Unable to confirm new password, press 1 to re-enter, 0 to escape!";
+            choice = pickMenu();
+            if (choice != 1) return false;
+        }
+        else break;
+    }   while (1);
+    password = np;
     return true;
 }
 
 void Account::saveAcc() {
-    fstream file;
-    file.open(getFolder() + "database\\account\\allacc.txt", ios::out | ios::app);
+    std::fstream file;
+    file.open(getFolder() + "database\\account\\allacc.txt", std::ios::out | std::ios::app);
     if (!file.is_open()) {
-        cout << "Error opening file." << endl;
+        std::cout << "Error opening file." << std::endl;
         return;
     }
     file << ID << ":" << password << "\n";
@@ -60,24 +96,24 @@ void Account::saveAcc() {
 }
 
 bool Account::Login() {
-    fstream file;
-    file.open(getFolder() +"database\\account\\allacc.txt", ios::in | ios::out | ios::app);
+    std::fstream file;
+    file.open(getFolder() +"database\\account\\allacc.txt", std::ios::in | std::ios::out | std::ios::app);
     if (!file.is_open()) {
-        cout << "Error opening file." << endl;
+        std::cout << "Error opening file." << std::endl;
         return false;
     }
     system("cls");
     printFile(getFolder() + "source\\LoginBox.txt");
     int choice;
-    // cout << "Enter your user ID: ";
+    // std::cout << "Enter your user ID: ";
     gotoXY(67,3); 
-    getline(cin, ID);
+    getline(std::cin, ID);
     gotoXY(0,8);
     bool userFound = false;
-    string line;
+    std::string line;
     while (getline(file, line)) {
         size_t pos = line.find(":");
-        string savedID = line.substr(0, pos);
+        std::string savedID = line.substr(0, pos);
         password = line.substr(pos + 1);
         if (savedID == ID) {
             userFound = true;
@@ -86,14 +122,14 @@ bool Account::Login() {
     }
     file.close();
     if (userFound) {
-        string inputPwd;
-        // cout << "Enter your password: ";
+        std::string inputPwd;
+        // std::cout << "Enter your password: ";
         gotoXY(67,5);
         inputPwd = hideInput();
         gotoXY(0,8);
         holdString("Login your account...", 1);
         if (checkPwd(inputPwd)) {
-            cout << "Logged in successfully!" << endl;
+            std::cout << "Logged in successfully!" << std::endl;
             status = true;
             return true;
         }
@@ -107,23 +143,23 @@ bool Account::Login() {
 }
 
 bool Account::Signin() {
-    fstream file;
-    file.open(getFolder() + "database\\account\\allacc.txt", ios::in);
+    std::fstream file;
+    file.open(getFolder() + "database\\account\\allacc.txt", std::ios::in);
     if (!file.is_open()) {
         holdString("Error opening file allacc.txt !");
         return false;
     }
     int choice;
     bool userFound = false;
-    string line;
+    std::string line;
     system("cls");
     printFile(getFolder() + "source\\SigninBox.txt");
     gotoXY(73,3); 
-    getline(cin, ID);
+    getline(std::cin, ID);
     gotoXY(0,10);
     while (getline(file, line)) {
         size_t pos = line.find(":");
-        string savedID = line.substr(0, pos);
+        std::string savedID = line.substr(0, pos);
         password = line.substr(pos + 1);
         if (savedID == ID) {
             userFound = true;
@@ -144,7 +180,7 @@ bool Account::Signin() {
         return false;
     }
 
-    string repwd;
+    std::string repwd;
     gotoXY(73,7);
     repwd = hideInput();
     gotoXY(0,10);
@@ -161,33 +197,33 @@ bool Account::Signin() {
 }
 
 void Account:: saveFull(){
-    string fileName = getFolder() + "database\\account\\employee\\" + ID + ".txt";
-    fstream file;
-    file.open(fileName, ios::out );
+    std::string fileName = getFolder() + "database\\account\\employee\\" + ID + ".txt";
+    std::fstream file;
+    file.open(fileName, std::ios::out );
 
     if (!file.is_open()) {
-        cerr << "Error opening file to save employee information." << endl;
+        std::cerr << "Error opening file to save employee information." << std::endl;
         return;
     }
     
-    file << details.getName() << endl;
-    file << details.getDoBirth() << endl;
-    file << details.getPosition() << endl;
-    file << details.getContact() << endl;
+    file << details.getName() << std::endl;
+    file << details.getDoBirth() << std::endl;
+    file << details.getPosition() << std::endl;
+    file << details.getContact() << std::endl;
     file.close();
 }
 
 void Account:: loadFull(){
-    string fileName = getFolder() + "database\\account\\employee\\" + ID + ".txt";
-    fstream file;
-    file.open(fileName, ios::in );
+    std::string fileName = getFolder() + "database\\account\\employee\\" + ID + ".txt";
+    std::fstream file;
+    file.open(fileName, std::ios::in );
 
     if (!file.is_open()) {
-        cerr << "Error opening file to load employee information." << endl;
+        std::cerr << "Error opening file to load employee information." << std::endl;
         return;
     }
 
-    string line;
+    std::string line;
     if (getline(file, line)) details.setName(line);
     if (getline(file, line)) details.setDoBirth(line);
     if (getline(file, line)) details.setPosition(line);

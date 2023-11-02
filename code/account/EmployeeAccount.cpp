@@ -9,9 +9,9 @@ EmployeeAccount::EmployeeAccount(int s) : Account(), salary(s) {}
 
 void EmployeeAccount::ShowInfo() {
     loadFull();
-    details.getInfo();
-    gotoXY(69,3);   cout << ID ;
-    gotoXY(69,13);  cout << salary << " vnd";
+    details.getInfo("EmployeeTable.txt");
+    gotoXY(69,3);   std::cout << ID ;
+    gotoXY(69,13);  std::cout << salary << " vnd";
     gotoXY(0,15);
 }
 
@@ -21,28 +21,28 @@ void EmployeeAccount::saveFull() {
 }
 
 void EmployeeAccount::saveSalary() {
-    string fileName = getFolder() + "database\\account\\employee\\" + ID + ".txt";
-    fstream file;
-    file.open(fileName, ios::out | ios::app);
+    std::string fileName = getFolder() + "database\\account\\employee\\" + ID + ".txt";
+    std::fstream file;
+    file.open(fileName, std::ios::out | std::ios::app);
     if (!file.is_open()) {
-        cerr << "Error opening file to save employee information." << endl;
+        std::cerr << "Error opening file to save employee information." << std::endl;
         return;
     }
-    file << salary << endl;
+    file << salary << std::endl;
     file.close();
 }
 
 void EmployeeAccount::loadFull() {
-    string fileName = getFolder() + "database\\account\\employee\\" + ID + ".txt";
-    ifstream file(fileName);
+    std::string fileName = getFolder() + "database\\account\\employee\\" + ID + ".txt";
+    std::ifstream file(fileName);
 
     if (!file.is_open()) {
-        cerr << "Error opening file to load employee information." << endl;
+        std::cerr << "Error opening file to load employee information." << std::endl;
         return;
     }
 
     Account::loadFull();
-    string line;
+    std::string line;
     int lineCount = 1;
     while (getline(file, line)) {
         if (lineCount == 5)

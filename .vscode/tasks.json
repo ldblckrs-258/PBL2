@@ -1,11 +1,11 @@
 {
     "tasks": [
         {
-            "label": "cppbuild",
+            "label": "Build program",
             "type": "cppbuild",
             "command": "C:/mingw64/bin/g++.exe",
             "args": [
-                "-o", "${workspaceFolder}/program.exe", "${workspaceFolder}/main.cpp", "${workspaceFolder}/code/account/*.cpp", "${workspaceFolder}/code/mylib/*.cpp"
+                "-o", "${workspaceFolder}/program.exe", "${workspaceFolder}/main.cpp", "${workspaceFolder}/code/account/*.cpp","${workspaceFolder}/code/pet/*.cpp",  "${workspaceFolder}/code/mylib/*.cpp"
             ],
             "options": {
                 "cwd": "C:/mingw64/bin"
@@ -27,8 +27,18 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "dependsOn": "cppbuild",
+            "dependsOn": "Build program",
             "detail": "Run cppbuild task to create program.exe then run it!"
+        },
+        {
+            "label": "Run",
+            "type": "shell",
+            "command": "${workspaceFolder}/program.exe",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Run program.exe"
         }
     ],
     "version": "2.0.0"
