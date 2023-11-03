@@ -46,8 +46,17 @@ std::string hideInput() {
 }
 
 int pickMenu() {
-    char ch = _getch();
-    int output = ch - '0';
+    char ch;
+    int output;
+
+    while (true) {
+        ch = _getch();
+        if (ch >= '0' && ch <= '9') {
+            output = ch - '0';
+            break;
+        }
+    }
+
     return output;
 }
 

@@ -1,55 +1,84 @@
 #include <iostream>
 #include "./code/mylib/FuncLib.h"
-#include "./code/account/EmployeeAccount.h"
-#include "./code/account/ManagerAccount.h"
-#include "./code/pet/CustomerPet.h"
-#include "./code/pet/ShopPet.h"
+#include "./code/menu1.cpp"
 
-bool LogIO(EmployeeAccount &User) {
+void ELogged(EmployeeAccount &EUser){
     int choice;
-    bool check;
     do {
         system("cls");
-        printFile(getFolder() + "source\\MenuDraw.txt");
+        printFile(".\\source\\EMenu.txt");
+        choice = pickMenu();
+        switch (choice)
+        {
+        case 1:
+            // PSMenu();
+            break;
+        case 2:
+            // GSMenu();
+            break;
+        case 3:
+            // ITMenu();
+            break;
+        case 4:
+            // ASMenu();
+            break;        
+        default:
+            system("pause");
+            return;
+        }
+    } while (1);
+}
+
+int LogIO(EmployeeAccount &EUser, ManagerAccount &MUser) {
+    int choice;
+    do {
+        system("cls");
+        printFile(".\\source\\MainMenu.txt");
         choice = pickMenu();
         switch(choice) {
             case 1:
-                User.Login();
-                if (User.check()) {
-                    User.loadFull();
-                    return User.check();}
+                EUser.Login();
+                if (EUser.check()) {
+                    EUser.loadFull();
+                    return 1;}
                 break;
             case 2:
-                if (!User.Signin()) break;
-                if (User.check()) return User.check();
+                if (!EUser.Signin()) break;
+                if (EUser.check()) return 1;
                 break;
-            case 0:
-                std::cout << "Exiting program." << std::endl;
-                return false;
-                break;  
+            case 3:
+                MUser.Login();
+                if (MUser.check()) {
+                    MUser.loadFull();
+                    return 2;}
+                break;
             default: 
-                std::cout << "Invalid choice. Exiting program." << std::endl;
-                return false;
+                std::cout << "Exiting program." << std::endl;
+                return 0;
                 break;
         }
             system("cls");
-            printFile(getFolder() + "source\\MenuOrExit.txt");
+            printFile(".\\source\\MenuOrExit.txt");
             choice = pickMenu();
             if (!choice) return false;
     } while(1);
-}
+}   // return 1: Employee Account Logged
+    // return 2: Manager Account Logged
+    // return .: Login Failed
 
 int main() {
-    system("cls");
-    EmployeeAccount User;
-    if (LogIO(User)){
-        system("cls");
-        User.UpdateInfo();
-        User.ShowInfo();
-        // User.ChangePwd();
+    int choice, mode;
+    EmployeeAccount EUser;
+    ManagerAccount MUser;
+    mode = LogIO(EUser, MUser);
+    switch (mode)
+    {
+    case 1:
+        ELogged(EUser);
+        break;
+    
+    default:
+        break;
     }
-
-    // CustomerPet a("cp03");
-    // a.existPet();
     system("pause");
 }

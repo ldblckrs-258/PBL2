@@ -152,42 +152,66 @@ bool Account::Signin() {
     int choice;
     bool userFound = false;
     std::string line;
-    system("cls");
-    printFile(getFolder() + "source\\SigninBox.txt");
-    gotoXY(73,3); 
-    getline(std::cin, ID);
-    gotoXY(0,10);
-    while (getline(file, line)) {
-        size_t pos = line.find(":");
-        std::string savedID = line.substr(0, pos);
-        password = line.substr(pos + 1);
-        if (savedID == ID) {
-            userFound = true;
-            break;
+    do {
+        system("cls");
+        printFile(getFolder() + "source\\SigninBox.txt");
+        gotoXY(73,3); 
+        getline(std::cin, ID);
+        gotoXY(0,10);
+        while (getline(file, line)) {
+            size_t pos = line.find(":");
+            std::string savedID = line.substr(0, pos);
+            password = line.substr(pos + 1);
+            if (savedID == ID) {
+                userFound = true;
+                break;
+            }
         }
-    }
-    file.close();
-    if (userFound){
-        holdString("ID already exists, please enter another !");
-        return false;
-    }
-
-    gotoXY(73,5);
-    password = hideInput();
-    gotoXY(0,10);
-    if (password.length() < 6 || password.length() > 15) {
-        holdString("Password length must be of 6-15 characters!");
-        return false;
-    }
+        file.close();
+        if (userFound){
+            holdString("ID already exists, press 1 to re-enter, 0 to exit.");
+            choice = pickMenu();
+            if (choice != 1) return false;
+        }
+        else break;
+    } while (1);
+        
+    do {
+        system("cls");
+        printFile(getFolder() + "source\\SigninBox.txt");
+        gotoXY(73,3);
+        std::cout << ID;
+        gotoXY(73,5);
+        password = hideInput();
+        gotoXY(0,10);
+        if (password.length() < 6 || password.length() > 15) {
+            std::cout << "Password length must be of 6-15 characters, press 1 to re-enter, 0 to exit.";
+            choice = pickMenu();
+            if (choice != 1) return false;
+        }
+        else break;
+    } while(1);
 
     std::string repwd;
-    gotoXY(73,7);
-    repwd = hideInput();
-    gotoXY(0,10);
-    if (repwd != password) {
-        holdString("Incorrect, please confirm again!", 2);
-        return false;
-    }
+
+    do {
+        system("cls");
+        printFile(getFolder() + "source\\SigninBox.txt");
+        gotoXY(73,3);
+        std::cout << ID;
+        gotoXY(73,5);
+        drawLine('*',password.length());
+        gotoXY(73,7);
+        repwd = hideInput();
+        gotoXY(0,10);
+        if (repwd != password) {
+            std::cout << "Incorrect, press 1 to re-enter, 0 to exit.";
+            choice = pickMenu();
+            if (choice != 1) return false;
+        }
+        else break;
+    } while(1);
+
 
     saveAcc();
     status = true;
@@ -234,4 +258,5 @@ void Account:: loadFull(){
 
 void Account::UpdateInfo(){
     details.UpdateInfo();
-    saveFull();}
+    saveFull();
+}
