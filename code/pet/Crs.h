@@ -13,6 +13,7 @@ private:
 
 public:
     Crs();
+
     double getWeight() const;
     double getHeight() const ;
     std::string getTemperament() const;

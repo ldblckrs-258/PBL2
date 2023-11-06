@@ -7,6 +7,7 @@
 
 Info::Info(std::string n, std::string date, std::string pos, std::string ct) : name(n), doBirth(date), position(pos), contact(ct) {}
 
+
 void Info::getInfo(std::string sfname, int except) {
     system("cls");
     printFile(getFolder() + "\\source\\" + sfname);

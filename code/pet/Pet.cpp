@@ -16,7 +16,7 @@ std::string Pet::getGender() const {
 
 void Pet::showDetails(int except){
     system("cls");
-    printFile(getFolder() + "..\\source\\PetInfo.txt");
+    printFile(getFolder() + "source\\PetInfo.txt");
     if (except != 0)    {gotoXY(34,3);   std::cout << id;}
     if (except != 1)    {gotoXY(34,5);   std::cout << name;}
     if (except != 2)    {gotoXY(34,7);   std::cout << age << " months";}
@@ -93,7 +93,7 @@ void Pet::editChar() {
 }
 
 void Pet::loadFull() {
-    std::string fileName = getFolder() + "..\\database\\pet\\customerPet\\" + id + ".txt";
+    std::string fileName = getFolder() + "database\\pet\\customerPet\\" + id + ".txt";
     std::fstream file;
     file.open(fileName, std::ios::in );
     if (!file.is_open()) {
@@ -165,7 +165,7 @@ void Pet::loadFull() {
 }
 
 void Pet::saveInfo() {
-    std::string fileName = getFolder() +  "..\\database\\pet\\customerPet\\" + id + ".txt";
+    std::string fileName = getFolder() +  "database\\pet\\customerPet\\" + id + ".txt";
     std::fstream file;
     file.open(fileName, std::ios::out);
 
@@ -184,7 +184,7 @@ void Pet::saveInfo() {
 }
 
 void Pet::saveChar() {
-    std::string fileName = getFolder() +  "..\\database\\pet\\customerPet\\" + id + ".txt";
+    std::string fileName = getFolder() +  "database\\pet\\customerPet\\" + id + ".txt";
     std::fstream file;
     file.open(fileName, std::ios::out | std::ios::app);
 

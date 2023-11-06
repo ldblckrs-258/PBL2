@@ -67,7 +67,8 @@ void holdString(const std::string &str, const double &time){
 }
 
 void holdString(const std::string &str){
-    std::cout << str << std::endl;
+    if (!str.empty())
+        std::cout << str << std::endl; 
     std::cout << "Press Enter to continue...";
     // cin.ignore(numeric_limits<streamsize>::max(), '\n');
     _getch();

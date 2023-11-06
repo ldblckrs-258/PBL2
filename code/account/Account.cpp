@@ -2,6 +2,8 @@
 #include <iostream>
 #include "../mylib/FuncLib.h"
 #include <fstream>
+#include <vector>
+#include <sstream>
 #include "../mylib/Cursor.h"
 Account::Account(std::string ID, std::string pwd) : ID(ID), password(pwd) {
     if (ID == "account" && password == "000000")
@@ -81,6 +83,7 @@ bool Account::ChangePwd() {
         else break;
     }   while (1);
     password = np;
+    UpdateAcc();
     return true;
 }
 
@@ -93,6 +96,47 @@ void Account::saveAcc() {
     }
     file << ID << ":" << password << "\n";
     file.close();
+}
+
+void Account::UpdateAcc(){
+    std::string filename = getFolder() + "database\\account\\allacc.txt";
+    std::ifstream inFile(filename);
+    std::vector<std::string> lines;
+
+    if (!inFile) {
+        std::cerr << "Could not open " << filename << std::endl;
+        return;
+    }
+    std::string line;
+    while (std::getline(inFile, line)) {
+        lines.push_back(line);
+    }
+    inFile.close();
+
+    bool found = false;
+    for (std::string& cLine : lines) {
+        std::istringstream iss(cLine);
+        std::string cID, cPassword;
+
+        if (std::getline(iss, cID, ':') && std::getline(iss, cPassword)) {
+            if (cID == ID) {
+                cLine = ID + ":" + password;
+                found = true;
+                break;
+            }
+        }
+    }
+
+    if (!found) {
+        lines.push_back(ID + ":" + password);
+    }
+
+    std::ofstream outFile(filename);
+    for (const std::string& updatedLine : lines) {
+        outFile << updatedLine << '\n';
+    }
+
+    outFile.close();
 }
 
 bool Account::Login() {

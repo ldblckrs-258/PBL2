@@ -21,6 +21,7 @@ class Account {
         bool check();
         bool ChangePwd();
         void saveAcc();
+        void UpdateAcc();
         bool Login();
         bool Signin();
         void UpdateInfo();

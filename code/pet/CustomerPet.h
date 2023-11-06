@@ -10,6 +10,7 @@ class CustomerPet : public Pet {
 
     public:
         CustomerPet(std::string pid = "cp0", std::string sid = "s0", std::string oid = "c0" );
+
         void setPet();
         void editInfo();
         void showDetails(int except = -1);
@@ -18,8 +19,9 @@ class CustomerPet : public Pet {
         void saveToAll();
         void setNextID();
         void newPet();
+        void resetData();
         void existPet();
 };
 
-
+void ViewAllCP();
 #endif // !CPET_H
