@@ -1,10 +1,10 @@
 #include "./Pet.h"
-
 #include "../mylib/FuncLib.h"
 #include "../mylib/Cursor.h"
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <limits>
 
 Pet::Pet(std::string pid, std::string sid) 
     : id(pid), name(UDF), gender(true), species_id(sid), age(0), status(UDF) {}
@@ -38,6 +38,7 @@ void Pet::editChar() {
     showDetails();
     std::cout << ">> Press a number 1-5 to edit, others to escape: ";
     c = pickMenu();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     double i1; 
     std::string i2;
     do {
@@ -92,8 +93,8 @@ void Pet::editChar() {
     } while (c != 0);
 }
 
-void Pet::loadFull() {
-    std::string fileName = getFolder() + "database\\pet\\customerPet\\" + id + ".txt";
+void Pet::loadFull(const std::string &type) {
+    std::string fileName = getFolder() + "database\\pet\\" + type + "\\" + id + ".txt";
     std::fstream file;
     file.open(fileName, std::ios::in );
     if (!file.is_open()) {
@@ -164,8 +165,8 @@ void Pet::loadFull() {
     file.close();
 }
 
-void Pet::saveInfo() {
-    std::string fileName = getFolder() +  "database\\pet\\customerPet\\" + id + ".txt";
+void Pet::saveInfo(const std::string &type) {
+    std::string fileName = getFolder() + "database\\pet\\" + type + "\\" + id + ".txt";
     std::fstream file;
     file.open(fileName, std::ios::out);
 
@@ -183,8 +184,8 @@ void Pet::saveInfo() {
     file.close();
 }
 
-void Pet::saveChar() {
-    std::string fileName = getFolder() +  "database\\pet\\customerPet\\" + id + ".txt";
+void Pet::saveChar(const std::string &type) {
+    std::string fileName = getFolder() + "database\\pet\\" + type + "\\" + id + ".txt";
     std::fstream file;
     file.open(fileName, std::ios::out | std::ios::app);
 

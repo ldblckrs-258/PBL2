@@ -7,13 +7,23 @@ class ShopPet : public Pet {
         int price; // vnd
         std:: string history;
     public:
-        ShopPet();
+        ShopPet(std::string pid = "sp0", std::string sid = "s0");
+
         int getPrice() const;
         std:: string getHistory() const ;
-
         void setPrice(int);
         void setHistory(const std:: string &);
 
+        void showDetails(int except = -1);
+        void saveToAll();
+        void saveFull();
+        void editInfo();
+        void setPet();
+        void loadFull();
+        void setNextID();
+        void resetData();
+        void newPet();
 };
+
 
 #endif // !SPET_H

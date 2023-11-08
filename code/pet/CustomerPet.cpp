@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <limits>
 #include "../mylib/FuncLib.h"
 #include "../mylib/Cursor.h"
 
@@ -35,6 +36,7 @@ void CustomerPet::editInfo() {
     showDetails();
             std::cout << ">> Press a number 1-7 to edit, others to escape: ";
     c = pickMenu();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     do {
         switch (c) {
         case 1:
@@ -99,13 +101,15 @@ void CustomerPet::editInfo() {
 
 void CustomerPet::showDetails(int except) {
     Pet::showDetails(except);
+    gotoXY(15, 15); std::cout << "6. Owner";
     if (except != 6) {gotoXY(34,15);   std::cout << owner_id;}
+    gotoXY(15, 17); std::cout << "7. Service Used";
     if (except != 7) {gotoXY(34,17);   std::cout << service_used;}
     gotoXY(0,21);
 }
 
 void CustomerPet::loadFull() {
-    Pet::loadFull();
+    Pet::loadFull("customerPet");
     std::string fileName = getFolder() + "database\\pet\\customerPet\\" + id + ".txt";
     std::fstream file;
     file.open(fileName, std::ios::in );
@@ -141,9 +145,9 @@ void CustomerPet::saveFull() {
         std::cerr << "Error opening file to save pet information." << std::endl;
         return;
     }
-    saveInfo();
+    saveInfo("customerPet");
     file << owner_id << std::endl << service_used << std::endl;
-    saveChar();
+    saveChar("customerPet");
     saveToAll();
 }
 
@@ -199,87 +203,7 @@ void CustomerPet::newPet(){
     saveFull();
 }
 
-void CustomerPet::existPet(){            
-    system("cls");
-    printFile(getFolder() + "source\\InputID.txt");
-    gotoXY(67,3);
-    std::cin >> id;
-    moveLine(2);
-    bool exist = false;
-    std::string fileName = getFolder() + "database\\pet\\allCPets.txt";
-    std::ifstream fileIn(fileName);
-    std::string line;
-    while (getline(fileIn, line)) 
-        if (line == id){
-            exist = true;
-            break;
-        }
-    fileIn.close();
-    if (exist){
-        loadFull();
-        setPet();
-    }
-    else holdString("ID does not exist, please re-enter or create a new profile!");
-
-}
-
 void CustomerPet::resetData(){
     CustomerPet Temp;
     *this = Temp;
-}
-void ViewAllCP() {
-    system("cls");
-    printFile(getFolder() + "source\\AllCPSample1.txt");
-    std::string allCP = getFolder() + "database\\pet\\allCPets.txt";
-    std::ifstream allCPFile(allCP);
-    if(!allCPFile.is_open()){
-        std::cerr << "Error opening " << allCP << std::endl;
-        return;
-    }
-
-    std::vector<std::string> sID;
-    std::string line;
-    while (allCPFile >> line) {
-        sID.push_back(line);
-    }
-    allCPFile.close();
-
-    for (const std::string &aID : sID) {
-        std::string aCP = getFolder() + "database\\pet\\customerPet\\" + aID + ".txt";
-        std::ifstream aCPFile(aCP);
-
-        if (!aCPFile.is_open()) {
-            continue;
-        }
-        printFile(getFolder() + "source\\AllCPSample2.txt");
-        std::string aline;
-        int lineCount = 0;
-        while (getline(aCPFile, aline)) {
-            switch (lineCount)
-            {
-            case 0:
-                moveCursor(8,-2);   std::cout << aline;   moveLine(2);
-                break;
-            case 1:
-                moveCursor(21,-2);   std::cout << aline;   moveLine(2);
-                break;
-            case 4:
-                moveCursor(47,-2);   std::cout << aline;   moveLine(2);
-                break;
-            case 5:
-                moveCursor(118,-2);   std::cout << aline;   moveLine(2);
-                break;
-            case 6:
-                moveCursor(82,-2);   std::cout << aline;   moveLine(2);
-                break;
-            default:
-                break;
-            }
-            ++lineCount;
-        }
-        aCPFile.close();
-    }
-    moveLine(-1);
-    printFile(getFolder() + "source\\AllCPSample3.txt");
-    holdString("");
 }

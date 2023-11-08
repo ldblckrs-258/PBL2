@@ -56,7 +56,6 @@ int pickMenu() {
             break;
         }
     }
-
     return output;
 }
 

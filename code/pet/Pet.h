@@ -20,9 +20,9 @@ public:
 
     void showDetails(int except = -1);
     void editChar();
-    void loadFull();
-    void saveInfo();
-    void saveChar();
+    void loadFull(const std::string &);
+    void saveInfo(const std::string &);
+    void saveChar(const std::string &);
 };
 
 

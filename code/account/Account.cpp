@@ -213,7 +213,7 @@ bool Account::Signin() {
         }
         file.close();
         if (userFound){
-            holdString("ID already exists, press 1 to re-enter, 0 to exit.");
+            std::cout << "ID already exists, press 1 to re-enter, 0 to exit" ;
             choice = pickMenu();
             if (choice != 1) return false;
         }

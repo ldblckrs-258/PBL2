@@ -20,8 +20,6 @@ class CustomerPet : public Pet {
         void setNextID();
         void newPet();
         void resetData();
-        void existPet();
 };
 
-void ViewAllCP();
 #endif // !CPET_H
