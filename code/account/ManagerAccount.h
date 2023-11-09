@@ -2,16 +2,18 @@
 #define MANAGERACCOUNT_H
 
 #include "./Account.h"
+#include <vector>
 
 class ManagerAccount : public Account {
 private:
-    LinkedList <std::string, std::string> EmployeeList;
+    static std::vector<std::string> EmployeeList;
 
 public:
-    void GetInfo();
-    void UpdateInfo();
-    void GetEL();
-    void UpdateEL();
+    static void getEL();
+    ManagerAccount();
+    void ShowInfo();
+    void saveAcc();
+    void loadFull();
 };
 
 #endif // MANAGERACCOUNT_H

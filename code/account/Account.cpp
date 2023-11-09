@@ -5,15 +5,15 @@
 #include <vector>
 #include <sstream>
 #include "../mylib/Cursor.h"
-Account::Account(std::string ID, std::string pwd) : ID(ID), password(pwd) {
+Account::Account(std::string ID, std::string pwd) : ID(ID), password(pwd), manager(false) {
     if (ID == "account" && password == "000000")
         status = false;
     else
         status = true;
 }
 
-bool Account::checkPwd(std::string check) {
-    return check == password;
+bool Account::checkPwd(std::string value) {
+    return value == password;
 }
 
 std::string Account::getID() {
@@ -99,7 +99,7 @@ void Account::saveAcc() {
 }
 
 void Account::UpdateAcc(){
-    std::string filename = getFolder() + "database\\account\\allacc.txt";
+    std::string filename = getFolder() + "database\\account\\" + ((manager) ? "managers" : "allacc") +".txt";
     std::ifstream inFile(filename);
     std::vector<std::string> lines;
 
@@ -141,49 +141,63 @@ void Account::UpdateAcc(){
 
 bool Account::Login() {
     std::fstream file;
-    file.open(getFolder() +"database\\account\\allacc.txt", std::ios::in | std::ios::out | std::ios::app);
+    file.open(getFolder() +"database\\account\\" + ((manager) ? "managers" : "allacc") +".txt", std::ios::in | std::ios::out | std::ios::app);
     if (!file.is_open()) {
         std::cout << "Error opening file." << std::endl;
         return false;
     }
-    system("cls");
-    printFile(getFolder() + "source\\LoginBox.txt");
+    std::string iID, iPwd;
     int choice;
-    // std::cout << "Enter your user ID: ";
-    gotoXY(67,3); 
-    getline(std::cin, ID);
-    gotoXY(0,8);
-    bool userFound = false;
-    std::string line;
-    while (getline(file, line)) {
-        size_t pos = line.find(":");
-        std::string savedID = line.substr(0, pos);
-        password = line.substr(pos + 1);
-        if (savedID == ID) {
-            userFound = true;
-            break;
-        }
-    }
-    file.close();
-    if (userFound) {
-        std::string inputPwd;
-        // std::cout << "Enter your password: ";
-        gotoXY(67,5);
-        inputPwd = hideInput();
+    do {
+        system("cls");
+        printFile(getFolder() + "source\\LoginBox.txt");
+        gotoXY(67,3); 
+        getline(std::cin, iID);
         gotoXY(0,8);
-        holdString("Login your account...", 1);
-        if (checkPwd(inputPwd)) {
-            std::cout << "Logged in successfully!" << std::endl;
-            status = true;
-            return true;
+
+        bool userFound = false;
+        std::string line;
+        while (getline(file, line)) {
+            size_t pos = line.find(":");
+            std::string savedID = line.substr(0, pos);
+            password = line.substr(pos + 1);
+            if (savedID == iID) {
+                userFound = true;
+                break;
+            }
         }
-        holdString("Login failed. Incorrect password!");
-        return false;
-    } 
-    else {
-        holdString("User not found. Please register a new account!");
-        return false;
-    }
+        file.close();
+
+        if (!userFound) {
+            std::cout << "ID does not exist, press 1 to re-enter, 0 to exit" ;
+            choice = pickMenu();
+            if (choice != 1) return false;
+        }
+        else break;
+    }   while(1);
+        ID = iID;
+
+        do {
+            system("cls");
+            printFile(getFolder() + "source\\LoginBox.txt");
+            gotoXY(67,3); 
+            std::cout << ID;
+            gotoXY(67,5);
+            iPwd = hideInput();
+            gotoXY(0,8);
+            holdString("Login your account...", 1);
+            if (!checkPwd(iPwd)) {
+                std::cout << "Password incorrect, press 1 to re-enter, 0 to exit" ;
+                choice = pickMenu();
+                if (choice != 1) return false;
+            }
+            else break;
+            } while (1);
+
+        std::cout << "Login in successfully!" << std::endl;
+        status = true;
+        return true;
+
 }
 
 bool Account::Signin() {
@@ -265,12 +279,12 @@ bool Account::Signin() {
 }
 
 void Account:: saveFull(){
-    std::string fileName = getFolder() + "database\\account\\employee\\" + ID + ".txt";
+    std::string fileName = getFolder() + "database\\account\\"+ ((manager) ? "manager" : "employee") + "\\" + ID + ".txt";
     std::fstream file;
     file.open(fileName, std::ios::out );
 
     if (!file.is_open()) {
-        std::cerr << "Error opening file to save employee information." << std::endl;
+        std::cerr << "Error opening file to save account information." << std::endl;
         return;
     }
     
@@ -282,12 +296,12 @@ void Account:: saveFull(){
 }
 
 void Account:: loadFull(){
-    std::string fileName = getFolder() + "database\\account\\employee\\" + ID + ".txt";
+    std::string fileName = getFolder() + "database\\account\\"+ ((manager) ? "manager" : "employee") + "\\" + ID + ".txt";
     std::fstream file;
     file.open(fileName, std::ios::in );
 
     if (!file.is_open()) {
-        std::cerr << "Error opening file to load employee information." << std::endl;
+        std::cerr << "Error opening file to load account information." << std::endl;
         return;
     }
 
@@ -303,4 +317,8 @@ void Account:: loadFull(){
 void Account::UpdateInfo(){
     details.UpdateInfo();
     saveFull();
+}
+
+void Account::setStatus(bool value){
+    status = value;
 }

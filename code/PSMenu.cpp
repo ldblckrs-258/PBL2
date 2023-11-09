@@ -1,13 +1,12 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
 #include "./mylib/FuncLib.h"
 #include "./mylib/Cursor.h"
 #include "./pet/CustomerPet.h"
 #include "./pet/ShopPet.h"
 #include "./pet/Species.h"
 
-void existPet(){            
+void existPet(bool manager = false){            
     system("cls");
     std::string inputID;
     printFile(getFolder() + "source\\InputID.txt");
@@ -43,7 +42,12 @@ void existPet(){
     else if (exist && (type == "allSPets")){
         ShopPet SP(inputID);
         SP.loadFull();
-        SP.setPet();
+        if (manager){
+            SP.setPet();
+        } else {
+            SP.showDetails();
+            holdString(" ");
+        }
     }
     else holdString("ID does not exist, please re-enter or create a new profile!");
 }
@@ -125,13 +129,21 @@ void ViewAllCP() {
     holdString("");
 }
 
-void PSMenu(){
+void PSMenu(bool manager =  false){
     int choice;
     CustomerPet CP;
     ShopPet SP;
+    std::vector<std::string> list;
+    list.push_back("PETS & SPECIES");
+    list.push_back("1. Create new pet profile");
+    list.push_back("2. Open existing pet profile");
+    list.push_back("3. View all pets");
+    list.push_back("4. View all species");
+    if (manager) list.push_back("5. Create new shop pet profile");
+    list.push_back("0. Exit");
     do {
         system("cls");
-        printFile(".\\source\\EPS.txt");
+        printOptions(list);
         choice = pickMenu();
         switch (choice)
         {
@@ -139,14 +151,18 @@ void PSMenu(){
                 CP.newPet();
                 break;
             case 2:
-                existPet();
+                existPet(true);
                 break;
             case 3:
                 ViewAllCP();
                 break;
             case 4:
                 ViewAllSpc();
-                break;        
+                break;
+            case 5:
+                if (manager)    SP.newPet();
+                else return;
+                break;
             default:
                 return;
         }

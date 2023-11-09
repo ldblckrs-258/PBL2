@@ -33,8 +33,44 @@ bool ELogged(EmployeeAccount &EUser){
     } while (1);
 }
 
+bool MLogged(ManagerAccount &MUser){
+    int choice;
+    bool logout = false;
+    do {
+        system("cls");
+        printFile(".\\source\\EMenu.txt");
+        moveCursor(66,-6);  std::cout << "5. Employee Management";
+        moveLine(1);    moveCursor(66,0);   std::cout << "0. Exit Program";
+        moveLine(5);
+        choice = pickMenu();
+        switch (choice)
+        {
+            case 1:
+                PSMenu(true);
+                break;
+            case 2:
+                // GSMenu();
+                break;
+            case 3:
+                // ITMenu();
+                break;
+            case 4:
+                logout = ASMenu(MUser);
+                if (logout) return true;
+                break; 
+            case 5:
+                // EMMenu();
+                break;
+            default:
+                return false;
+        }
+    } while (1);
+}
+
 int LogIO(EmployeeAccount &EUser, ManagerAccount &MUser) {
     int choice;
+    EUser.setStatus(false);
+    MUser.setStatus(false);
     do {
         system("cls");
         printFile(".\\source\\MainMenu.txt");
@@ -61,19 +97,14 @@ int LogIO(EmployeeAccount &EUser, ManagerAccount &MUser) {
                 return 0;
                 break;
         }
-            system("cls");
-            printFile(".\\source\\MenuOrExit.txt");
-            choice = pickMenu();
-            if (!choice) return 0;
     } while(1);
-}   // return 1: Employee Account Logged
-    // return 2: Manager Account Logged
-    // return .: Login Failed
+} 
 
 int main() {
     int choice, mode;
     bool login = false;
     EmployeeAccount EUser;
+    ManagerAccount::getEL();
     ManagerAccount MUser;
     do {
         mode = LogIO(EUser, MUser);
@@ -84,7 +115,10 @@ int main() {
                 if (ELogged(EUser))
                     login = false;
                 break;
-            
+            case 2:
+                if (MLogged(MUser))
+                    login = false;
+                break;
             default:
                 return 0;
         }

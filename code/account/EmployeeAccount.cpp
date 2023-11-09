@@ -5,7 +5,9 @@
 #include "../mylib/FuncLib.h"
 #include "../mylib/Cursor.h"
 
-EmployeeAccount::EmployeeAccount(int s) : Account(), salary(s) {}
+EmployeeAccount::EmployeeAccount(int s) : Account(), salary(s) {
+    manager = false;
+}
 
 void EmployeeAccount::ShowInfo() {
     loadFull();

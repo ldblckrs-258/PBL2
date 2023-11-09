@@ -1,4 +1,5 @@
 #include "./FuncLib.h"
+#include "./Cursor.h"
 #include <iostream>
 #include <fstream>
 #include <thread>
@@ -7,6 +8,7 @@
 #include <filesystem>
 #include <mutex>
 #include <windows.h>
+#define WIDTH 48
 
 bool printFile(const std::string &filename){
     std::ifstream inputFile(filename);
@@ -89,3 +91,40 @@ void clearCin(){
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
+void printCenter(const std::string &str, const int &width){
+    int left, right;
+    left = (width - str.length())/2;
+    right = width - str.length() - left;
+    drawLine(' ', left);
+    std::cout << str;
+    drawLine(' ', right);
+}
+
+void printOptions(std::vector<std::string> &list){
+    std::ifstream sfile(getFolder() + "source\\Options.txt");
+    if (!sfile.is_open()) {
+        std::cerr << "Can't open source file Options.txt" << std::endl;
+        return;
+    }
+    std::string line;
+    std::string s1, s2, s3;
+
+    for (int i = 0; i < 3 && std::getline(sfile, line); ++i) {
+        s1 += line + "\n";
+    }
+    for (int i = 0; i < 2 && std::getline(sfile, line); ++i) {
+        s2 += line + "\n";
+    }
+    while (std::getline(sfile, line)) {
+        s3 += line + "\n";
+    }
+    sfile.close();
+    
+    std::cout << s1;
+    moveCursor(54,-2);   printCenter(list[0], WIDTH);    moveLine(2);
+    for (int i = 1; i < list.size(); ++i){
+        std::cout << s2;
+        moveCursor(54,-2);   printCenter(list[i], WIDTH);    moveLine(2);
+    }
+    moveLine(-1);   std::cout << s3;    moveLine(1);
+}

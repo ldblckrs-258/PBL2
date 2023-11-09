@@ -11,6 +11,7 @@ class Account {
         std::string password;
         Info details;
         bool status;
+        bool manager;
 
     public:
         Account(std::string ID = "account", std::string pwd = "000000");
@@ -27,6 +28,7 @@ class Account {
         void UpdateInfo();
         void loadFull();
         void saveFull();
+        void setStatus(bool);
 };
 
 #endif // ACCOUNT_H

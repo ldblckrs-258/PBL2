@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <vector>
 #include <limits>
 #include "../mylib/FuncLib.h"
 #include "../mylib/Cursor.h"
@@ -11,10 +10,16 @@ CustomerPet::CustomerPet(std::string pid, std::string sid, std::string oid) : Pe
 
 void CustomerPet::setPet(){
     int choice;
+    std::vector<std::string> list;
+    list.push_back("PET OPTIONS");
+    list.push_back("1. Edit information");
+    list.push_back("2. Edit characteristic");
+    list.push_back("0. Exit");
+
     do {
         showDetails();  
         std::cout << std::endl << std::endl;
-        printFile(getFolder() + "source\\PetOption.txt");
+        printOptions(list);
         choice = pickMenu();                
         switch (choice)
         {
