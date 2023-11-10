@@ -41,7 +41,6 @@ void CustomerPet::editInfo() {
     showDetails();
             std::cout << ">> Press a number 1-7 to edit, others to escape: ";
     c = pickMenu();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     do {
         switch (c) {
         case 1:

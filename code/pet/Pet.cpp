@@ -38,7 +38,6 @@ void Pet::editChar() {
     showDetails();
     std::cout << ">> Press a number 1-5 to edit, others to escape: ";
     c = pickMenu();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     double i1; 
     std::string i2;
     do {

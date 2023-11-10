@@ -37,11 +37,13 @@ void existPet(bool manager = false){
     if (exist && (type == "allCPets")){
         CustomerPet CP(inputID);
         CP.loadFull();
+        clearCin();
         CP.setPet();
     }
     else if (exist && (type == "allSPets")){
         ShopPet SP(inputID);
         SP.loadFull();
+        clearCin();
         if (manager){
             SP.setPet();
         } else {
@@ -151,7 +153,7 @@ void PSMenu(bool manager =  false){
                 CP.newPet();
                 break;
             case 2:
-                existPet(true);
+                existPet(manager);
                 break;
             case 3:
                 ViewAllCP();

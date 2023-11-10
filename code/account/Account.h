@@ -3,7 +3,6 @@
 
 #include "./Info.h"
 #include <string>
-#include "../mylib/linkedlist.cpp"
 
 class Account {
     protected:

@@ -1,13 +1,13 @@
 cp5
-My Pet 5
+Minne
 23
 0
 s4
-status for pet 5
+Nothing
 c5
 s5
 1.4
 3.2
-Temp of cp5
+Easy to be angry
 5
 None

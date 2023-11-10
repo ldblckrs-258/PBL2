@@ -6,7 +6,7 @@
 class EmployeeAccount : public Account {
 private:
     int salary;
-    LinkedList <std::string, std::string> Schedule;
+
 
 public:
     EmployeeAccount(int s = 0);

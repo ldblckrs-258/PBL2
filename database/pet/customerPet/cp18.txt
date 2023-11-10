@@ -1,0 +1,13 @@
+cp18
+Warwick
+9
+1
+s11
+undefined
+c11
+s11
+0.54
+2.22
+None
+9
+None

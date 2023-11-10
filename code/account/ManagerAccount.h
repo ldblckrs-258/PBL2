@@ -3,6 +3,7 @@
 
 #include "./Account.h"
 #include <vector>
+// CẦN VIẾT THƯ VIỆN LINKED LIST ĐỂ THAY THẾ VECTOR
 
 class ManagerAccount : public Account {
 private:

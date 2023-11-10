@@ -3,8 +3,10 @@
 #include "../mylib/FuncLib.h"
 #include <fstream>
 #include <vector>
+// CẦN VIẾT THƯ VIỆN LINKED LIST ĐỂ THAY THẾ VECTOR
 #include <sstream>
 #include "../mylib/Cursor.h"
+
 Account::Account(std::string ID, std::string pwd) : ID(ID), password(pwd), manager(false) {
     if (ID == "account" && password == "000000")
         status = false;
@@ -89,7 +91,7 @@ bool Account::ChangePwd() {
 
 void Account::saveAcc() {
     std::fstream file;
-    file.open(getFolder() + "database\\account\\allacc.txt", std::ios::out | std::ios::app);
+    file.open(getFolder() + "database\\account\\" + ((manager) ? "managers" : "allacc") +".txt", std::ios::out | std::ios::app);
     if (!file.is_open()) {
         std::cout << "Error opening file." << std::endl;
         return;
@@ -141,7 +143,7 @@ void Account::UpdateAcc(){
 
 bool Account::Login() {
     std::fstream file;
-    file.open(getFolder() +"database\\account\\" + ((manager) ? "managers" : "allacc") +".txt", std::ios::in | std::ios::out | std::ios::app);
+    file.open(getFolder() +"database\\account\\" + ((manager) ? "managers" : "allacc") +".txt", std::ios::in );
     if (!file.is_open()) {
         std::cout << "Error opening file." << std::endl;
         return false;
@@ -274,7 +276,7 @@ bool Account::Signin() {
     saveAcc();
     status = true;
     holdString("New account registered successfully!", 0.5);
-    holdString("Login your account...", 1);
+    holdString("Login your account...", 0.5);
     return true;
 }
 

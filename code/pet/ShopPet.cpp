@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <vector>
 #include <limits>
 #include "../mylib/FuncLib.h"
 #include "../mylib/Cursor.h"
@@ -71,9 +70,8 @@ void ShopPet::saveFull() {
 void ShopPet::editInfo() {
     int c;
     showDetails();
-    std::cout << ">> Press a number 1-6 to edit, others to escape: ";
+    std::cout << ">> Press a number 1-7 to edit, others to escape: ";
     c = pickMenu();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     do {
         switch (c) {
         case 1:
@@ -116,6 +114,13 @@ void ShopPet::editInfo() {
             std::cout << ">> Enter history";
             gotoXY(34,15);                  
             getline(std::cin, history);   
+            gotoXY(0,21);
+            break;
+        case 7:
+            showDetails(7);
+            std::cout << ">> Enter price";
+            gotoXY(34,15);                  
+            std::cin >> price;  clearCin();
             gotoXY(0,21);
             break;
         default:

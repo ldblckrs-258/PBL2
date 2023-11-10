@@ -1,6 +1,6 @@
 cp3
-Pet Number 3
-22
+Lizzy
+11
 0
 s2
 This is pet number 3
@@ -8,6 +8,6 @@ c3
 s3
 1.32
 2.31
-Good nahh
+Good
 2
-Nothin special
+None
