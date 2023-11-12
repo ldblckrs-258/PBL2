@@ -69,26 +69,25 @@ bool MLogged(ManagerAccount &MUser){
 
 int LogIO(EmployeeAccount &EUser, ManagerAccount &MUser) {
     int choice;
-    EUser.setStatus(false);
-    MUser.setStatus(false);
     do {
         system("cls");
         printFile(".\\source\\MainMenu.txt");
         choice = pickMenu();
         switch(choice) {
             case 1:
-                EUser.Login();
-                if (EUser.check()) {
+                if(EUser.Login()){
                     EUser.loadFull();
-                    return 1;}
+                    return 1;
+                }
                 break;
             case 2:
-                if (!EUser.Signin()) break;
-                if (EUser.check()) return 1;
+                if (EUser.Signin()){
+                    EUser.saveFull();
+                    return 1;
+                }
                 break;
             case 3:
-                MUser.Login();
-                if (MUser.check()) {
+                if (MUser.Login()) {
                     MUser.loadFull();
                     return 2;}
                 break;

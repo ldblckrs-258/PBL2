@@ -7,12 +7,7 @@
 #include <sstream>
 #include "../mylib/Cursor.h"
 
-Account::Account(std::string ID, std::string pwd) : ID(ID), password(pwd), manager(false) {
-    if (ID == "account" && password == "000000")
-        status = false;
-    else
-        status = true;
-}
+Account::Account(std::string ID, std::string pwd) : ID(ID), password(pwd), manager(false) {}
 
 bool Account::checkPwd(std::string value) {
     return value == password;
@@ -30,10 +25,6 @@ void Account::setPwd(std::string input) {
     password = input;
 }
 
-bool Account::check() {
-    return status;
-}
-
 bool Account::ChangePwd() {
     int choice;
     std::string cp, np, cnp;
@@ -41,7 +32,7 @@ bool Account::ChangePwd() {
         system("cls");
         printFile(getFolder() + "source\\ChangePwd.txt");
         gotoXY(73,3); 
-        cp = hideInput();
+        cp = safeInput();
         gotoXY(0,10);
         if (cp != password){
             std::cout << "Current password you entered is incorrect, press 1 to re-enter, 0 to escape!";
@@ -57,7 +48,7 @@ bool Account::ChangePwd() {
         gotoXY(73,3); 
         drawLine('*', cp.length());
         gotoXY(73,5);
-        np = hideInput();
+        np = safeInput();
         gotoXY(0,10);
         if (np.length() < 6 || np.length() > 15) {
             std::cout << "Password length must be of 6-15 characters, press 1 to re-enter, 0 to escape!";
@@ -75,7 +66,7 @@ bool Account::ChangePwd() {
         gotoXY(73,5);
         drawLine('*', np.length());
         gotoXY(73,7); 
-        cnp = hideInput();
+        cnp = safeInput();
         gotoXY(0,10);
         if (cnp != np){
             std::cout << "Unable to confirm new password, press 1 to re-enter, 0 to escape!";
@@ -143,81 +134,93 @@ void Account::UpdateAcc(){
 
 bool Account::Login() {
     std::fstream file;
-    file.open(getFolder() +"database\\account\\" + ((manager) ? "managers" : "allacc") +".txt", std::ios::in );
+    std::string filename = getFolder() + "database\\account\\" + ((manager) ? "managers" : "allacc");
+    filename += ".txt";
+    file.open(filename, std::ios::in );
     if (!file.is_open()) {
         std::cout << "Error opening file." << std::endl;
         return false;
     }
-    std::string iID, iPwd;
     int choice;
+
     do {
+        std::string iID;
         system("cls");
         printFile(getFolder() + "source\\LoginBox.txt");
         gotoXY(67,3); 
-        getline(std::cin, iID);
+        iID = safeInput(30, false);
         gotoXY(0,8);
 
         bool userFound = false;
         std::string line;
+
         while (getline(file, line)) {
             size_t pos = line.find(":");
             std::string savedID = line.substr(0, pos);
-            password = line.substr(pos + 1);
             if (savedID == iID) {
                 userFound = true;
+                password = line.substr(pos + 1);
                 break;
             }
         }
-        file.close();
 
         if (!userFound) {
             std::cout << "ID does not exist, press 1 to re-enter, 0 to exit" ;
             choice = pickMenu();
             if (choice != 1) return false;
+            else {
+                file.close();
+                file.open(filename, std::ios::in);
+            }
+        }
+        else {
+            ID = iID;
+            break;
+        }
+    }   while(1);
+
+    file.close();
+    
+    do {
+        std::string iPwd;
+        system("cls");
+        printFile(getFolder() + "source\\LoginBox.txt");
+        gotoXY(67,3); 
+        std::cout << ID;
+        gotoXY(67,5);
+        iPwd = safeInput();
+        gotoXY(0,8);
+        holdString("Login your account...", 1);
+        if (!checkPwd(iPwd)) {
+            std::cout << "Password incorrect, press 1 to re-enter, 0 to exit" ;
+            choice = pickMenu();
+            if (choice != 1) return false;
         }
         else break;
-    }   while(1);
-        ID = iID;
+        } while (1);
 
-        do {
-            system("cls");
-            printFile(getFolder() + "source\\LoginBox.txt");
-            gotoXY(67,3); 
-            std::cout << ID;
-            gotoXY(67,5);
-            iPwd = hideInput();
-            gotoXY(0,8);
-            holdString("Login your account...", 1);
-            if (!checkPwd(iPwd)) {
-                std::cout << "Password incorrect, press 1 to re-enter, 0 to exit" ;
-                choice = pickMenu();
-                if (choice != 1) return false;
-            }
-            else break;
-            } while (1);
-
-        std::cout << "Login in successfully!" << std::endl;
-        status = true;
-        return true;
+    std::cout << "Login in successfully!" << std::endl;
+    return true;
 
 }
 
 bool Account::Signin() {
     std::fstream file;
-    file.open(getFolder() + "database\\account\\allacc.txt", std::ios::in);
-    if (!file.is_open()) {
-        holdString("Error opening file allacc.txt !");
-        return false;
-    }
+    std::string filename = getFolder() + "database\\account\\" + ((manager) ? "managers" : "allacc");
+    filename += ".txt";
+    file.open(filename, std::ios::in );
+
     int choice;
-    bool userFound = false;
     std::string line;
     do {
         system("cls");
         printFile(getFolder() + "source\\SigninBox.txt");
+        bool userFound = false;
+
         gotoXY(73,3); 
-        getline(std::cin, ID);
+        ID = safeInput(30, false);
         gotoXY(0,10);
+
         while (getline(file, line)) {
             size_t pos = line.find(":");
             std::string savedID = line.substr(0, pos);
@@ -232,6 +235,10 @@ bool Account::Signin() {
             std::cout << "ID already exists, press 1 to re-enter, 0 to exit" ;
             choice = pickMenu();
             if (choice != 1) return false;
+            else {
+                file.close();
+                file.open(filename, std::ios::in );
+            }
         }
         else break;
     } while (1);
@@ -242,7 +249,7 @@ bool Account::Signin() {
         gotoXY(73,3);
         std::cout << ID;
         gotoXY(73,5);
-        password = hideInput();
+        password = safeInput();
         gotoXY(0,10);
         if (password.length() < 6 || password.length() > 15) {
             std::cout << "Password length must be of 6-15 characters, press 1 to re-enter, 0 to exit.";
@@ -262,7 +269,7 @@ bool Account::Signin() {
         gotoXY(73,5);
         drawLine('*',password.length());
         gotoXY(73,7);
-        repwd = hideInput();
+        repwd = safeInput();
         gotoXY(0,10);
         if (repwd != password) {
             std::cout << "Incorrect, press 1 to re-enter, 0 to exit.";
@@ -274,7 +281,6 @@ bool Account::Signin() {
 
 
     saveAcc();
-    status = true;
     holdString("New account registered successfully!", 0.5);
     holdString("Login your account...", 0.5);
     return true;
@@ -319,8 +325,4 @@ void Account:: loadFull(){
 void Account::UpdateInfo(){
     details.UpdateInfo();
     saveFull();
-}
-
-void Account::setStatus(bool value){
-    status = value;
 }

@@ -1,5 +1,5 @@
-account:password
 admin1:123123
 admin2:123321
 admin3:123321
 admin4:123321
+admin5:daylamatkhaurat

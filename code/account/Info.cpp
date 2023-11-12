@@ -32,7 +32,7 @@ void Info::UpdateInfo() {
                 getInfo("InfoTable.txt",1);
                 std::cout << ">> Enter Name: ";
                 gotoXY(69,3);
-                getline(std::cin, name);
+                name = safeInput(36, false);
                 gotoXY(0,11);
                 break;
             case 2:
@@ -42,7 +42,7 @@ void Info::UpdateInfo() {
                         std::cout << "Invalid format, example: 01/01/1970" << std::endl;
                     std::cout << ">> Enter Date of birth (dd/mm/yyyy): ";
                     gotoXY(69,5);
-                    getline(std::cin, temp);
+                    temp = safeInput(10, false);
                     gotoXY(0,11);
                 } while (!isValidDateFormat(temp));
                 doBirth = temp;
@@ -51,14 +51,14 @@ void Info::UpdateInfo() {
                 getInfo("InfoTable.txt",3);
                 std::cout << ">> Enter Position: ";
                 gotoXY(69,7);
-                getline(std::cin, position);
+                position = safeInput(36, false);
                 gotoXY(0,11);
                 break;
             case 4:
                 getInfo("InfoTable.txt",4);
                 std::cout << ">> Contact: ";
                 gotoXY(69,9);
-                getline(std::cin, contact);
+                contact = safeInput(36, false);
                 gotoXY(0,11);
                 break;
             default:
@@ -91,9 +91,9 @@ bool isValidDateFormat(const std::string& dateStr) {
 
     std::istringstream iss(dateStr);
     int day, month, year;
-    char separator1, separator2;
+    char s1, s2;
     
-    if (!(iss >> day >> separator1 >> month >> separator2 >> year)) {
+    if (!(iss >> day >> s1 >> month >> s2 >> year)) {
         return false;
     }
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 #include "./mylib/FuncLib.h"
 #include "./mylib/Cursor.h"
 #include "./pet/CustomerPet.h"
@@ -55,11 +56,9 @@ void existPet(bool manager = false){
 }
 
 void ViewAllCP() {
-    system("cls");
     std::ifstream sfile(getFolder() + "source\\AllCPSample.txt");
     if (!sfile.is_open()) {
-        std::cerr << "Can't open source file" << std::endl;
-        holdString("");
+        std::cerr << "Can't open source file : AllCPSample.txt" << std::endl;
         return;
     }
     std::string line;
@@ -80,7 +79,7 @@ void ViewAllCP() {
     std::string allCP = getFolder() + "database\\pet\\allCPets.txt";
     std::ifstream allCPFile(allCP);
     if(!allCPFile.is_open()){
-        std::cerr << "Error opening " << allCP << std::endl;
+        std::cerr << "Error opening: allCPets.txt" << allCP << std::endl;
         holdString("");
         return;
     }
@@ -92,8 +91,7 @@ void ViewAllCP() {
     allCPFile.close();
 
     for (const std::string &aID : sID) {
-        std::string aCP = getFolder() + "database\\pet\\customerPet\\" + aID + ".txt";
-        std::ifstream aCPFile(aCP);
+        std::ifstream aCPFile(getFolder() + "database\\pet\\customerPet\\" + aID + ".txt");
 
         if (!aCPFile.is_open()) {
             continue;
@@ -127,8 +125,82 @@ void ViewAllCP() {
         aCPFile.close();
     }
     moveLine(-1);
-    std::cout << s3 ;
-    holdString("");
+    std::cout << s3 << std::endl ;
+}
+
+void ViewAllSP() {
+    std::ifstream sfile(getFolder() + "source\\AllSPSample.txt");
+    if (!sfile.is_open()) {
+        std::cerr << "Can't open source file: AllSPSample.txt" << std::endl;
+        return;
+    }
+    std::string line;
+    std::string s1, s2, s3;
+
+    for (int i = 0; i < 5 && std::getline(sfile, line); ++i) {
+        s1 += line + "\n";
+    }
+    for (int i = 0; i < 2 && std::getline(sfile, line); ++i) {
+        s2 += line + "\n";
+    }
+    while (std::getline(sfile, line)) {
+        s3 += line + "\n";
+    }
+    sfile.close();
+
+    std::cout << s1;
+    std::string allSP = getFolder() + "database\\pet\\allSPets.txt";
+    std::ifstream allSPFile(allSP);
+    if(!allSPFile.is_open()){
+        std::cerr << "Error opening: allSPets.txt " << allSP << std::endl;
+        holdString("");
+        return;
+    }
+
+    std::vector<std::string> sID;
+    while (allSPFile >> line) {
+        sID.push_back(line);
+    }
+    allSPFile.close();
+
+    for (const std::string &aID : sID) {
+        std::ifstream aSPFile(getFolder() + "database\\pet\\shopPet\\" + aID + ".txt");
+
+        if (!aSPFile.is_open()) {
+            continue;
+        }
+        std::cout << s2 ;
+        std::string aline;
+        int lineCount = 0;
+        while (getline(aSPFile, aline)) {
+            switch (lineCount)
+            {
+            case 0:
+                moveCursor(8,-2);   std::cout << aline;   moveLine(2);
+                break;
+            case 1:
+                moveCursor(21,-2);   std::cout << aline;   moveLine(2);
+                break;
+            case 4:
+                moveCursor(47,-2);   std::cout << aline;   moveLine(2);
+                break;
+            case 6:
+                moveCursor(82,-2);   std::cout << aline;   moveLine(2);
+                break;
+            case 7:
+                moveCursor(132,-2);
+                std::cout << std::setw(15) << std::right << commaInt(aline) << " vnd";
+                moveLine(2);
+                break;
+            default:
+                break;
+            }
+            ++lineCount;
+        }
+        aSPFile.close();
+    }
+    moveLine(-1);
+    std::cout << s3 << std::endl ;
 }
 
 void PSMenu(bool manager =  false){
@@ -156,7 +228,10 @@ void PSMenu(bool manager =  false){
                 existPet(manager);
                 break;
             case 3:
+                system("cls");
                 ViewAllCP();
+                ViewAllSP();
+                holdString("");
                 break;
             case 4:
                 ViewAllSpc();

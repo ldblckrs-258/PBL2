@@ -46,7 +46,12 @@ void Pet::editChar() {
             showDetails(11);
             std::cout << ">> Enter height (a positive decimal)";
             gotoXY(103,6);  
-            std::cin >> i1;  clearCin();
+            try {
+                i1 = stod(safeInput(10, false));
+            }
+            catch(const std::exception& e){
+                i1 = 0;
+            }
             gotoXY(0,21);
             details.setHeight(i1);
             break;
@@ -54,7 +59,12 @@ void Pet::editChar() {
             showDetails(12);
             std::cout << ">> Enter weight (a positive decimal)";
             gotoXY(103,8);  
-            std::cin >> i1;  clearCin();  
+            try {
+                i1 = stod(safeInput(10, false));
+            }
+            catch(const std::exception& e){
+                i1 = 0;
+            } 
             gotoXY(0,21);
             details.setWeight(i1);
             break;
@@ -62,14 +72,20 @@ void Pet::editChar() {
             showDetails(13);
             std::cout << ">> Enter temperament";
             gotoXY(103,10);  
-            getline(std::cin, i2);  gotoXY(0,21);
+            i2 = safeInput(36, false);
+            gotoXY(0,21);
             details.setTemperament(i2);
             break;
         case 4:
             showDetails(14);
             std::cout << ">> Enter intelligence level (an integer from 0 to 10)";
             gotoXY(103,12);  
-            std::cin >> i1;  clearCin();  
+            try {
+                i1 = stoi(safeInput(2, false));
+            }
+            catch(const std::exception& e){
+                i1 = 0;
+            } 
             gotoXY(0,21);
             details.setIntelligence(int(i1));
             break;
@@ -77,7 +93,7 @@ void Pet::editChar() {
             showDetails(15);
             std::cout << ">> Enter special needs";
             gotoXY(103,14);  
-            getline(std::cin, i2);  
+            i2 = safeInput(36, false);
             gotoXY(0,21);
             details.setSNeeds(i2);
             break;

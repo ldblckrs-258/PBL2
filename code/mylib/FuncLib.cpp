@@ -29,23 +29,29 @@ void firstSymbol(int mode, int number, char symbol) {
         else std::cout << symbol << " ";
 }
 
-std::string hideInput() {
+std::string safeInput(int length, bool hide) {
     std::string str;
+    int count = 0;
     char ch;
     while ((ch = _getch()) != '\r') { 
         if (ch == 8) { 
             if (!str.empty()) {
                 str.pop_back();
                 std::cout << "\b \b"; 
+                count--;
             }
-        } else {
+        } else if (count < length){
             str.push_back(ch);
-            std::cout << '*';
+            if (hide)
+                std::cout << '*';
+            else std::cout << ch;
+            count++;
         }
     }
     std::cout << std::endl;
     return str;
 }
+
 
 int pickMenu() {
     char ch;
@@ -127,4 +133,42 @@ void printOptions(std::vector<std::string> &list){
         moveCursor(54,-2);   printCenter(list[i], WIDTH);    moveLine(2);
     }
     moveLine(-1);   std::cout << s3;    moveLine(1);
+}
+
+std::string commaInt(int number) {
+    std::stringstream ss;
+    ss << number;
+
+    std::string sNumber = ss.str();
+    int length = sNumber.length();
+    std::string output;
+
+    for (int i = 0; i < length; ++i) {
+        output.push_back(sNumber[i]);
+        if ((length - i - 1) % 3 == 0 && i != length - 1) {
+            output.push_back(',');
+        }
+    }
+    return output;
+}
+
+std::string commaInt(std::string number) {
+    int length = number.length();
+    std::string output;
+
+    for (int i = 0; i < length; ++i) {
+        output.push_back(number[i]);
+        if ((length - i - 1) % 3 == 0 && i != length - 1) {
+            output.push_back(',');
+        }
+    }
+    return output;
+}
+
+void safeOutput(const std::string& str, int length) {
+    if (str.length() <= length) {
+        std::cout << str;
+    } else {
+        std::cout << str.substr(0, length - 3) << "...";
+    }
 }

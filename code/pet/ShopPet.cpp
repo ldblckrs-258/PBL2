@@ -78,49 +78,64 @@ void ShopPet::editInfo() {
             showDetails(1);
             std::cout << ">> Enter pet name";
             gotoXY(34,5); 
-            getline(std::cin, name);  
+            name = safeInput(36, false);
             gotoXY(0,21);
             break;
         case 2:
             showDetails(2);
             std::cout << ">> Enter age (an integer)";
             gotoXY(34,7);  
-            std::cin >> age;  clearCin();  
+            try {
+                age = stod(safeInput(10, false));
+            }
+            catch(const std::exception& e){
+                age = 0;
+            }
             gotoXY(0,21);
             break;
         case 3:
             showDetails(3);
             std::cout << ">> Enter gender (1 for male, 0 for female)";
             gotoXY(34,9);  
-            std::cin >> gender;  clearCin();
+            try {
+                gender = stod(safeInput(1, false));
+            }
+            catch(const std::exception& e){
+                gender = 1;
+            }
             gotoXY(0,21);
             break;
         case 4:
             showDetails(4);
             std::cout << ">> Enter species id";
             gotoXY(34,11);  
-            getline(std::cin, species_id);   
+            species_id = safeInput(36, false);  
             gotoXY(0,21);
             break;
         case 5:
             showDetails(5);
             std::cout << ">> Enter current status";
             gotoXY(34,13);  
-            getline(std::cin, status);   
+            status = safeInput(36, false);
             gotoXY(0,21);
             break;
         case 6:
             showDetails(6);
             std::cout << ">> Enter history";
             gotoXY(34,15);                  
-            getline(std::cin, history);   
+            history = safeInput(36, false);
             gotoXY(0,21);
             break;
         case 7:
             showDetails(7);
             std::cout << ">> Enter price";
             gotoXY(34,15);                  
-            std::cin >> price;  clearCin();
+            try {
+                price = stod(safeInput(36, false));
+            }
+            catch(const std::exception& e){
+                price = 0;
+            }
             gotoXY(0,21);
             break;
         default:

@@ -40,36 +40,6 @@
             },
             "detail": "Run program.exe"
         },
-        {
-            "label": "Build test",
-            "type": "cppbuild",
-            "command": "C:/mingw64/bin/g++.exe",
-            "args": [
-                "-o", "${workspaceFolder}/test.exe", "${workspaceFolder}/main.cpp", "${workspaceFolder}/code/account/*.cpp","${workspaceFolder}/code/pet/*.cpp",  "${workspaceFolder}/code/mylib/*.cpp"
-            ],
-            "options": {
-                "cwd": "C:/mingw64/bin"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "detail": "Run cppbuild to create program.exe"
-        },
-        {
-            "label": "Build and Run Test",
-            "type": "shell",
-            "command": "${workspaceFolder}/program.exe",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "dependsOn": "Build test",
-            "detail": "Build and run test.exe!"
-        },
 
     ],
     "version": "2.0.0"
