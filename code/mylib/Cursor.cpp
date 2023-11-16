@@ -37,3 +37,16 @@ void moveLine(int n){
 
     SetConsoleCursorPosition(hStdout, coord);
 }
+
+void moveInLine(int x){
+    COORD coord;
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    GetConsoleScreenBufferInfo(hStdout, &csbi);
+
+    coord.X = x;
+    coord.Y = csbi.dwCursorPosition.Y;
+
+    SetConsoleCursorPosition(hStdout, coord);
+}

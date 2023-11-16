@@ -76,8 +76,7 @@ void holdString(const std::string &str, const double &time){
 void holdString(const std::string &str){
     if (!str.empty())
         std::cout << str << std::endl; 
-    std::cout << "Press Enter to continue...";
-    // cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    std::cout << std::endl << "Press any key to continue ...";
     _getch();
 }
 
@@ -106,7 +105,7 @@ void printCenter(const std::string &str, const int &width){
     drawLine(' ', right);
 }
 
-void printOptions(std::vector<std::string> &list){
+void printOptions(LinkedList<std::string> &list){
     std::ifstream sfile(getFolder() + "source\\Options.txt");
     if (!sfile.is_open()) {
         std::cerr << "Can't open source file Options.txt" << std::endl;
@@ -128,7 +127,7 @@ void printOptions(std::vector<std::string> &list){
     
     std::cout << s1;
     moveCursor(54,-2);   printCenter(list[0], WIDTH);    moveLine(2);
-    for (int i = 1; i < list.size(); ++i){
+    for (int i = 1; i < list.getSize(); ++i){
         std::cout << s2;
         moveCursor(54,-2);   printCenter(list[i], WIDTH);    moveLine(2);
     }
@@ -165,10 +164,68 @@ std::string commaInt(std::string number) {
     return output;
 }
 
-void safeOutput(const std::string& str, int length) {
-    if (str.length() <= length) {
+LinkedList<std::string> getSample(const std::string &filename){
+    std::ifstream sfile(getFolder() + "source\\" + filename);
+    LinkedList<std::string> output;
+    if (!sfile.is_open()) {
+        std::cerr << "Can't open source file: "<< filename << std::endl;
+        return output;
+    }
+    std::string line;
+    std::string s1, s2, s3;
+
+    for (int i = 0; i < 5 && std::getline(sfile, line); ++i) {
+        s1 += line + "\n";
+    }
+    for (int i = 0; i < 2 && std::getline(sfile, line); ++i) {
+        s2 += line + "\n";
+    }
+    while (std::getline(sfile, line)) {
+        s3 += line + "\n";
+    }
+    sfile.close();
+    output.push_back(s1);
+    output.push_back(s2);
+    output.push_back(s3);
+    return output;
+}
+
+void safeOutput(const std::string& str, int length, int height) {
+    int strLength = static_cast<int>(str.length());
+    if (strLength <= length) {
         std::cout << str;
-    } else {
+    } 
+    else if (height = 1){
         std::cout << str.substr(0, length - 3) << "...";
+    }
+    else {
+        int s_i = 0, e_i;
+        for (int i=0; i<height; ++i){
+            e_i = s_i + length;
+            std::string part;
+            for (int j=e_i; j>s_i; --j)
+                if (str[j] == ' '){
+                    e_i = j;
+                    break;
+                }
+
+            if (i == height-1){
+                bool elp = e_i < strLength;
+                if (!elp){
+                    e_i = strLength;
+                    part = str.substr(s_i, e_i);
+                }
+                else {
+                    part = str.substr(s_i, e_i-s_i-3);
+                    part += "...";
+                }
+            }
+            else {
+                part = str.substr(s_i, e_i-s_i);
+            }
+            std::cout << part;
+            moveLine(1);
+            s_i = e_i+1;
+        }
     }
 }

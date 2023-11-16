@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <limits>
 #include "./mylib/FuncLib.h"
 #include "./mylib/Cursor.h"
 #include "./pet/CustomerPet.h"
@@ -56,26 +57,9 @@ void existPet(bool manager = false){
 }
 
 void ViewAllCP() {
-    std::ifstream sfile(getFolder() + "source\\AllCPSample.txt");
-    if (!sfile.is_open()) {
-        std::cerr << "Can't open source file : AllCPSample.txt" << std::endl;
-        return;
-    }
-    std::string line;
-    std::string s1, s2, s3;
+    LinkedList<std::string> sample = getSample("AllCPSample.txt");
+    std::cout << sample[0];
 
-    for (int i = 0; i < 5 && std::getline(sfile, line); ++i) {
-        s1 += line + "\n";
-    }
-    for (int i = 0; i < 2 && std::getline(sfile, line); ++i) {
-        s2 += line + "\n";
-    }
-    while (std::getline(sfile, line)) {
-        s3 += line + "\n";
-    }
-    sfile.close();
-
-    std::cout << s1;
     std::string allCP = getFolder() + "database\\pet\\allCPets.txt";
     std::ifstream allCPFile(allCP);
     if(!allCPFile.is_open()){
@@ -84,19 +68,21 @@ void ViewAllCP() {
         return;
     }
 
-    std::vector<std::string> sID;
+    std::string line;
+    LinkedList<std::string> sID;
     while (allCPFile >> line) {
         sID.push_back(line);
     }
     allCPFile.close();
 
-    for (const std::string &aID : sID) {
-        std::ifstream aCPFile(getFolder() + "database\\pet\\customerPet\\" + aID + ".txt");
+    Node<std::string> *aID = sID.begin();
+    while(aID) {
+        std::ifstream aCPFile(getFolder() + "database\\pet\\customerPet\\" + aID->data + ".txt");
 
         if (!aCPFile.is_open()) {
             continue;
         }
-        std::cout << s2 ;
+        std::cout << sample[1] ;
         std::string aline;
         int lineCount = 0;
         while (getline(aCPFile, aline)) {
@@ -123,32 +109,17 @@ void ViewAllCP() {
             ++lineCount;
         }
         aCPFile.close();
+        aID = aID->next;
     }
     moveLine(-1);
-    std::cout << s3 << std::endl ;
+    std::cout << sample[2] << std::endl ;
 }
 
 void ViewAllSP() {
-    std::ifstream sfile(getFolder() + "source\\AllSPSample.txt");
-    if (!sfile.is_open()) {
-        std::cerr << "Can't open source file: AllSPSample.txt" << std::endl;
-        return;
-    }
+    LinkedList<std::string> sample = getSample("AllSPSample.txt");
     std::string line;
-    std::string s1, s2, s3;
 
-    for (int i = 0; i < 5 && std::getline(sfile, line); ++i) {
-        s1 += line + "\n";
-    }
-    for (int i = 0; i < 2 && std::getline(sfile, line); ++i) {
-        s2 += line + "\n";
-    }
-    while (std::getline(sfile, line)) {
-        s3 += line + "\n";
-    }
-    sfile.close();
-
-    std::cout << s1;
+    std::cout << sample[0];
     std::string allSP = getFolder() + "database\\pet\\allSPets.txt";
     std::ifstream allSPFile(allSP);
     if(!allSPFile.is_open()){
@@ -157,19 +128,20 @@ void ViewAllSP() {
         return;
     }
 
-    std::vector<std::string> sID;
+    LinkedList<std::string> sID;
     while (allSPFile >> line) {
         sID.push_back(line);
     }
     allSPFile.close();
 
-    for (const std::string &aID : sID) {
-        std::ifstream aSPFile(getFolder() + "database\\pet\\shopPet\\" + aID + ".txt");
+    Node<std::string> *aID = sID.begin();
+    while(aID) {
+        std::ifstream aSPFile(getFolder() + "database\\pet\\shopPet\\" + aID->data + ".txt");
 
         if (!aSPFile.is_open()) {
             continue;
         }
-        std::cout << s2 ;
+        std::cout << sample[1] ;
         std::string aline;
         int lineCount = 0;
         while (getline(aSPFile, aline)) {
@@ -198,16 +170,17 @@ void ViewAllSP() {
             ++lineCount;
         }
         aSPFile.close();
+        aID = aID->next;
     }
     moveLine(-1);
-    std::cout << s3 << std::endl ;
+    std::cout << sample[2] << std::endl ;
 }
 
 void PSMenu(bool manager =  false){
     int choice;
     CustomerPet CP;
     ShopPet SP;
-    std::vector<std::string> list;
+    LinkedList<std::string> list;
     list.push_back("PETS & SPECIES");
     list.push_back("1. Create new pet profile");
     list.push_back("2. Open existing pet profile");
@@ -244,4 +217,42 @@ void PSMenu(bool manager =  false){
                 return;
         }
     } while (1);
+}
+
+void ViewAllSpc(){
+    LinkedList<Species> list;
+    std::ifstream dataFile(getFolder() + "database\\pet\\species.txt");
+    if (!dataFile.is_open()) {
+        std::cerr << "Cannot open species data file" << std::endl;
+        return;
+    }
+
+    std::string line;
+    dataFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    while (std::getline(dataFile, line)){
+        if (!line.empty() && line.length() > 50){
+            Species snew;
+            snew.readLine(line);
+            list.push_back(snew);
+        }
+    }
+    dataFile.close();
+
+    system("cls");
+    LinkedList<std::string> sample = getSample("AllSpcSample.txt");
+    std::cout << sample[0];
+    Node<Species>* temp = list.begin();
+    while (temp) {
+        std::cout << sample[1];
+        moveCursor(7,-2);   std::cout << temp->data.getID();
+        moveInLine(18); std::cout << temp->data.getBreed();
+        moveInLine(34); std::cout << temp->data.getName();
+        moveInLine(68); std::cout << temp->data.getOrigin();
+        moveInLine(91); std::cout << temp->data.getLifespan();
+        moveInLine(110); safeOutput(temp->data.getTraits(), 82);
+        moveLine(2);
+        temp = temp->next;
+    }
+    moveLine(-1);   std::cout << sample[2] << std::endl;
+    system("pause");
 }

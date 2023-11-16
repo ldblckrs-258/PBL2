@@ -6,7 +6,7 @@
 
 bool ASMenu(EmployeeAccount &Acc){
     int choice;
-    std::vector<std::string> list;
+    LinkedList<std::string> list;
     list.push_back("ACCOUNT SETTING");
     list.push_back("1. My profile");
     list.push_back("2. Edit profile");
@@ -41,7 +41,7 @@ bool ASMenu(EmployeeAccount &Acc){
 
 bool ASMenu(ManagerAccount &Acc){
     int choice;
-    std::vector<std::string> list;
+    LinkedList<std::string> list;
     list.push_back("ACCOUNT SETTING");
     list.push_back("1. My profile");
     list.push_back("2. Edit profile");

@@ -4,7 +4,7 @@
 #include "../mylib/FuncLib.h"
 #include "../mylib/Cursor.h"
 
-std::vector<std::string> ManagerAccount::EmployeeList;
+LinkedList<std::string> ManagerAccount::EmployeeList;
 
 ManagerAccount::ManagerAccount() : Account() {
     manager = true;
@@ -32,7 +32,7 @@ void ManagerAccount::ShowInfo() {
     details.getInfo("EmployeeTable.txt");
     gotoXY(69,3);   std::cout << ID ;
     gotoXY(50,13);  std::cout << "5. Employees";
-    gotoXY(69,13);  std::cout << EmployeeList.size();
+    gotoXY(69,13);  std::cout << EmployeeList.getSize();
     gotoXY(0,15);
 }
 

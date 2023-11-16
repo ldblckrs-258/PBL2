@@ -2,8 +2,7 @@
 #include <iostream>
 #include "../mylib/FuncLib.h"
 #include <fstream>
-#include <vector>
-// CẦN VIẾT THƯ VIỆN LINKED LIST ĐỂ THAY THẾ VECTOR
+#include "../mylib/LinkedList.cpp"
 #include <sstream>
 #include "../mylib/Cursor.h"
 
@@ -94,7 +93,7 @@ void Account::saveAcc() {
 void Account::UpdateAcc(){
     std::string filename = getFolder() + "database\\account\\" + ((manager) ? "managers" : "allacc") +".txt";
     std::ifstream inFile(filename);
-    std::vector<std::string> lines;
+    LinkedList<std::string> lines;
 
     if (!inFile) {
         std::cerr << "Could not open " << filename << std::endl;
@@ -107,13 +106,14 @@ void Account::UpdateAcc(){
     inFile.close();
 
     bool found = false;
-    for (std::string& cLine : lines) {
-        std::istringstream iss(cLine);
+    Node<std::string>* cLine = lines.begin();
+    while (cLine) {
+        std::istringstream iss(cLine->data);
         std::string cID, cPassword;
 
         if (std::getline(iss, cID, ':') && std::getline(iss, cPassword)) {
             if (cID == ID) {
-                cLine = ID + ":" + password;
+                cLine->data = ID + ":" + password;
                 found = true;
                 break;
             }
@@ -125,8 +125,9 @@ void Account::UpdateAcc(){
     }
 
     std::ofstream outFile(filename);
-    for (const std::string& updatedLine : lines) {
-        outFile << updatedLine << '\n';
+    cLine = lines.begin();
+    while (cLine) {
+        outFile << cLine->data << '\n';
     }
 
     outFile.close();

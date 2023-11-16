@@ -151,7 +151,7 @@ void ShopPet::editInfo() {
 
 void ShopPet::setPet(){
     int choice;
-    std::vector<std::string> list;
+    LinkedList<std::string> list;
     list.push_back("PET OPTIONS");
     list.push_back("1. Edit information");
     list.push_back("2. Edit characteristic");
