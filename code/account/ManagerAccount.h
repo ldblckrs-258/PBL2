@@ -9,7 +9,7 @@ private:
     static LinkedList<std::string> EmployeeList;
 
 public:
-    static void getEL();
+    static void getEL();              
     ManagerAccount();
     void ShowInfo();
     void saveAcc();

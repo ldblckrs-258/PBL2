@@ -11,7 +11,9 @@
 void existPet(bool manager = false){            
     system("cls");
     std::string inputID;
-    printFile(getFolder() + "source\\InputID.txt");
+    printFile(getFolder() + "source\\InputOne.txt");
+    gotoXY(72,1);   std::cout << "ACCESS VIA ID";
+    gotoXY(60,3);   std::cout << "ID";
     gotoXY(67,3);
     std::cin >> inputID;
     moveLine(2);
@@ -176,6 +178,127 @@ void ViewAllSP() {
     std::cout << sample[2] << std::endl ;
 }
 
+
+extern LinkedList<Species> SpeciesList;
+void ViewAllSpc(){
+
+    system("cls");
+    LinkedList<std::string> sample = getSample("AllSpcSample.txt");
+    std::cout << sample[0];
+    Node<Species>* temp = SpeciesList.begin();
+    while (temp) {
+        std::cout << sample[1];
+        moveCursor(7,-2);   std::cout << temp->data.getID();
+        moveInLine(18); std::cout << temp->data.getBreed();
+        moveInLine(34); std::cout << temp->data.getName();
+        moveInLine(68); std::cout << temp->data.getOrigin();
+        moveInLine(91); std::cout << temp->data.getLifespan();
+        moveInLine(110); safeOutput(temp->data.getTraits(), 41);
+        moveLine(2);
+        temp = temp->next;
+    }
+    moveLine(-1);   std::cout << sample[2] << std::endl;
+    system("pause");
+}
+
+void SearchSpc(){
+    system("cls");
+    LinkedList<std::string> menulist;
+    menulist.push_back("SEARCH SPECIES");
+    menulist.push_back("1. Search by ID");
+    menulist.push_back("2. Search by Name");
+    menulist.push_back("0. Exit");
+    int choice;
+    do {
+        system("cls");
+        printOptions(menulist);
+        choice = pickMenu();
+        int index;  std::string value;
+        moveLine(2);
+        printFile(getFolder() + "source\\InputOne.txt");
+        switch (choice)
+        {
+            case 1:
+                moveCursor(71,-4);   std::cout << "SEARCH BY ID" << std::endl;
+                moveCursor(61,1);   std::cout << "ID" << std::endl;
+                moveCursor(72,-1);   value = safeInput(30, false);
+                moveLine(2);
+                index = SpeciesList.search(value, &Species::getID);
+                break;
+            case 2:
+                moveCursor(70,-4);   std::cout << "SEARCH BY NAME" << std::endl;
+                moveCursor(56,1);   std::cout << "Species name" << std::endl;
+                moveCursor(72,-1);   value = safeInput(30, false);
+                moveLine(2);
+                index = SpeciesList.search(value, &Species::getName);
+                break;
+            default:
+                return;
+        }
+
+        if (index != -1) {
+            SpeciesList[index].showDetails();
+        }
+        else {
+            std::cout << "Value not found!" << std::endl;
+        }
+        system("pause");
+    } while (1);
+}
+
+void saveSpc(){
+    std::ofstream dataFile(getFolder() + "database\\pet\\species.txt");
+    if (!dataFile.is_open()) {
+        std::cerr << "Cannot open species data file" << std::endl;
+        return ;
+    }
+    dataFile << "ID	Breed\tSpecies\tName\tOrigin\tAverage lifespan\tTraits\n";
+    for (int i=0; i<SpeciesList.getSize(); ++i){
+        std::string line;
+        line = SpeciesList[i].getID() + "\t" + SpeciesList[i].getBreed() + "\t"  + SpeciesList[i].getName() + "\t" + SpeciesList[i].getOrigin() + "\t" + SpeciesList[i].getLifespan() + "\t" + SpeciesList[i].getTraits() + "\n";
+        dataFile << line;
+    }
+    dataFile.close();
+}
+
+void NewSpc(){
+    Species newSpc;
+    newSpc.editDetails();
+    SpeciesList.push_back(newSpc);
+    saveSpc();
+    moveLine(1);
+    holdString("Add new species successful !", 1);
+}
+
+void EditSpc(){
+    std::string iID;
+    int sIndex;
+    
+    do{
+        system("cls");
+        printFile(getFolder() + "source\\InputOne.txt");
+        gotoXY(71,1);   std::cout << "ACCESS VIA ID" ;
+        gotoXY(61,3);  std::cout << "ID";
+        gotoXY(72, 3);
+        iID = safeInput(10, false);
+        moveLine(2);
+        sIndex = SpeciesList.search(iID, &Species::getID);
+        if (sIndex == -1){
+            std::cout << "Species not found, press 1 to re-enter, 0 to escape ";
+            int choice = pickMenu();
+            if (choice != 1) return;
+        }
+        else break;
+    } while (1);
+    
+    SpeciesList[sIndex].editDetails();
+    system("cls");
+    saveSpc();
+    SpeciesList[sIndex].showDetails();
+    holdString("");
+}
+
+
 void PSMenu(bool manager =  false){
     int choice;
     CustomerPet CP;
@@ -187,6 +310,9 @@ void PSMenu(bool manager =  false){
     list.push_back("3. View all pets");
     list.push_back("4. View all species");
     if (manager) list.push_back("5. Create new shop pet profile");
+    list.push_back("6. Search species");
+    list.push_back("7. Edit species");
+    list.push_back("8. Add new species");
     list.push_back("0. Exit");
     do {
         system("cls");
@@ -213,46 +339,18 @@ void PSMenu(bool manager =  false){
                 if (manager)    SP.newPet();
                 else return;
                 break;
+            case 6:
+                SearchSpc();
+                break;
+            case 7:
+                EditSpc();
+                break;
+            case 8:
+                NewSpc();
+                break;
             default:
                 return;
         }
     } while (1);
 }
 
-void ViewAllSpc(){
-    LinkedList<Species> list;
-    std::ifstream dataFile(getFolder() + "database\\pet\\species.txt");
-    if (!dataFile.is_open()) {
-        std::cerr << "Cannot open species data file" << std::endl;
-        return;
-    }
-
-    std::string line;
-    dataFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    while (std::getline(dataFile, line)){
-        if (!line.empty() && line.length() > 50){
-            Species snew;
-            snew.readLine(line);
-            list.push_back(snew);
-        }
-    }
-    dataFile.close();
-
-    system("cls");
-    LinkedList<std::string> sample = getSample("AllSpcSample.txt");
-    std::cout << sample[0];
-    Node<Species>* temp = list.begin();
-    while (temp) {
-        std::cout << sample[1];
-        moveCursor(7,-2);   std::cout << temp->data.getID();
-        moveInLine(18); std::cout << temp->data.getBreed();
-        moveInLine(34); std::cout << temp->data.getName();
-        moveInLine(68); std::cout << temp->data.getOrigin();
-        moveInLine(91); std::cout << temp->data.getLifespan();
-        moveInLine(110); safeOutput(temp->data.getTraits(), 82);
-        moveLine(2);
-        temp = temp->next;
-    }
-    moveLine(-1);   std::cout << sample[2] << std::endl;
-    system("pause");
-}

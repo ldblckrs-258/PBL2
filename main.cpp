@@ -5,6 +5,27 @@
 #include "./code/account/EmployeeAccount.h"
 #include "./code/account/ManagerAccount.h"
 
+LinkedList<Species> getSpeciesList(){
+    LinkedList<Species> list;
+    std::ifstream dataFile(getFolder() + "database\\pet\\species.txt");
+    if (!dataFile.is_open()) {
+        std::cerr << "Cannot open species data file" << std::endl;
+        return list;
+    }
+
+    std::string line;
+    dataFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    while (std::getline(dataFile, line)){
+        if (!line.empty() && line.length() > 50){
+            Species snew;
+            snew.readLine(line);
+            list.push_back(snew);
+        }
+    }
+    dataFile.close();
+    return list;
+}
+
 bool ELogged(EmployeeAccount &EUser){
     int choice;
     bool logout = false;
@@ -98,6 +119,8 @@ int LogIO(EmployeeAccount &EUser, ManagerAccount &MUser) {
         }
     } while(1);
 } 
+
+LinkedList<Species> SpeciesList = getSpeciesList();
 
 int main() {
     int choice, mode;

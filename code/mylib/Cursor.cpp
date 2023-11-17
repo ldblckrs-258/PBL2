@@ -26,7 +26,7 @@ void moveCursor(int x, int y){
 }
 
 void moveLine(int n){
-    COORD coord;
+    COORD coord;    
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 

@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-
 template <typename T>
 class Node {
     public:
@@ -8,6 +7,16 @@ class Node {
         Node* next;
         Node(const T& newData) : data(newData), next(nullptr) {}
 };
+
+inline std::string clearStr(const std::string& str) {
+    std::string result;
+    for (char c : str) {
+        if (std::isprint(static_cast<unsigned char>(c))) {
+            result += c;
+        }
+    }
+    return result;
+}
 
 template <typename T>
 class LinkedList {
@@ -102,5 +111,19 @@ class LinkedList {
 
         Node<T>*begin() const {
             return head;
+        }
+
+        using FuncName = std::string (T::*)() const;
+        int search(const std::string& str, FuncName funcName) const {
+            Node<T>* temp = head;
+            int index = 0;
+            while (temp) {
+                if (clearStr((temp->data.*funcName)()) == clearStr(str)) {
+                    return index;
+                }
+                temp = temp->next;
+                ++index;
+            }
+            return -1;
         }
 };

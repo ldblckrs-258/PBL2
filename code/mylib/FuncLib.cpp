@@ -191,11 +191,13 @@ LinkedList<std::string> getSample(const std::string &filename){
 }
 
 void safeOutput(const std::string& str, int length, int height) {
+    int xx,yy;
+    getCursorPosition(xx,yy);
     int strLength = static_cast<int>(str.length());
     if (strLength <= length) {
         std::cout << str;
     } 
-    else if (height = 1){
+    else if (height == 1){
         std::cout << str.substr(0, length - 3) << "...";
     }
     else {
@@ -213,10 +215,10 @@ void safeOutput(const std::string& str, int length, int height) {
                 bool elp = e_i < strLength;
                 if (!elp){
                     e_i = strLength;
-                    part = str.substr(s_i, e_i);
+                    part = str.substr(s_i, e_i-s_i);
                 }
                 else {
-                    part = str.substr(s_i, e_i-s_i-3);
+                    part = str.substr(s_i, length-3);
                     part += "...";
                 }
             }
@@ -224,8 +226,46 @@ void safeOutput(const std::string& str, int length, int height) {
                 part = str.substr(s_i, e_i-s_i);
             }
             std::cout << part;
-            moveLine(1);
+            gotoXY(xx, ++yy);
             s_i = e_i+1;
+            if (s_i > strLength) break;
         }
     }
+}
+
+std::string boxInput(int maxlength, int maxheight) {
+    std::string str;
+    int cursor[maxheight+2][2];
+    getCursorPosition(cursor[0][0], cursor[0][1]);
+    int width = 1, height = 1;
+    char ch;
+    while ((ch = _getch()) != '\r') { 
+        if (ch == 8) { 
+            if (!str.empty()) {
+                getCursorPosition(cursor[maxheight+1][0], cursor[maxheight+1][1]);
+                if (cursor[maxheight+1][0] == cursor[0][0]){
+                    --height;
+                    width = maxlength;
+                    --cursor[0][1];
+                    gotoXY(cursor[height][0], cursor[height][1]);
+                }
+                str.pop_back();
+                std::cout << "\b \b"; 
+                --width;
+            }
+        } else if (height <= maxheight){
+            if ((width >= maxlength) && ch != ' '){
+                getCursorPosition(cursor[height][0], cursor[height][1]);
+                gotoXY(cursor[0][0],++cursor[0][1]);
+                width = 0;
+                ++height;
+            }
+            str.push_back(ch);
+            std::cout << ch;
+            ++width;
+        }
+    }
+    std::cout << std::endl;
+    return str;
+
 }

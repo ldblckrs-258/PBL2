@@ -39,7 +39,7 @@ void CustomerPet::setPet(){
 void CustomerPet::editInfo() {
     int c;
     showDetails();
-            std::cout << ">> Press a number 1-7 to edit, others to escape: ";
+    std::cout << ">> Press a number 1-7 to edit, others to escape: ";
     c = pickMenu();
     do {
         switch (c) {

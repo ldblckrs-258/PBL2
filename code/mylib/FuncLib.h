@@ -17,5 +17,5 @@ std::string commaInt(int);
 std::string commaInt(std::string);
 LinkedList<std::string> getSample(const std::string &);
 void safeOutput(const std::string& str, int length, int height = 1);
-
+std::string boxInput(int , int );
 #endif

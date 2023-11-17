@@ -20,6 +20,9 @@ class Species{
         std::string getOrigin() const;
         std::string getLifespan() const;
         std::string getTraits() const;
+
+        void showDetails(int except = -1);
+        void editDetails();
 };
 
 void ViewAllSpc();
