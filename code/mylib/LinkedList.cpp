@@ -113,6 +113,41 @@ class LinkedList {
             return head;
         }
 
+        Node<T>*end() const {
+            if (!head) {
+                return nullptr; 
+            }
+            Node<T>* current = head;
+            while (current->next) 
+                current = current->next;
+            return current;
+        }
+
+        void remove(int index) {
+            if (index < 0 || !head) {
+                return; 
+            }
+            if (index == 0) {
+                Node<T>* temp = head;
+                head = head->next;
+                delete temp;
+                --size;
+                return;
+            }
+            Node<T>* current = head;
+            Node<T>* previous = nullptr;
+            for (int i = 0; i < index && current; ++i) {
+                previous = current;
+                current = current->next;
+            }
+            if (!current) {
+                return;
+            }
+            previous->next = current->next;
+            delete current;
+            --size;
+        }
+
         using FuncName = std::string (T::*)() const;
         int search(const std::string& str, FuncName funcName) const {
             Node<T>* temp = head;

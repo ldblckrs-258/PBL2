@@ -1,0 +1,5 @@
+ID	Name	Age	Gender	Species ID	Status	Owner ID	Service Used ID	Height	Weight	Temperament	Intelligence	Special Needs
+cp2	Peterr	23	1	s2	This is pet number 2	c0	s0	1.320000	2.310000	Good nahh	2	Cakeeeee
+cp3	Lizzy	11	0	s2	This is pet number 3	c3	s3	1.320000	2.310000	Good bro	2	None
+cp4	Bolar	17	1	s4	Very very good now hehe	c4	s4	2.340000	3.420000	none	7	Nothing
+cp5	Cus Pet 5	5	1	A5	Status 5	c5	s5	1.500000	2.500000	Temp 5	5	Sneeds 5

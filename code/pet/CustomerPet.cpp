@@ -8,6 +8,14 @@
 
 CustomerPet::CustomerPet(std::string pid, std::string sid, std::string oid) : Pet(pid, sid), owner_id(oid), service_used(sid) {}
 
+std::string CustomerPet::getOwnerID() const{
+    return owner_id;
+}
+
+std::string CustomerPet::getStatus() const{
+    return status;
+}
+
 void CustomerPet::setPet(){
     int choice;
     LinkedList<std::string> list;
@@ -33,7 +41,6 @@ void CustomerPet::setPet(){
             break;
         }
     } while(choice);
-    saveFull();
 }
 
 void CustomerPet::editInfo() {
@@ -122,79 +129,115 @@ void CustomerPet::showDetails(int except) {
     gotoXY(0,21);
 }
 
-void CustomerPet::loadFull() {
-    Pet::loadFull("customerPet");
-    std::string fileName = getFolder() + "database\\pet\\customerPet\\" + id + ".txt";
-    std::fstream file;
-    file.open(fileName, std::ios::in );
-    if (!file.is_open()) {
-        std::cerr << "Error opening file to load pet information." << fileName<< std::endl;
-        return;
-    }
-    std::string line;
-    int lineCount = 0;
-    while (getline(file, line)) {
-        switch (lineCount)
-        {
-        case 6:
-            owner_id = line;
-            break;
-        case 7:
-            service_used = line;
-            break;
-        default:
-            break;
+void CustomerPet::readLine(const std::string &str){
+        std::string part;
+    int count = 0;
+    for (char c : str) {
+        if (c != '\t') part += c; 
+        else {
+            switch (count)
+            {
+                case 0:
+                    id = clearStr(part);
+                    break;
+                case 1:
+                    name = clearStr(part);
+                    break;
+                case 2:
+                    try {
+                        age = stoi(clearStr(part));
+                    }
+                    catch (const std::exception&e)
+                    {   
+                        std::cerr << e.what() << std::endl;
+                        age = -1;
+                    }
+                    break;
+                case 3:
+                    try {
+                        gender = stoi(clearStr(part));
+                    }
+                    catch (const std::exception&e)
+                    {   
+                        std::cerr << e.what() << std::endl;
+                        gender = true;
+                    }
+                    break;
+                case 4:
+                    species_id = clearStr(part);
+                    break;
+                case 5:
+                    status = clearStr(part);
+                    break;
+                case 6:
+                    owner_id = clearStr(part);
+                    break;
+                case 7:
+                    service_used = clearStr(part);
+                    break;
+                case 8:
+                    try {
+                        details.setHeight(stod(clearStr(part)));
+                    }
+                    catch (const std::exception&e)
+                    {   
+                        std::cerr << e.what() << std::endl;
+                        details.setHeight(-1);
+                    }
+                case 9:
+                    try {
+                        details.setWeight(stod(clearStr(part)));
+                    }
+                    catch (const std::exception&e)
+                    {   
+                        std::cerr << e.what() << std::endl;
+                        details.setWeight(-1);
+                    }
+                    break;
+                case 10:
+                    details.setTemperament(clearStr(part));
+                    break;
+                case 11:
+                    try {
+                        details.setIntelligence(stoi(clearStr(part)));
+                    }
+                    catch (const std::exception&e)
+                    {   
+                        std::cerr << e.what() << std::endl;
+                        details.setIntelligence(-1);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        part.clear();
+        ++count;
         }
-        ++lineCount;
     }
-    file.close();
+    details.setSNeeds(clearStr(part));
 }
 
-void CustomerPet::saveFull() {
-    std::string fileName = getFolder() + "database\\pet\\customerPet\\" + id + ".txt";
-    std::fstream file;
-    file.open(fileName, std::ios::out | std::ios::app);
-
-    if (!file.is_open()) {
-        std::cerr << "Error opening file to save pet information." << std::endl;
-        return;
-    }
-    saveInfo("customerPet");
-    file << owner_id << std::endl << service_used << std::endl;
-    saveChar("customerPet");
-    saveToAll();
+std::string CustomerPet::writeLine() {
+    return id + "\t" + 
+        name + "\t" + 
+        std::to_string(age) + "\t" + 
+        std::to_string(gender) + "\t" + 
+        species_id + "\t" + 
+        status + "\t" + 
+        owner_id + "\t" + 
+        service_used + "\t" + 
+        std::to_string(details.getHeight()) + "\t" + 
+        std::to_string(details.getWeight()) + "\t" + 
+        details.getTemperament() + "\t" + 
+        std::to_string(details.getIntelligence()) + "\t" + 
+        details.getSNeeds() + "\n";
 }
 
-void CustomerPet::saveToAll() {
-    std::string fileName = getFolder() + "database\\pet\\allCPets.txt";
-
-    std::ifstream fileIn(fileName);
-    std::string line;
-    while (getline(fileIn, line)) 
-        if (line == id) return;
-    fileIn.close();
-
-    std::ofstream fileOut(fileName, std::ios::app);
-    if (!fileOut.is_open()) {
-        std::cerr << "Error opening file to save Customer Pet ID.\n";
-        return;
-    }
-
-    fileOut << id << std::endl;
-    fileOut.close();            
-}
+extern LinkedList<CustomerPet> CPetsList;
 
 void CustomerPet::setNextID() {
-    std::string fileName = getFolder() + "database\\pet\\allCPets.txt";
-    std::string lastID;
-
-    std::ifstream fileIn(fileName);
-    std::string line;
-    while (getline(fileIn, line)) {
-        if (!line.empty())
-            lastID = line;
-    }
-    fileIn.close();
+    Node<CustomerPet>*temp = CPetsList.end();
+    std::string lastID = temp->data.getID();
     if (lastID.empty()) {
         id = "cp1";
     }
@@ -208,16 +251,4 @@ void CustomerPet::setNextID() {
         int is = stoi(s);
         id = p + std::to_string(is+1);
     }
-}
-
-void CustomerPet::newPet(){
-    resetData();
-    setNextID();
-    setPet();
-    saveFull();
-}
-
-void CustomerPet::resetData(){
-    CustomerPet Temp;
-    *this = Temp;
 }

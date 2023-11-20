@@ -9,6 +9,18 @@
 Pet::Pet(std::string pid, std::string sid) 
     : id(pid), name(UDF), gender(true), species_id(sid), age(0), status(UDF) {}
 
+std::string Pet::getID() const {
+    return id;
+}
+
+std::string Pet::getName() const{
+    return name;
+}
+
+std::string Pet::getSpcID() const{
+    return species_id;
+}
+
 std::string Pet::getGender() const {
     if (gender) return "male";
         else return "female";
@@ -106,113 +118,4 @@ void Pet::editChar() {
         std::cin.clear();
         c = pickMenu();
     } while (c != 0);
-}
-
-void Pet::loadFull(const std::string &type) {
-    std::string fileName = getFolder() + "database\\pet\\" + type + "\\" + id + ".txt";
-    std::fstream file;
-    file.open(fileName, std::ios::in );
-    if (!file.is_open()) {
-        std::cerr << "Error opening file to load pet information." << fileName<< std::endl;
-        return;
-    }
-
-    std::string line;
-    int lineCount = 0;
-    while (getline(file, line)) {
-        int it = 0; double dt = 0;
-        switch (lineCount)
-        {
-        case 0:
-            id = line;
-            break;
-        case 1:
-            name = line;
-            break;
-        case 2:
-            try{it = stoi(line);}
-            catch(const std::invalid_argument& e){
-                std::cerr << e.what() << '\n';
-            }
-            age = it;
-            break;
-        case 3:
-            gender = (line == "1") ? true : false ;
-            break;
-        case 4:
-            species_id = line;
-            break;
-        case 5:
-            status = line;
-            break;
-        case 8:
-            try {dt = stod(line);}
-            catch(const std::invalid_argument& e){
-                std::cerr << e.what() << '\n';
-            }
-            details.setHeight(dt);
-            break;
-        case 9:
-            try {dt = stod(line);}
-            catch(const std::invalid_argument& e){
-                std::cerr << e.what() << '\n';
-            }
-            details.setWeight(dt);
-            break;
-        case 10:
-            details.setTemperament(line);
-            break;
-        case 11:
-            try{it = stoi(line);}
-            catch(const std::invalid_argument& e){
-                std::cerr << e.what() << '\n';
-            }
-            details.setIntelligence(it);
-            break;
-        case 12:
-            details.setSNeeds(line);
-            break;
-        default:
-            break;
-        }
-        ++lineCount;
-    }
-    file.close();
-}
-
-void Pet::saveInfo(const std::string &type) {
-    std::string fileName = getFolder() + "database\\pet\\" + type + "\\" + id + ".txt";
-    std::fstream file;
-    file.open(fileName, std::ios::out);
-
-    if (!file.is_open()) {
-        std::cerr << "Error opening file to save pet information." << std::endl;
-        return;
-    }
-    
-    file << id << std::endl;
-    file << name << std::endl;
-    file << age << std::endl;
-    file << gender << std::endl;
-    file << species_id << std::endl;
-    file << status << std::endl;
-    file.close();
-}
-
-void Pet::saveChar(const std::string &type) {
-    std::string fileName = getFolder() + "database\\pet\\" + type + "\\" + id + ".txt";
-    std::fstream file;
-    file.open(fileName, std::ios::out | std::ios::app);
-
-    if (!file.is_open()) {
-        std::cerr << "Error opening file to save pet information." << std::endl;
-        return;
-    }
-    
-    file << details.getHeight() << std::endl;
-    file << details.getWeight() << std::endl;
-    file << details.getTemperament() << std::endl;
-    file << details.getIntelligence() << std::endl;
-    file << details.getSNeeds() << std::endl;
-    file.close();
 }

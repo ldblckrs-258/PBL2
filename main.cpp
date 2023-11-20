@@ -4,34 +4,23 @@
 #include "./code/ASMenu.cpp"
 #include "./code/account/EmployeeAccount.h"
 #include "./code/account/ManagerAccount.h"
-
-LinkedList<Species> getSpeciesList(){
-    LinkedList<Species> list;
-    std::ifstream dataFile(getFolder() + "database\\pet\\species.txt");
-    if (!dataFile.is_open()) {
-        std::cerr << "Cannot open species data file" << std::endl;
-        return list;
-    }
-
-    std::string line;
-    dataFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    while (std::getline(dataFile, line)){
-        if (!line.empty() && line.length() > 50){
-            Species snew;
-            snew.readLine(line);
-            list.push_back(snew);
-        }
-    }
-    dataFile.close();
-    return list;
-}
+LinkedList<Species> SpeciesList;
+LinkedList<CustomerPet> CPetsList;
+LinkedList<ShopPet> SPetsList;
 
 bool ELogged(EmployeeAccount &EUser){
     int choice;
     bool logout = false;
+    LinkedList<std::string> menuList;
+    menuList.push_back("MAIN MENU");
+    menuList.push_back("1. Pets & Species");
+    menuList.push_back("2. Goods & Service");
+    menuList.push_back("3. Invoices & Transactions");
+    menuList.push_back("4. Account settings");
+    menuList.push_back("0. Exit");
     do {
         system("cls");
-        printFile(".\\source\\EMenu.txt");
+        printOptions(menuList, 1);
         choice = pickMenu();
         switch (choice)
         {
@@ -57,12 +46,17 @@ bool ELogged(EmployeeAccount &EUser){
 bool MLogged(ManagerAccount &MUser){
     int choice;
     bool logout = false;
+    LinkedList<std::string> menuList;
+    menuList.push_back("MAIN MENU");
+    menuList.push_back("1. Pets & Species");
+    menuList.push_back("2. Goods & Service");
+    menuList.push_back("3. Invoices & Transactions");
+    menuList.push_back("4. Account settings");
+    menuList.push_back("5. Employee management");
+    menuList.push_back("0. Exit");
     do {
         system("cls");
-        printFile(".\\source\\EMenu.txt");
-        moveCursor(66,-6);  std::cout << "5. Employee Management";
-        moveLine(1);    moveCursor(66,0);   std::cout << "0. Exit Program";
-        moveLine(5);
+        printOptions(menuList, 1);
         choice = pickMenu();
         switch (choice)
         {
@@ -120,7 +114,7 @@ int LogIO(EmployeeAccount &EUser, ManagerAccount &MUser) {
     } while(1);
 } 
 
-LinkedList<Species> SpeciesList = getSpeciesList();
+
 
 int main() {
     int choice, mode;
@@ -128,6 +122,9 @@ int main() {
     EmployeeAccount EUser;
     ManagerAccount::getEL();
     ManagerAccount MUser;
+    getSpeciesList();
+    getCPList();
+    getSPList();
     do {
         mode = LogIO(EUser, MUser);
         login = mode;

@@ -10,6 +10,12 @@
 #include <windows.h>
 #define WIDTH 48
 
+void setColor(int colorCode) { //BLACK = 0, BLUE, GREEN, CYAN, RED, MAGENTA, YELLOW, WHITE
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, colorCode);
+    // ColorAttribute = Foreground + Background * 16
+}
+
 bool printFile(const std::string &filename){
     std::ifstream inputFile(filename);
     if (!inputFile.is_open()) {
@@ -52,8 +58,8 @@ std::string safeInput(int length, bool hide) {
     return str;
 }
 
-
 int pickMenu() {
+    showCursor(false);
     char ch;
     int output;
 
@@ -63,7 +69,10 @@ int pickMenu() {
             output = ch - '0';
             break;
         }
+        else if (ch == 8)
+            return -99; // special choice: backscape
     }
+    showCursor(true);
     return output;
 }
 
@@ -105,7 +114,7 @@ void printCenter(const std::string &str, const int &width){
     drawLine(' ', right);
 }
 
-void printOptions(LinkedList<std::string> &list){
+void printOptions(LinkedList<std::string> &list, int color){
     std::ifstream sfile(getFolder() + "source\\Options.txt");
     if (!sfile.is_open()) {
         std::cerr << "Can't open source file Options.txt" << std::endl;
@@ -125,13 +134,13 @@ void printOptions(LinkedList<std::string> &list){
     }
     sfile.close();
     
-    std::cout << s1;
+    setColor(color);    std::cout << s1;    setColor(7);
     moveCursor(54,-2);   printCenter(list[0], WIDTH);    moveLine(2);
     for (int i = 1; i < list.getSize(); ++i){
-        std::cout << s2;
+        setColor(color);    std::cout << s2;    setColor(7);
         moveCursor(54,-2);   printCenter(list[i], WIDTH);    moveLine(2);
     }
-    moveLine(-1);   std::cout << s3;    moveLine(1);
+    moveLine(-1);   setColor(color);    std::cout << s3;    setColor(7);    moveLine(1);
 }
 
 std::string commaInt(int number) {

@@ -11,15 +11,15 @@ class CustomerPet : public Pet {
     public:
         CustomerPet(std::string pid = "cp0", std::string sid = "s0", std::string oid = "c0" );
 
+        std::string getOwnerID() const;
+        std::string getStatus() const;
+
         void setPet();
         void editInfo();
         void showDetails(int except = -1);
-        void loadFull();
-        void saveFull();
-        void saveToAll();
+        void readLine(const std::string &);
+        std::string writeLine();
         void setNextID();
-        void newPet();
-        void resetData();
 };
 
 #endif // !CPET_H

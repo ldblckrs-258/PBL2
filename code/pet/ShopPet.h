@@ -13,16 +13,13 @@ class ShopPet : public Pet {
         std:: string getHistory() const ;
         void setPrice(int);
         void setHistory(const std:: string &);
-
+        
+        void readLine(const std::string &);
+        std::string writeLine();
         void showDetails(int except = -1);
-        void saveToAll();
-        void saveFull();
         void editInfo();
         void setPet();
-        void loadFull();
         void setNextID();
-        void resetData();
-        void newPet();
 };
 
 

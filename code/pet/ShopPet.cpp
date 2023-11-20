@@ -29,42 +29,8 @@ void ShopPet::showDetails(int except){
     gotoXY(15, 15); std::cout << "6. History";
     if (except != 6) {gotoXY(34,15);   std::cout << history;}
     gotoXY(15, 17); std::cout << "7. Price";
-    if (except != 7) {gotoXY(34,17);   std::cout << price << " vnd";}
+    if (except != 7) {gotoXY(34,17);   std::cout << commaInt(price) << " vnd";}
     gotoXY(0,21);
-}
-
-void ShopPet::saveToAll() {
-    std::string fileName = getFolder() + "database\\pet\\allSPets.txt";
-
-    std::ifstream fileIn(fileName);
-    std::string line;
-    while (getline(fileIn, line)) 
-        if (line == id) return;
-    fileIn.close();
-
-    std::ofstream fileOut(fileName, std::ios::app);
-    if (!fileOut.is_open()) {
-        std::cerr << "Error opening file to save Shop Pet ID.\n";
-        return;
-    }
-
-    fileOut << id << std::endl;
-    fileOut.close();            
-}
-
-void ShopPet::saveFull() {
-    std::string fileName = getFolder() + "database\\pet\\shopPet\\" + id + ".txt";
-    std::fstream file;
-    file.open(fileName, std::ios::out | std::ios::app);
-
-    if (!file.is_open()) {
-        std::cerr << "Error opening file to save pet information." << std::endl;
-        return;
-    }
-    saveInfo("shopPet");
-    file << history << std::endl << price << std::endl;
-    saveChar("shopPet");
-    saveToAll();
 }
 
 void ShopPet::editInfo() {
@@ -129,7 +95,7 @@ void ShopPet::editInfo() {
         case 7:
             showDetails(7);
             std::cout << ">> Enter price";
-            gotoXY(34,15);                  
+            gotoXY(34,17);
             try {
                 price = stod(safeInput(36, false));
             }
@@ -173,53 +139,12 @@ void ShopPet::setPet(){
             break;
         }
     } while(choice);
-    saveFull();
 }
 
-void ShopPet::loadFull() {
-    Pet::loadFull("shopPet");
-    std::string fileName = getFolder() + "database\\pet\\shopPet\\" + id + ".txt";
-    std::fstream file;
-    file.open(fileName, std::ios::in );
-    if (!file.is_open()) {
-        std::cerr << "Error opening file to load pet information." << fileName<< std::endl;
-        return;
-    }
-    std::string line;
-    int lineCount = 0;
-    while (getline(file, line)) {
-        switch (lineCount)
-        {
-        case 6:
-            history = line;
-            break;
-        case 7:
-            try{
-                price = stoi(line);
-            } catch(const std::exception& e){
-                std::cerr << "The file containing pet information is corrupted" << '\n';
-                return;
-            }
-            break;
-        default:
-            break;
-        }
-        ++lineCount;
-    }
-    file.close();
-}
-
+extern LinkedList<ShopPet> SPetsList;
 void ShopPet::setNextID() {
-    std::string fileName = getFolder() + "database\\pet\\allSPets.txt";
-    std::string lastID;
-
-    std::ifstream fileIn(fileName);
-    std::string line;
-    while (getline(fileIn, line)) {
-        if (!line.empty())
-            lastID = line;
-    }
-    fileIn.close();
+    Node<ShopPet>*temp = SPetsList.end();
+    std::string lastID = temp->data.getID();
     if (lastID.empty()) {
         id = "sp1";
     }
@@ -235,15 +160,113 @@ void ShopPet::setNextID() {
     }
 }
 
-void ShopPet::resetData(){
-    ShopPet Temp;
-    *this = Temp;
+void ShopPet::readLine(const std::string &str){
+        std::string part;
+    int count = 0;
+    for (char c : str) {
+        if (c != '\t') part += c; 
+        else {
+            switch (count)
+            {
+                case 0:
+                    id = clearStr(part);
+                    break;
+                case 1:
+                    name = clearStr(part);
+                    break;
+                case 2:
+                    try {
+                        age = stoi(clearStr(part));
+                    }
+                    catch (const std::exception&e)
+                    {   
+                        std::cerr << e.what() << std::endl;
+                        age = -1;
+                    }
+                    break;
+                case 3:
+                    try {
+                        gender = stoi(clearStr(part));
+                    }
+                    catch (const std::exception&e)
+                    {   
+                        std::cerr << e.what() << std::endl;
+                        gender = true;
+                    }
+                    break;
+                case 4:
+                    species_id = clearStr(part);
+                    break;
+                case 5:
+                    status = clearStr(part);
+                    break;
+                case 6:
+                    history = clearStr(part);
+                    break;
+                case 7:
+                    try {
+                        price = stoi(clearStr(part));
+                    }
+                    catch (const std::exception&e)
+                    {   
+                        std::cerr << e.what() << std::endl;
+                        price = -1;
+                    }
+                    break;
+                case 8:
+                    try {
+                        details.setHeight(stod(clearStr(part)));
+                    }
+                    catch (const std::exception&e)
+                    {   
+                        std::cerr << e.what() << std::endl;
+                        details.setHeight(-1);
+                    }
+                case 9:
+                    try {
+                        details.setWeight(stod(clearStr(part)));
+                    }
+                    catch (const std::exception&e)
+                    {   
+                        std::cerr << e.what() << std::endl;
+                        details.setWeight(-1);
+                    }
+                    break;
+                case 10:
+                    details.setTemperament(clearStr(part));
+                    break;
+                case 11:
+                    try {
+                        details.setIntelligence(stoi(clearStr(part)));
+                    }
+                    catch (const std::exception&e)
+                    {   
+                        std::cerr << e.what() << std::endl;
+                        details.setIntelligence(-1);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        part.clear();
+        ++count;
+        }
+    }
+    details.setSNeeds(clearStr(part));
 }
 
-void ShopPet::newPet(){
-    resetData();
-    setNextID();
-    setPet();
-    saveFull();
+std::string ShopPet::writeLine() {
+    return id + "\t" + 
+        name + "\t" + 
+        std::to_string(age) + "\t" + 
+        std::to_string(gender) + "\t" + 
+        species_id + "\t" + 
+        status + "\t" + 
+        history + "\t" + 
+        std::to_string(price) + "\t" + 
+        std::to_string(details.getHeight()) + "\t" + 
+        std::to_string(details.getWeight()) + "\t" + 
+        details.getTemperament() + "\t" + 
+        std::to_string(details.getIntelligence()) + "\t" + 
+        details.getSNeeds() + "\n";
 }
-

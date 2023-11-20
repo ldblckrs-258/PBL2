@@ -6,4 +6,5 @@ void getCursorPosition(int &, int &);
 void moveCursor(int , int );
 void moveLine(int );
 void moveInLine(int );
+void showCursor(bool );
 #endif

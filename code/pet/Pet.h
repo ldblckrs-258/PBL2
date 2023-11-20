@@ -15,14 +15,12 @@ protected:
 
 public:
     Pet(std::string pid = "p0", std::string sid = "s0");
-
-    std::string getGender() const ;
-
+    std::string getID() const;
+    std::string getName() const;
+    std::string getSpcID() const;
+    std::string getGender() const;
     void showDetails(int except = -1);
     void editChar();
-    void loadFull(const std::string &);
-    void saveInfo(const std::string &);
-    void saveChar(const std::string &);
 };
 
 

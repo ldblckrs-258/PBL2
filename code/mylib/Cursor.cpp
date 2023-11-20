@@ -50,3 +50,9 @@ void moveInLine(int x){
 
     SetConsoleCursorPosition(hStdout, coord);
 }
+
+void showCursor(bool display){
+	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO cursor = { 1, display };
+	SetConsoleCursorInfo(handle, &cursor);
+}
