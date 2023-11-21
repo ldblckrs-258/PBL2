@@ -10,25 +10,7 @@ ManagerAccount::ManagerAccount() : Account() {
     manager = true;
 }
 
-void ManagerAccount::getEL(){
-    std::ifstream file(getFolder() +"database\\account\\allacc.txt");
-    if (!file.is_open()) {
-        std::cout << "Error opening file." << std::endl;
-        return ;
-    }
-    std::string line;
-    while (std::getline(file, line)) {
-        EmployeeList.push_back(line);
-    }
-    file.close();
-}
-
-void ManagerAccount::loadFull(){
-    Account::loadFull();
-}
-
 void ManagerAccount::ShowInfo() {
-    loadFull();
     details.getInfo("EmployeeTable.txt");
     gotoXY(69,3);   std::cout << ID ;
     gotoXY(50,13);  std::cout << "5. Employees";
@@ -36,13 +18,55 @@ void ManagerAccount::ShowInfo() {
     gotoXY(0,15);
 }
 
-void ManagerAccount::saveAcc(){
-    std::fstream file;
-    file.open(getFolder() + "database\\account\\managers.txt", std::ios::out | std::ios::app);
-    if (!file.is_open()) {
-        std::cout << "Error opening file." << std::endl;
-        return;
+void ManagerAccount::readLine(const std::string &str) {
+    std::string part;
+    int count = 0;
+    for (char c : str) {
+        if (c != '\t') part += c; 
+        else {
+            switch (count)
+            {
+                case 0:
+                    ID = clearStr(part);
+                    break;
+                case 1:
+                    password = clearStr(part);
+                    break;
+                case 2:
+                    try {
+                        manager = stoi(clearStr(part));
+                    }
+                    catch (const std::exception&e)
+                    {   
+                        std::cerr << e.what() << std::endl;
+                        manager = false;
+                    }
+                    break;
+                case 3:
+                    details.setName(clearStr(part));
+                    break;
+                case 4:
+                    details.setDoBirth(clearStr(part));
+                    break;
+                case 5:
+                    details.setPosition(clearStr(part));
+                    break;
+                default:
+                    break;
+            }
+        part.clear();
+        ++count;
+        }
     }
-    file << ID << ":" << password << "\n";
-    file.close();
+    details.setContact(clearStr(part));
+}
+
+std::string ManagerAccount::writeLine(){
+    return ID + "\t" + 
+        password + "\t" + 
+        std::to_string(manager) + "\t" + 
+        details.getName() + "\t" + 
+        details.getDoBirth() + "\t" + 
+        details.getPosition() + "\t" + 
+        details.getContact() + "\n";
 }

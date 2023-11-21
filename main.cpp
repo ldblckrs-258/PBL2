@@ -4,11 +4,15 @@
 #include "./code/ASMenu.cpp"
 #include "./code/account/EmployeeAccount.h"
 #include "./code/account/ManagerAccount.h"
+#include "./code/AccountBranch.cpp"
 LinkedList<Species> SpeciesList;
 LinkedList<CustomerPet> CPetsList;
 LinkedList<ShopPet> SPetsList;
+LinkedList<ManagerAccount> MAList;
+LinkedList<EmployeeAccount> EAList;
 
-bool ELogged(EmployeeAccount &EUser){
+template<typename T>
+bool Logged(T &Acc){
     int choice;
     bool logout = false;
     LinkedList<std::string> menuList;
@@ -17,6 +21,7 @@ bool ELogged(EmployeeAccount &EUser){
     menuList.push_back("2. Goods & Service");
     menuList.push_back("3. Invoices & Transactions");
     menuList.push_back("4. Account settings");
+    if (Acc.isManager()) menuList.push_back("5. Employees Management");
     menuList.push_back("0. Exit");
     do {
         system("cls");
@@ -25,7 +30,7 @@ bool ELogged(EmployeeAccount &EUser){
         switch (choice)
         {
             case 1:
-                PSMenu();
+                PSMenu(Acc.isManager());
                 break;
             case 2:
                 // GSMenu();
@@ -34,7 +39,7 @@ bool ELogged(EmployeeAccount &EUser){
                 // ITMenu();
                 break;
             case 4:
-                logout = ASMenu(EUser);
+                logout = ASMenu(Acc);
                 if (logout) return true;
                 break;        
             default:
@@ -43,72 +48,42 @@ bool ELogged(EmployeeAccount &EUser){
     } while (1);
 }
 
-bool MLogged(ManagerAccount &MUser){
+LinkedList<int> LogIO() {
     int choice;
-    bool logout = false;
-    LinkedList<std::string> menuList;
-    menuList.push_back("MAIN MENU");
-    menuList.push_back("1. Pets & Species");
-    menuList.push_back("2. Goods & Service");
-    menuList.push_back("3. Invoices & Transactions");
-    menuList.push_back("4. Account settings");
-    menuList.push_back("5. Employee management");
-    menuList.push_back("0. Exit");
-    do {
-        system("cls");
-        printOptions(menuList, 1);
-        choice = pickMenu();
-        switch (choice)
-        {
-            case 1:
-                PSMenu(true);
-                break;
-            case 2:
-                // GSMenu();
-                break;
-            case 3:
-                // ITMenu();
-                break;
-            case 4:
-                logout = ASMenu(MUser);
-                if (logout) return true;
-                break; 
-            case 5:
-                // EMMenu();
-                break;
-            default:
-                return false;
-        }
-    } while (1);
-}
-
-int LogIO(EmployeeAccount &EUser, ManagerAccount &MUser) {
-    int choice;
+    LinkedList<int> output;
+    output.push_back(-1);
+    output.push_back(-1);
     do {
         system("cls");
         printFile(".\\source\\MainMenu.txt");
         choice = pickMenu();
         switch(choice) {
             case 1:
-                if(EUser.Login()){
-                    EUser.loadFull();
-                    return 1;
+                output[0] = login(EAList);
+                if (output[0] != -1) {
+                    output[1] = 1;
+                    return output;
                 }
                 break;
             case 2:
-                if (EUser.Signin()){
-                    EUser.saveFull();
-                    return 1;
+                output[0] = signin(EAList);
+                if (output[0] != -1) {
+                    output[1] = 1;
+                    saveEAList();
+                    return output;
                 }
                 break;
             case 3:
-                if (MUser.Login()) {
-                    MUser.loadFull();
-                    return 2;}
+                output[0] = login(MAList);
+                if (output[0] != -1) {
+                    output[1] = 2;
+                    return output;
+                }
                 break;
             default: 
                 std::cout << "Exiting ..." << std::endl;
-                return 0;
+                output[1] = 0;
+                return output;
                 break;
         }
     } while(1);
@@ -117,29 +92,25 @@ int LogIO(EmployeeAccount &EUser, ManagerAccount &MUser) {
 
 
 int main() {
-    int choice, mode;
-    bool login = false;
-    EmployeeAccount EUser;
-    ManagerAccount::getEL();
-    ManagerAccount MUser;
+    int choice;
+    bool reLogin;
+    LinkedList<int> LogInfo;
     getSpeciesList();
     getCPList();
     getSPList();
+    getEAList();
+    getMAList();
+
     do {
-        mode = LogIO(EUser, MUser);
-        login = mode;
-        switch (mode)
-        {
-            case 1:
-                if (ELogged(EUser))
-                    login = false;
-                break;
-            case 2:
-                if (MLogged(MUser))
-                    login = false;
-                break;
-            default:
-                return 0;
+        reLogin = false;
+        LogInfo = LogIO();
+        if (LogInfo[1] == 0) break;
+        if  (LogInfo[0] != -1){
+            if (LogInfo[1] == 1)
+                reLogin = Logged(EAList[LogInfo[0]]);
+            else if (LogInfo[1] == 2)
+                reLogin = Logged(MAList[LogInfo[0]]);
+            else break;
         }
-    } while(!login);
+    } while(reLogin);
 }

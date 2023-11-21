@@ -11,9 +11,8 @@ private:
 public:
     EmployeeAccount(int s = 0);
     void ShowInfo();
-    void saveFull();
-    void saveSalary();
-    void loadFull();
+    std::string writeLine();
+    void readLine(const std::string &str);
     void UpdateInfo();
 };
 

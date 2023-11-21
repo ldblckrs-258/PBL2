@@ -10,54 +10,77 @@ EmployeeAccount::EmployeeAccount(int s) : Account(), salary(s) {
 }
 
 void EmployeeAccount::ShowInfo() {
-    loadFull();
     details.getInfo("EmployeeTable.txt");
     gotoXY(69,3);   std::cout << ID ;
     gotoXY(69,13);  std::cout << salary << " vnd";
     gotoXY(0,15);
 }
 
-void EmployeeAccount::saveFull() {
-    Account::saveFull();
-    saveSalary();
+
+void EmployeeAccount::readLine(const std::string &str) {
+    std::string part;
+    int count = 0;
+    for (char c : str) {
+        if (c != '\t') part += c; 
+        else {
+            switch (count)
+            {
+                case 0:
+                    ID = clearStr(part);
+                    break;
+                case 1:
+                    password = clearStr(part);
+                    break;
+                case 2:
+                    try {
+                        manager = stoi(clearStr(part));
+                    }
+                    catch (const std::exception&e)
+                    {   
+                        std::cerr << e.what() << std::endl;
+                        manager = false;
+                    }
+                    break;
+                case 3:
+                    details.setName(clearStr(part));
+                    break;
+                case 4:
+                    details.setDoBirth(clearStr(part));
+                    break;
+                case 5:
+                    details.setPosition(clearStr(part));
+                    break;
+                case 6:
+                    details.setContact(clearStr(part));
+                    break;
+                default:
+                    break;
+            }
+        part.clear();
+        ++count;
+        }
+    }
+    try {salary = stoi(clearStr(part));}
+    catch (const std::exception&e)
+    {   
+        std::cerr << e.what() << std::endl;
+        salary = -1;
+    }
 }
 
-void EmployeeAccount::saveSalary() {
-    std::string fileName = getFolder() + "database\\account\\employee\\" + ID + ".txt";
-    std::fstream file;
-    file.open(fileName, std::ios::out | std::ios::app);
-    if (!file.is_open()) {
-        std::cerr << "Error opening file to save employee information." << std::endl;
-        return;
-    }
-    file << salary << std::endl;
-    file.close();
+std::string EmployeeAccount::writeLine(){
+    return ID + "\t" + 
+        password + "\t" + 
+        std::to_string(manager) + "\t" + 
+        details.getName() + "\t" + 
+        details.getDoBirth() + "\t" + 
+        details.getPosition() + "\t" + 
+        details.getContact() + "\t" + 
+        std::to_string(salary) + "\n";
 }
 
-void EmployeeAccount::loadFull() {
-    std::string fileName = getFolder() + "database\\account\\employee\\" + ID + ".txt";
-    std::ifstream file(fileName);
-
-    if (!file.is_open()) {
-        std::cerr << "Error opening file to load employee information." << std::endl;
-        return;
-    }
-
-    Account::loadFull();
-    std::string line;
-    int lineCount = 1;
-    while (getline(file, line)) {
-        if (lineCount == 5)
-            break;
-        ++lineCount;
-    }
-
-    salary = stoi(line);
-    file.close();
-}
 
 void EmployeeAccount::UpdateInfo() {
     ShowInfo();
     Account::UpdateInfo();
-    saveSalary();
 }

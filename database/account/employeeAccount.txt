@@ -1,0 +1,6 @@
+ID (Username)	Password	Manager?	Full Name	Date of birth	Position	Contact	Salary
+admin1	111111	0	Le Duc Bao	25/08/2004	Worker	0943219921	7940000
+admin2	123456	0	Admin 02	23/07/2003	Worker	09342423123	8132000
+admin3	111111	0	Admin 03	03/01/2001	Worker	08325423159	9622000
+admin4	000000	0	Admin 04	07/07/2005	Worker	09874232123	8132000
+admin5	123123	0	Admin 05	05/05/2005	Worker	00000000	0

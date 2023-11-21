@@ -14,17 +14,13 @@ class Account {
     public:
         Account(std::string ID = "account", std::string pwd = "000000");
         bool checkPwd(std::string);
-        std::string getID();
-        std::string getPwd();
+        std::string getID() const;
+        std::string getPwd() const;
+        bool isManager() const;
+        void setID(std::string);
         void setPwd(std::string);
         bool ChangePwd();
-        void saveAcc();
-        void UpdateAcc();
-        bool Login();
-        bool Signin();
         void UpdateInfo();
-        void loadFull();
-        void saveFull();
 };
 
 #endif // ACCOUNT_H

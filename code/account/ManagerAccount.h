@@ -8,12 +8,11 @@ class ManagerAccount : public Account {
 private:
     static LinkedList<std::string> EmployeeList;
 
-public:
-    static void getEL();              
+public:     
     ManagerAccount();
     void ShowInfo();
-    void saveAcc();
-    void loadFull();
+    void readLine(const std::string &str);
+    std::string writeLine();
 };
 
 #endif // MANAGERACCOUNT_H

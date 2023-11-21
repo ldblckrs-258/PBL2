@@ -1,4 +1,6 @@
-#pragma once
+#ifndef LINKEDLIST
+#define LINKEDLIST
+
 #include <iostream>
 template <typename T>
 class Node {
@@ -102,7 +104,7 @@ class LinkedList {
                 ++currentIndex;
             }
 
-            throw std::out_of_range("Index out of range");
+            throw std::out_of_range("Index out of range : " + std::to_string(index) + "/" + std::to_string(size-1));
         }
 
         int getSize() const {
@@ -148,12 +150,12 @@ class LinkedList {
             --size;
         }
 
-        using FuncName = std::string (T::*)() const;
-        int search(const std::string& str, FuncName funcName) const {
+        template <typename MemberFunction>
+        int search(const std::string& str, MemberFunction func) const {
             Node<T>* temp = head;
             int index = 0;
             while (temp) {
-                if (clearStr((temp->data.*funcName)()) == clearStr(str)) {
+                if (clearStr((temp->data.*func)()) == clearStr(str)) {
                     return index;
                 }
                 temp = temp->next;
@@ -161,4 +163,7 @@ class LinkedList {
             }
             return -1;
         }
+
 };
+
+#endif
