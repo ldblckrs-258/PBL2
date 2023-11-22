@@ -10,9 +10,10 @@ private:
 
 public:     
     ManagerAccount();
-    void ShowInfo();
-    void readLine(const std::string &str);
+    void readLine(const std::string &str) override;
     std::string writeLine();
+    void ShowInfo(int except = -1);
+    void UpdateInfo();
 };
 
 #endif // MANAGERACCOUNT_H

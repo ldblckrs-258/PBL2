@@ -4,7 +4,7 @@
 #include "./LinkedList.cpp"
 
 void setColor(int );
-bool printFile(const std::string &);
+bool printFile(const std::string &, int color = 7);
 void firstSymbol(int, int, char);
 std::string safeInput(int length = 15, bool hide = true);
 int pickMenu();
@@ -15,6 +15,7 @@ std::string getFolder();
 void drawLine(char, int );
 void printCenter(const std::string &, const int &);
 void printOptions(LinkedList<std::string> &, int color = 7);
+void printInputBox(LinkedList<std::string> &, int color = 7);
 std::string commaInt(int);
 std::string commaInt(std::string);
 LinkedList<std::string> getSample(const std::string &);

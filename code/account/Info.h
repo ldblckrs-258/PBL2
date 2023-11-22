@@ -12,12 +12,11 @@ class Info {
 
     public:
         Info(std::string n = UDF, std::string date = "01/01/1970", std::string pos = UDF, std::string ct = UDF);
-        void getInfo(std::string sfname, int except = 10);
-        void UpdateInfo();
-        std::string getName();
-        std::string getDoBirth();
-        std::string getPosition();
-        std::string getContact();
+
+        std::string getName() const;
+        std::string getDoBirth() const;
+        std::string getPosition() const;
+        std::string getContact() const;
         void setName(std::string input);
         void setDoBirth(std::string input);
         void setPosition(std::string input);

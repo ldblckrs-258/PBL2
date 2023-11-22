@@ -68,7 +68,7 @@ std::string Species::getTraits() const{
 }
 
 void Species::showDetails(int except){
-    printFile(getFolder() + "source\\SpeciesTable.txt");
+    printFile(getFolder() + "source\\SpeciesTable.txt", 3);
     int xx,yy;
     getCursorPosition(xx,yy);
     if (except!=1){
@@ -98,14 +98,16 @@ void Species::editDetails(){
     getCursorPosition(xx,yy);
     std::cout << ">> Press a number 1-7 to edit, others to escape: ";
     c = pickMenu();
+    std::string temp;
     do {
         switch (c) {
         case 1:
             system("cls");
             showDetails(1);
             std::cout << ">> Enter species ID";
-            gotoXY(7,5);  
-            ID = safeInput(8, false);
+            gotoXY(7,5);
+            temp = safeInput(8, false);
+            ID = (temp.empty() ? ID : temp);
             gotoXY(xx,yy);
             break;
         case 2:
@@ -113,7 +115,8 @@ void Species::editDetails(){
             showDetails(2);
             std::cout << ">> Enter breed";
             gotoXY(18,5);
-            breed = safeInput(19, false);
+            temp = safeInput(19, false);
+            breed = (temp.empty() ? breed : temp);
             gotoXY(xx,yy);
             break;
         case 3:
@@ -121,15 +124,17 @@ void Species::editDetails(){
             showDetails(3);
             std::cout << ">> Enter species name";
             gotoXY(40,5);
-            name = safeInput(37, false);
+            temp = safeInput(37, false);
+            name = (temp.empty() ? name : temp);
             gotoXY(xx,yy);
             break;
         case 4:
             system("cls");
             showDetails(4);
             std::cout << ">> Enter species origin";
-            gotoXY(80,5);  
-            origin = safeInput(24, false);
+            gotoXY(80,5);
+            temp = safeInput(24, false);
+            origin = (temp.empty() ? origin : temp);
             gotoXY(xx,yy);
             break;
         case 5:
@@ -137,7 +142,8 @@ void Species::editDetails(){
             showDetails(5);
             std::cout << ">> Enter species average lifespan";
             gotoXY(107,5);  
-            lifespan = safeInput(22, false);
+            temp = safeInput(22, false);
+            lifespan = (temp.empty() ? lifespan : temp);
             gotoXY(xx,yy);
             break;
         case 6:
@@ -145,7 +151,8 @@ void Species::editDetails(){
             showDetails(6);
             std::cout << ">> Enter species traits";
             gotoXY(8,9);  
-            traits = boxInput(120, 5); 
+            temp = boxInput(120, 5); 
+            traits = (temp.empty() ? traits : temp);
             gotoXY(xx,yy);
             break;
         default:

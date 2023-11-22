@@ -1,15 +1,9 @@
-#ifndef ACCOUNT_BRANCH
-#define ACCOUNT_BRANCH
-
+#include "./AccountBranch.h"
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <limits>
-#include "./account/EmployeeAccount.h"
-#include "./account/ManagerAccount.h"
-#include "./mylib/FuncLib.h"
-#include "./mylib/Cursor.h"
-extern LinkedList<EmployeeAccount> EAList;
+
 
 void getEAList(){
     std::ifstream DataFile(getFolder() + "database\\account\\employeeAccount.txt");
@@ -44,8 +38,6 @@ void saveEAList(){
     }
     dataFile.close();
 }
-
-extern LinkedList<ManagerAccount> MAList;
 
 void getMAList(){
     std::ifstream DataFile(getFolder() + "database\\account\\managerAccount.txt");
@@ -83,14 +75,17 @@ void saveMAList(){
 
 
 template <typename T>
-int login(LinkedList<T>& accList) {
+int Login(LinkedList<T>& accList) {
     int choice, index;
     std::string iID;
-
+    LinkedList<std::string> inputList;
+    inputList.push_back("LOGIN");
+    inputList.push_back("ID");
+    inputList.push_back("Password");
     do {
         system("cls");
-        printFile(getFolder() + "source\\LoginBox.txt");
-        gotoXY(67,3); 
+        printInputBox(inputList, 2);
+        gotoXY(72,3); 
         iID = safeInput(30, false);
         gotoXY(0,8);
 
@@ -107,10 +102,10 @@ int login(LinkedList<T>& accList) {
     do {
         std::string iPwd;
         system("cls");
-        printFile(getFolder() + "source\\LoginBox.txt");
-        gotoXY(67,3); 
+        printInputBox(inputList, 2);
+        gotoXY(72,3); 
         std::cout << iID;
-        gotoXY(67,5);
+        gotoXY(72,5);
         iPwd = safeInput();
         gotoXY(0,8);
         holdString("Login your account...", 0.3);
@@ -127,16 +122,23 @@ int login(LinkedList<T>& accList) {
     holdString(">> Login successfully !", 0.5);
     return index;
 }
+template int Login<EmployeeAccount>(LinkedList<EmployeeAccount>& acclist);
+template int Login<ManagerAccount>(LinkedList<ManagerAccount>& acclist);
 
 template<typename T>
-int signin(LinkedList<T>& acclist){
+int Signin(LinkedList<T>& acclist){
     int choice;
     T newAcc;
     std::string iID, iPwd, rePwd;
+    LinkedList<std::string> inputList;
+    inputList.push_back("REGISTER");
+    inputList.push_back("ID");
+    inputList.push_back("Password");
+    inputList.push_back("Confirm Password");
     do {
         system("cls");
-        printFile(getFolder() + "source\\SigninBox.txt");
-        gotoXY(73,3); 
+        printInputBox(inputList, 2);
+        gotoXY(72,3); 
         iID = safeInput(30, false);
         gotoXY(0,10);
         bool userFound = (acclist.search(iID, &T::getID) != -1);
@@ -145,33 +147,38 @@ int signin(LinkedList<T>& acclist){
             choice = pickMenu();
             if (choice != 1) return -1;
         }
+        else if (iID.length() < 6 || iID.length() > 25){
+            std::cout << "ID must be of 6-25 characters, press 1 to re-enter, 0 to exit" ;
+            choice = pickMenu();
+            if (choice != 1) return -1;
+        }
         else break;
     } while (1);
     newAcc.setID(iID);
     do {
         system("cls");
-        printFile(getFolder() + "source\\SigninBox.txt");
-        gotoXY(73,3);
+        printInputBox(inputList, 2);
+        gotoXY(72,3);
         std::cout << iID;
-        gotoXY(73,5);
+        gotoXY(72,5);
         iPwd = safeInput();
         gotoXY(0,10);
         if (iPwd.length() < 6 || iPwd.length() > 15) {
             std::cout << "Password length must be of 6-15 characters, press 1 to re-enter, 0 to exit.";
             choice = pickMenu();
-            if (choice != 1) return false;
+            if (choice != 1) return -1;
         }
         else break;
     } while(1);
 
     do {
         system("cls");
-        printFile(getFolder() + "source\\SigninBox.txt");
-        gotoXY(73,3);
+        printInputBox(inputList, 2);
+        gotoXY(72,3);
         std::cout << iID;
-        gotoXY(73,5);
+        gotoXY(72,5);
         drawLine('*',iPwd.length());
-        gotoXY(73,7);
+        gotoXY(72,7);
         rePwd = safeInput();
         gotoXY(0,10);
         if (rePwd != iPwd) {
@@ -184,12 +191,85 @@ int signin(LinkedList<T>& acclist){
     
     newAcc.setPwd(iPwd);
 
-    holdString("New account registered successfully!", 0.3);
-    holdString("Login your account...", 0.3);
+    holdString("New account registered successfully!", 0.5);
 
     newAcc.UpdateInfo();
     acclist.push_back(newAcc);
     return acclist.getSize() - 1;
 }
+template int Signin<EmployeeAccount>(LinkedList<EmployeeAccount>& acclist);
+template int Signin<ManagerAccount>(LinkedList<ManagerAccount>& acclist);
 
-#endif // !ACCOUNT_BRANCH
+void EditExistAccount(){
+    system("cls");
+    LinkedList<std::string> menulist;
+    menulist.push_back("EDIT EMPLOYEE INFORMATION");
+    menulist.push_back("1. Access via ID");
+    menulist.push_back("2. Access via Name");
+    menulist.push_back("0. Exit");
+    int choice;
+    do {
+        system("cls");
+        printOptions(menulist, 1);
+        choice = pickMenu();
+        int index;  std::string value;
+        moveLine(2);
+        printFile(getFolder() + "source\\InputOne.txt");
+        switch (choice)
+        {
+            case 1:
+                moveCursor(71,-4);   std::cout << "ACCESS VIA ID" << std::endl;
+                moveCursor(61,1);   std::cout << "ID" << std::endl;
+                moveCursor(72,-1);   value = safeInput(30, false);
+                moveLine(2);
+                index = EAList.search(value, &Account::getID);
+                break;
+            case 2:
+                moveCursor(70,-4);   std::cout << "SACCESS VIA NAME" << std::endl;
+                moveCursor(56,1);   std::cout << "Species name" << std::endl;
+                moveCursor(72,-1);   value = safeInput(30, false);
+                moveLine(2);
+                index = EAList.search(value, &Account::getName);
+                break;
+            default:
+                return;
+        }
+
+        if (index != -1) {
+            EAList[index].UpdateInfo(true);
+            setColor(4);
+            std::cout << "PRESS BACKSCAPE TO REMOVE THIS SPECIES, OTHERS NUMBER TO REFUSE" << std::endl;
+            setColor(7);
+            int choice = pickMenu();
+            if (choice == -99){
+                EAList.remove(index);
+                holdString("Deleting ...", 0.5);
+            }
+            saveEAList();
+        }
+        else {
+            std::cout << "Value not found!" << std::endl;
+        }
+        system("pause");
+    } while (1);
+}
+
+void ViewAllEmployee(){
+    system("cls");
+    LinkedList<std::string> sample = getSample("AllEmployeeSample.txt");
+    setColor(3);    std::cout << sample[0]; setColor(7); 
+    Node<EmployeeAccount>* temp = EAList.begin();
+    while (temp) {
+        setColor(3);    std::cout << sample[1]; setColor(7); 
+        moveCursor(7,-2);   std::cout << temp->data.getID();
+        moveInLine(36); std::cout << temp->data.getName();
+        moveInLine(65); std::cout << temp->data.getPosition();
+        moveInLine(94); std::cout << temp->data.getContact();
+        moveInLine(129);
+        std::cout << std::setw(17) << std::right << commaInt(temp->data.getSalary()) << " vnd";
+        moveLine(2);
+        temp = temp->next;
+    }
+    moveLine(-1);   setColor(3);    std::cout << sample[2] << std::endl;    setColor(7); 
+    system("pause");
+}

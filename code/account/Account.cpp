@@ -16,6 +16,18 @@ std::string Account::getID() const{
     return ID;
 }
 
+std::string Account::getName() const{
+    return details.getName();
+}
+
+std::string Account::getPosition() const{
+    return details.getPosition();
+}
+
+std::string Account::getContact() const{
+    return details.getContact();
+}
+
 std::string Account::getPwd() const{
     return password;
 }
@@ -34,9 +46,14 @@ bool Account::isManager() const{
 bool Account::ChangePwd() {
     int choice;
     std::string cp, np, cnp;
+    LinkedList<std::string> inputList;
+    inputList.push_back("CHANGE PASSWORD");
+    inputList.push_back("Current Password");
+    inputList.push_back("New Password");
+    inputList.push_back("Confirm Password");
     do {
         system("cls");
-        printFile(getFolder() + "source\\ChangePwd.txt");
+        printInputBox(inputList, 2);
         gotoXY(73,3); 
         cp = safeInput();
         gotoXY(0,10);
@@ -50,7 +67,7 @@ bool Account::ChangePwd() {
 
     do {
         system("cls");
-        printFile(getFolder() + "source\\ChangePwd.txt");
+        printInputBox(inputList, 1);
         gotoXY(73,3); 
         drawLine('*', cp.length());
         gotoXY(73,5);
@@ -66,7 +83,7 @@ bool Account::ChangePwd() {
 
     do {
         system("cls");
-        printFile(getFolder() + "source\\ChangePwd.txt");
+        printInputBox(inputList, 1);
         gotoXY(73,3); 
         drawLine('*', cp.length());
         gotoXY(73,5);
@@ -85,7 +102,3 @@ bool Account::ChangePwd() {
     return true;
 }
 
-
-void Account::UpdateInfo(){
-    details.UpdateInfo();
-}

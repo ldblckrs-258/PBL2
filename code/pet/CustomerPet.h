@@ -14,9 +14,10 @@ class CustomerPet : public Pet {
         std::string getOwnerID() const;
         std::string getStatus() const;
 
-        void setPet();
-        void editInfo();
         void showDetails(int except = -1);
+        void editInfo();
+        void editChar();
+        void setPet();
         void readLine(const std::string &);
         std::string writeLine();
         void setNextID();

@@ -5,80 +5,17 @@
 #include <string>
 #include <sstream>
 
+std::string Info::getName() const { return name; }
+std::string Info::getDoBirth() const{ return doBirth; }
+std::string Info::getPosition() const { return position; }
+std::string Info::getContact() const { return contact; }
+
+void Info::setName(std::string input) { if(!input.empty())  name = input; }
+void Info::setDoBirth(std::string input) { if(!input.empty())  doBirth = input; }
+void Info::setPosition(std::string input) { if(!input.empty())  position = input; }
+void Info::setContact(std::string input) { if(!input.empty())  contact = input; }
+
 Info::Info(std::string n, std::string date, std::string pos, std::string ct) : name(n), doBirth(date), position(pos), contact(ct) {}
-
-
-void Info::getInfo(std::string sfname, int except) {
-    system("cls");
-    printFile(getFolder() + "\\source\\" + sfname);
-    bool full = true;
-    if (sfname == "InfoTable.txt")  full = false;
-    if (except !=1) {gotoXY(69,full ? 5 : 3);   std::cout << name;}
-    if (except !=2) {gotoXY(69,full ? 7 : 5);   std::cout << doBirth;}
-    if (except !=3) {gotoXY(69,full ? 9 : 7);   std::cout << position;}
-    if (except !=4) {gotoXY(69,full ? 11 : 9);   std::cout << contact;}
-    gotoXY(0,full ? 15 : 11);
-}
-
-void Info::UpdateInfo() {
-    int c;
-    std::string temp;
-    do {
-        getInfo("InfoTable.txt");
-        std::cout << "Press number 1-4 to edit, 0 to escape: ";
-        c = pickMenu();
-        switch (c) {
-            case 1:
-                getInfo("InfoTable.txt",1);
-                std::cout << ">> Enter Name: ";
-                gotoXY(69,3);
-                name = safeInput(36, false);
-                gotoXY(0,11);
-                break;
-            case 2:
-                do {
-                    getInfo("InfoTable.txt",2);
-                    if (!isValidDateFormat(temp))
-                        std::cout << "Invalid format, example: 01/01/1970" << std::endl;
-                    std::cout << ">> Enter Date of birth (dd/mm/yyyy): ";
-                    gotoXY(69,5);
-                    temp = safeInput(10, false);
-                    gotoXY(0,11);
-                } while (!isValidDateFormat(temp));
-                doBirth = temp;
-                break;
-            case 3:
-                getInfo("InfoTable.txt",3);
-                std::cout << ">> Enter Position: ";
-                gotoXY(69,7);
-                position = safeInput(36, false);
-                gotoXY(0,11);
-                break;
-            case 4:
-                getInfo("InfoTable.txt",4);
-                std::cout << ">> Contact: ";
-                gotoXY(69,9);
-                contact = safeInput(36, false);
-                gotoXY(0,11);
-                break;
-            default:
-                std::cout << "Exit ..." << std::endl;
-                system("cls");
-                return;
-        };
-    } while (c != 0);
-    system("cls");
-}
-
-std::string Info::getName() { return name; }
-std::string Info::getDoBirth() { return doBirth; }
-std::string Info::getPosition() { return position; }
-std::string Info::getContact() { return contact; }
-
-void Info::setName(std::string input) { name = input; }
-void Info::setDoBirth(std::string input) { doBirth = input; }
-void Info::setPosition(std::string input) { position = input; }
-void Info::setContact(std::string input) { contact = input; }
 
 bool isValidDateFormat(const std::string& dateStr) {
     if (dateStr.length() != 10) {

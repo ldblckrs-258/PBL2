@@ -19,8 +19,6 @@ public:
     std::string getName() const;
     std::string getSpcID() const;
     std::string getGender() const;
-    void showDetails(int except = -1);
-    void editChar();
 };
 
 

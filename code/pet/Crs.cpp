@@ -10,6 +10,6 @@ std::string Crs::getSNeeds() const { return s_need; }
 
 void Crs::setWeight(double w) { weight = w; }
 void Crs::setHeight(double h) { height = h; }
-void Crs::setTemperament(const std::string &temp) { temperament = temp; }
+void Crs::setTemperament(const std::string &temp) { if(!temp.empty())   temperament = temp; }
 void Crs::setIntelligence(int intel) { intelligence = intel; }
-void Crs::setSNeeds(const std::string &needs) { s_need = needs; }
+void Crs::setSNeeds(const std::string &needs) { if(!needs.empty())   s_need = needs; }

@@ -5,7 +5,12 @@
             "type": "cppbuild",
             "command": "C:/mingw64/bin/g++.exe",
             "args": [
-                "-o", "${workspaceFolder}/program.exe", "${workspaceFolder}/main.cpp", "${workspaceFolder}/code/account/*.cpp","${workspaceFolder}/code/pet/*.cpp",  "${workspaceFolder}/code/mylib/*.cpp"
+                "-o", "${workspaceFolder}/program.exe", 
+                "${workspaceFolder}/main.cpp", 
+                "${workspaceFolder}/code/account/*.cpp",
+                "${workspaceFolder}/code/pet/*.cpp",  
+                "${workspaceFolder}/code/mylib/*.cpp",
+                "${workspaceFolder}/code/branch/*.cpp",
             ],
             "options": {
                 "cwd": "C:/mingw64/bin"

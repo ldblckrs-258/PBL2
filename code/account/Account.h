@@ -13,14 +13,17 @@ class Account {
 
     public:
         Account(std::string ID = "account", std::string pwd = "000000");
-        bool checkPwd(std::string);
         std::string getID() const;
         std::string getPwd() const;
-        bool isManager() const;
+        std::string getName() const;
+        std::string getPosition() const;
+        std::string getContact() const;
         void setID(std::string);
         void setPwd(std::string);
+        bool checkPwd(std::string);
+        bool isManager() const;
+        virtual void readLine(const std::string&) = 0;
         bool ChangePwd();
-        void UpdateInfo();
 };
 
 #endif // ACCOUNT_H

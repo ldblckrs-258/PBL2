@@ -1,3 +1,2 @@
 ID	Name	Age	Gender	Species ID	Status	History	Price	Height	Weight	Temperament	Intelligence	Special Needs
-sp1	Shop pet 1	2	0	s1	Status here	History here	100000	1.100000	2.200000	Temp here	7	SNedd here
-sp3	Shop pet 3	33	1	s3	Status 3	History 3	2132000	1.300000	2.300000	Temp3	3	Sneed 3
+sp1	Doraemon	321	1	B1	Status here	History here	1123000	1.670000	50.400000	Cuteee	7	SNedd here

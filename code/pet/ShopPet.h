@@ -18,6 +18,7 @@ class ShopPet : public Pet {
         std::string writeLine();
         void showDetails(int except = -1);
         void editInfo();
+        void editChar();
         void setPet();
         void setNextID();
 };
