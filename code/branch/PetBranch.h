@@ -28,5 +28,7 @@ void EditSpc();
 std::string getSpcName(std::string id);
 
 void OpenExistPet(bool manager = false);
+std::string getShopPetName(const std::string &);
+int getShopPetPrice(const std::string &);
 
 #endif

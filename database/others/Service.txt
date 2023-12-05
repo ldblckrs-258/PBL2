@@ -1,0 +1,8 @@
+ID	Service Name	Price
+S1	Bathe your pet	45000
+S2	Trim pet's nail	25000
+S3	Combo Bathe + Trim Nail	60000
+S4	Grooming and Coat Care	35000
+S5	Hair Styling	75000
+S6	Combo Grooming & Hair Styling	99000
+S7	Full Combo	149000

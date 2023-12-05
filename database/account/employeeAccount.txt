@@ -1,5 +1,5 @@
 ID (Username)	Password	Manager?	Full Name	Date of birth	Position	Contact	Salary
-admin1	123123	0	Peter's Son	22/04/2001	Worker	0423482423	10932000
 admin2	123456	0	Admin 02	23/07/2003	Worker	09342423123	8472312
 admin3	111111	0	Admin 03	03/01/2001	Worker	08325423159	9622000
 admin4	000000	0	Admin 04	07/07/2005	Worker	09874232123	8132000
+account1	111111	0	Account 01	23/12/1999	Worker	0382482434	0

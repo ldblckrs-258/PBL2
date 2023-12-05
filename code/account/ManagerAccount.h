@@ -4,11 +4,10 @@
 #include "./Account.h"
 #include "../mylib/LinkedList.cpp"
 
-class ManagerAccount : public Account {
+class ManagerAccount : public Account
+{
 private:
-    static LinkedList<std::string> EmployeeList;
-
-public:     
+public:
     ManagerAccount();
     void readLine(const std::string &str) override;
     std::string writeLine();

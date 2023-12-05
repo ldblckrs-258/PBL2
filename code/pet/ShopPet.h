@@ -2,26 +2,27 @@
 #define SPET_H
 #include "./Pet.h"
 #include <iostream>
-class ShopPet : public Pet {
-    private:
-        int price; // vnd
-        std:: string history;
-    public:
-        ShopPet(std::string pid = "sp0", std::string sid = "s0");
+class ShopPet : public Pet
+{
+private:
+    int price; // vnd
+    std::string history;
 
-        int getPrice() const;
-        std:: string getHistory() const ;
-        void setPrice(int);
-        void setHistory(const std:: string &);
-        
-        void readLine(const std::string &);
-        std::string writeLine();
-        void showDetails(int except = -1);
-        void editInfo();
-        void editChar();
-        void setPet();
-        void setNextID();
+public:
+    ShopPet(std::string pid = "SP1", std::string sid = "S1");
+
+    int getPrice() const;
+    std::string getHistory() const;
+    void setPrice(int);
+    void setHistory(const std::string &);
+
+    void readLine(const std::string &);
+    std::string writeLine();
+    void showDetails(int except = -1);
+    void editInfo();
+    void editChar();
+    void setPet();
+    void setNextID();
 };
-
 
 #endif // !SPET_H
