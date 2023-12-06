@@ -1,4 +1,5 @@
 #include "./branch/InvoiceBranch.h"
+#include "./branch/CustomerBranch.h"
 
 void CIMenu()
 {
@@ -23,6 +24,15 @@ void CIMenu()
             break;
         case 2:
             OpenExistInvoice();
+            break;
+        case 3:
+            CreateNewCustomer();
+            break;
+        case 4:
+            OpenExistCustomer();
+            break;
+        case 5:
+            ViewAllCustomers();
             break;
         default:
             return;

@@ -7,7 +7,7 @@
 #include "../mylib/Cursor.h"
 #include "../branch/PetBranch.h"
 
-ShopPet::ShopPet(std::string pid, std::string sid) : Pet(pid, sid), price(0), history(UDF) {}
+ShopPet::ShopPet(std::string pid, std::string sid) : Pet(pid, sid), price(0), history(UDF), sold(false) {}
 
 int ShopPet::getPrice() const
 {
@@ -27,6 +27,16 @@ void ShopPet::setPrice(int newPrice)
 void ShopPet::setHistory(const std::string &newHistory)
 {
     history = newHistory;
+}
+
+bool ShopPet::hadSold() const
+{
+    return sold;
+}
+
+void ShopPet::setSold(bool had)
+{
+    sold = had;
 }
 
 void ShopPet::showDetails(int except)
@@ -431,6 +441,9 @@ void ShopPet::readLine(const std::string &str)
                     details.setIntelligence(-1);
                 }
                 break;
+            case 12:
+                details.setSNeeds(clearStr(part));
+                break;
             default:
                 break;
             }
@@ -438,7 +451,15 @@ void ShopPet::readLine(const std::string &str)
             ++count;
         }
     }
-    details.setSNeeds(clearStr(part));
+    try
+    {
+        sold = stoi(clearStr(part));
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << std::endl;
+        sold = false;
+    }
 }
 
 std::string ShopPet::writeLine()
@@ -455,5 +476,6 @@ std::string ShopPet::writeLine()
            std::to_string(details.getWeight()) + "\t" +
            details.getTemperament() + "\t" +
            std::to_string(details.getIntelligence()) + "\t" +
-           details.getSNeeds() + "\n";
+           details.getSNeeds() + "\t" +
+           std::to_string(sold) + "\n";
 }

@@ -74,7 +74,7 @@ void CustomerPet::showDetails(int except)
     if (except != 6)
     {
         gotoXY(34, 15);
-        std::cout << owner_id;
+        std::cout << getCustomerName(owner_id);
     }
     if (except != 7)
     {

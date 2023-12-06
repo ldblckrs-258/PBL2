@@ -49,7 +49,7 @@ void saveCPList()
     dataFile.close();
 }
 
-void ViewAllCP()
+void ViewAllCP(std::string filter)
 {
     LinkedList<std::string> sample = getSample("AllCPSample.txt");
     setColor(3);
@@ -58,6 +58,11 @@ void ViewAllCP()
     Node<CustomerPet> *temp = CPetsList.begin();
     while (temp)
     {
+        if (filter != "" && temp->data.getOwnerID() != filter)
+        {
+            temp = temp->next;
+            continue;
+        }
         setColor(3);
         std::cout << sample[1];
         setColor(7);
@@ -68,7 +73,7 @@ void ViewAllCP()
         moveInLine(47);
         std::cout << getSpcName(temp->data.getSpcID());
         moveInLine(82);
-        std::cout << temp->data.getOwnerID();
+        std::cout << getCustomerName(temp->data.getOwnerID());
         moveInLine(118);
         std::cout << temp->data.getStatus();
         moveLine(2);
@@ -122,7 +127,7 @@ void saveSPList()
         std::cerr << "Cannot open shop's pets data file" << std::endl;
         return;
     }
-    dataFile << "ID\tName\tAge\tGender\tSpecies ID\tStatus\tHistory\tPrice\tHeight\tWeight\tTemperament\tIntelligence\tSpecial Needs\n";
+    dataFile << "ID\tName\tAge\tGender\tSpecies ID\tStatus\tHistory\tPrice\tHeight\tWeight\tTemperament\tIntelligence\tSpecial Needs\tHad Sold ?\n";
     for (int i = 0; i < SPetsList.getSize(); ++i)
     {
         std::string line;
@@ -144,6 +149,8 @@ void ViewAllSP()
         setColor(3);
         std::cout << sample[1];
         setColor(7);
+        if (temp->data.hadSold())
+            setColor(4);
         moveCursor(8, -2);
         std::cout << temp->data.getID();
         moveInLine(21);
@@ -155,6 +162,7 @@ void ViewAllSP()
         moveInLine(132);
         std::cout << std::setw(15) << std::right << commaInt(temp->data.getPrice()) << " vnd";
         moveLine(2);
+        setColor(7);
         temp = temp->next;
     }
     moveLine(-1);
@@ -382,12 +390,12 @@ void OpenExistPet(bool manager)
     gotoXY(60, 3);
     std::cout << "ID";
     gotoXY(72, 3);
-    std::cin >> inputID;
+    inputID = safeInput(20, false);
     moveLine(2);
 
-    std::string head = inputID.substr(0, 2);
+    std::string head = toUpperCase(inputID.substr(0, 2));
 
-    if (head == "cp")
+    if (head == "CP")
     {
         int index = CPetsList.search(inputID, &CustomerPet::getID);
         if (index >= 0)
@@ -408,7 +416,7 @@ void OpenExistPet(bool manager)
             return;
         }
     }
-    else if (head == "sp")
+    else if (head == "SP")
     {
         int index = SPetsList.search(inputID, &ShopPet::getID);
         if (index >= 0)
@@ -464,7 +472,7 @@ void SoldPet(std::string shoppet_id, std::string customer_id)
         return;
     CustomerPet NewCP = SPetsList[index];
     NewCP.setOwnerID(customer_id);
-    SPetsList.remove(index);
+    SPetsList[index].setSold(true);
     CPetsList.push_back(NewCP);
     saveCPList();
     saveSPList();

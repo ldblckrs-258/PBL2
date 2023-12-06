@@ -1,6 +1,4 @@
 #include "./InvoiceBranch.h"
-#include "./PetBranch.h"
-#include "./ServiceBranch.h"
 #include <fstream>
 void CreateInvoice()
 {
@@ -122,6 +120,7 @@ void OpenExistInvoice()
     std::cout << "ID";
     gotoXY(72, 3);
     std::cin >> inputID;
+    inputID = toUpperCase(inputID);
     moveLine(2);
 
     std::string fileName = getFolder() + "database\\invoices\\IDList.txt";

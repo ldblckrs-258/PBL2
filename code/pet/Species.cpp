@@ -1,8 +1,4 @@
 #include "./Species.h"
-#include <iostream>
-#include <string>
-#include "../mylib/FuncLib.h"
-#include "../mylib/Cursor.h"
 #define UDF "undefined"
 
 Species::Species()

@@ -1,5 +1,5 @@
 ID (Username)	Password	Manager?	Full Name	Date of birth	Position	Contact
-manager1	123123	1	Elon Musk	12/04/1987	Manager	manager1@shoppet.com.vn
-manager2	000000	1	Manager 02	23/04/1997	Manager	manager2@shoppet.com.vn
-manager3	111111	1	Manager 03	23/05/1998	Manager	manager3@shoppet.com.vn
-manager4	123123	1	Manager Name	25/07/2001	Manager	manager4@petshop.com.vn
+manager1	123123	1	Elon Musk	12/04/1987	Manager	manager1shoppetcomvn
+manager2	000000	1	Manager 02	23/07/1999	Manager	manager2shoppetcomvn
+manager3	111111	1	Manager 03	23/05/1998	Manager	manager3shoppetcomvn
+manager4	123123	1	Manager Name	25/07/2001	Manager	manager4petshopcomvn

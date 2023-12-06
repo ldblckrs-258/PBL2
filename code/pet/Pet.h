@@ -2,7 +2,12 @@
 #define PET_H
 
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <limits>
 #include "./Crs.h"
+#include "../mylib/FuncLib.h"
+#include "../mylib/Cursor.h"
 class Pet
 {
 protected:

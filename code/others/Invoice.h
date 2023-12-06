@@ -2,9 +2,11 @@
 #define INVOICE_H
 
 #include <iostream>
-#include "../mylib/LinkedList.cpp"
-#include "../mylib/Cursor.h"
-#include "../mylib/FuncLib.h"
+#include <fstream>
+#include <sstream>
+#include "../branch/PetBranch.h"
+#include "../branch/ServiceBranch.h"
+#include "../branch/CustomerBranch.h"
 
 class invoiceNode
 {

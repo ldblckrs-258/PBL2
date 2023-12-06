@@ -5,11 +5,12 @@
 #include "../pet/ShopPet.h"
 #include "../pet/Species.h"
 #include "../mylib/FuncLib.h"
+#include "../branch/CustomerBranch.h"
 
 extern LinkedList<CustomerPet> CPetsList;
 void getCPList();
 void saveCPList();
-void ViewAllCP();
+void ViewAllCP(std::string filter = "");
 void CreateNewCPet();
 
 extern LinkedList<ShopPet> SPetsList;

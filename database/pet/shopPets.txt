@@ -1,4 +1,4 @@
-ID	Name	Age	Gender	Species ID	Status	History	Price	Height	Weight	Temperament	Intelligence	Special Needs
-SP1	Doraemon	321	1	B1	Status here	History here	1123000	1.670000	50.400000	Cuteee	7	SNedd here
-SP2	Doggo	5	0	A7	Statusss	None	7654300	1.500000	2.110000	undefined	7	None
-SP3	Flappy	5	1	C1	Very good	None	7654300	1.400000	1.140000	undefined	4	None
+ID	Name	Age	Gender	Species ID	Status	History	Price	Height	Weight	Temperament	Intelligence	Special Needs	Had Sold?
+SP1	Doraemon	321	1	B1	Status here	History here	1123000	1.670000	50.400000	Cuteee	7	SNedd here	0
+SP2	Doggo	5	0	A7	Statusss	None	7654300	1.500000	2.110000	undefined	7	None	0
+SP3	Flappy	5	1	C1	Very good	History here	4328000	1.400000	1.140000	undefined	4	None	0

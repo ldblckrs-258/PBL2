@@ -1,0 +1,5 @@
+ID	Customer Name	Contact
+C1	Nguyen Van A	0943212123
+C2	Tran Hoang B	0742312312
+C3	Pham Trang C	0943723812
+C4	Nguyen Tran D	0943214243

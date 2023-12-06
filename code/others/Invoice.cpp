@@ -1,8 +1,4 @@
 #include "./Invoice.h"
-#include <fstream>
-#include <sstream>
-#include "../branch/PetBranch.h"
-#include "../branch/ServiceBranch.h"
 Invoice::Invoice() : Time(getTime()), Customer_ID("C0"), Total(0)
 {
     SetNextID();
@@ -147,7 +143,7 @@ void Invoice::PrintInvoice()
     gotoXY(24, 3);
     std::cout << ID;
     moveInLine(42);
-    std::cout << Customer_ID;
+    std::cout << getCustomerName(Customer_ID);
     moveInLine(87);
     std::cout << Time;
     moveLine(4);

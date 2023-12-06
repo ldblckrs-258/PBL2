@@ -7,6 +7,7 @@ class ShopPet : public Pet
 private:
     int price; // vnd
     std::string history;
+    bool sold;
 
 public:
     ShopPet(std::string pid = "SP1", std::string sid = "S1");
@@ -15,6 +16,8 @@ public:
     std::string getHistory() const;
     void setPrice(int);
     void setHistory(const std::string &);
+    bool hadSold() const;
+    void setSold(bool);
 
     void readLine(const std::string &);
     std::string writeLine();

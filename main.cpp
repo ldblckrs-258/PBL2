@@ -3,12 +3,14 @@
 #include "./code/AccountMenu.cpp"
 #include "./code/ServiceMenu.cpp"
 #include "./code/CIMenu.cpp"
+#include "./code/branch/CustomerBranch.h"
 LinkedList<Species> SpeciesList;
 LinkedList<CustomerPet> CPetsList;
 LinkedList<ShopPet> SPetsList;
 LinkedList<ManagerAccount> MAList;
 LinkedList<EmployeeAccount> EAList;
 LinkedList<Service> ServiceList;
+LinkedList<Customer> CustomerList;
 
 template <typename T>
 bool Logged(T &Acc)
@@ -143,7 +145,7 @@ int main()
     getEAList();
     getMAList();
     getServiceList();
-
+    getCustomerList();
     do
     {
         reLogin = false;
