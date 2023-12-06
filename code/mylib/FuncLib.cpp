@@ -422,3 +422,16 @@ std::string getTime()
 
     return timeString;
 }
+
+std::string toUpperCase(const std::string &str)
+{
+    std::string result = clearStr(str);
+    for (char &c : result)
+    {
+        if ('a' <= c && c <= 'z')
+        {
+            c -= 32;
+        }
+    }
+    return result;
+}

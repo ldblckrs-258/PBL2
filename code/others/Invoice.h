@@ -24,10 +24,17 @@ private:
     int Total;
 
 public:
-    Invoice(std::string id = "I1");
+    Invoice();
+    std::string getCustomerID() const;
+    void setCustomerID(std::string);
+    void setID(std::string);
+    void SaveID();
+    void SetNextID();
     void SaveInvoice();
     void ReadInvoice();
     void PrintInvoice();
     void GetTotal();
+    void PushNode(const invoiceNode &node);
+    void RemoveSold();
 };
 #endif // INVOICE

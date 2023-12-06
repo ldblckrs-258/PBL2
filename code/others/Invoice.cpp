@@ -3,7 +3,71 @@
 #include <sstream>
 #include "../branch/PetBranch.h"
 #include "../branch/ServiceBranch.h"
-Invoice::Invoice(std::string id) : ID(id), Time(getTime()), Customer_ID("C0"), Total(0) {}
+Invoice::Invoice() : Time(getTime()), Customer_ID("C0"), Total(0)
+{
+    SetNextID();
+}
+
+std::string Invoice::getCustomerID() const
+{
+    return Customer_ID;
+}
+
+void Invoice::setID(std::string id)
+{
+    ID = id;
+}
+
+void Invoice::setCustomerID(std::string cid)
+{
+    Customer_ID = cid;
+}
+
+void Invoice::Invoice::SaveID()
+{
+
+    std::string fileName = getFolder() + "database\\invoices\\IDList.txt";
+    std::ifstream fileIn(fileName);
+    std::string line;
+    while (getline(fileIn, line))
+        if (line == ID)
+            return;
+    fileIn.close();
+    std::ofstream fileOut(fileName, std::ios::app);
+    if (!fileOut.is_open())
+    {
+        std::cerr << "Error opening file to save invoice ID.\n";
+        return;
+    }
+    fileOut << ID << std::endl;
+    fileOut.close();
+}
+
+void Invoice::SetNextID()
+{
+    std::string fileName = getFolder() + "database\\invoices\\IDList.txt";
+    std::string lastID;
+    std::ifstream fileIn(fileName);
+    std::string line;
+    while (getline(fileIn, line))
+    {
+        if (!line.empty())
+            lastID = line;
+    }
+    fileIn.close();
+    if (lastID.empty())
+        ID = "I1";
+    size_t lastDP = lastID.find_first_of("0123456789");
+    if (lastDP == std::string::npos)
+        ID = "I1";
+    else
+    {
+        std::string p = lastID.substr(0, lastDP);
+        std::string s = lastID.substr(lastDP);
+        int is = stoi(s);
+        ID = p + std::to_string(is + 1);
+    }
+}
 
 void Invoice::SaveInvoice()
 {
@@ -20,9 +84,11 @@ void Invoice::SaveInvoice()
     Node<invoiceNode> *temp = List.begin();
     while (temp)
     {
-        std::cout << temp->data.type << "|" << temp->data.node_id << "|" << temp->data.quantity << "\n";
+        File << temp->data.type << "|" << temp->data.node_id << "|" << temp->data.quantity << "\n";
         temp = temp->next;
     }
+    File.close();
+    SaveID();
 }
 
 void Invoice::ReadInvoice()
@@ -126,6 +192,7 @@ void Invoice::PrintInvoice()
 
 void Invoice::GetTotal()
 {
+    Total = 0;
     Node<invoiceNode> *temp = List.begin();
     while (temp)
     {
@@ -133,6 +200,24 @@ void Invoice::GetTotal()
             Total += (temp->data.quantity) * (getShopPetPrice(temp->data.node_id));
         else if (temp->data.type == 2)
             Total += (temp->data.quantity) * (getServicePrice(temp->data.node_id));
+        temp = temp->next;
+    }
+    return;
+}
+
+void Invoice::PushNode(const invoiceNode &node)
+{
+    List.push_back(node);
+}
+
+void Invoice::RemoveSold()
+{
+    Node<invoiceNode> *temp = List.begin();
+    while (temp)
+    {
+        if (temp->data.type == 1)
+            SoldPet(temp->data.node_id, Customer_ID);
+        temp = temp->next;
     }
     return;
 }

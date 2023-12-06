@@ -31,4 +31,5 @@ void OpenExistPet(bool manager = false);
 std::string getShopPetName(const std::string &);
 int getShopPetPrice(const std::string &);
 
+void SoldPet(std::string, std::string);
 #endif

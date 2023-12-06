@@ -22,4 +22,5 @@ LinkedList<std::string> getSample(const std::string &, bool mode = false);
 void safeOutput(const std::string &str, int length, int height = 1);
 std::string boxInput(int, int);
 std::string getTime();
+std::string toUpperCase(const std::string &);
 #endif

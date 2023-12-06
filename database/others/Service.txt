@@ -1,4 +1,5 @@
 ID	Service Name	Price
+S0	Bought from My Shop	0
 S1	Bathe your pet	45000
 S2	Trim pet's nail	25000
 S3	Combo Bathe + Trim Nail	60000

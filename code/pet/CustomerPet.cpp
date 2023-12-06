@@ -10,6 +10,11 @@
 
 CustomerPet::CustomerPet(std::string pid, std::string sid, std::string oid) : Pet(pid, sid), owner_id(oid), service_used(sid) {}
 
+CustomerPet::CustomerPet(const ShopPet &other) : Pet(other)
+{
+    service_used = "S0";
+    setNextID();
+}
 std::string CustomerPet::getOwnerID() const
 {
     return owner_id;
@@ -18,6 +23,11 @@ std::string CustomerPet::getOwnerID() const
 std::string CustomerPet::getStatus() const
 {
     return status;
+}
+
+void CustomerPet::setOwnerID(std::string oid)
+{
+    owner_id = oid;
 }
 
 void CustomerPet::showDetails(int except)

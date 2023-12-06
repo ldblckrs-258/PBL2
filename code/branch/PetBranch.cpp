@@ -456,3 +456,16 @@ int getShopPetPrice(const std::string &id)
     else
         return 0;
 }
+
+void SoldPet(std::string shoppet_id, std::string customer_id)
+{
+    int index = SPetsList.search(shoppet_id, &ShopPet::getID);
+    if (index < 0)
+        return;
+    CustomerPet NewCP = SPetsList[index];
+    NewCP.setOwnerID(customer_id);
+    SPetsList.remove(index);
+    CPetsList.push_back(NewCP);
+    saveCPList();
+    saveSPList();
+}

@@ -16,6 +16,7 @@ protected:
 
 public:
     Pet(std::string pid = "P0", std::string sid = "S0");
+    Pet(const Pet &);
     std::string getID() const;
     std::string getName() const;
     std::string getSpcID() const;
