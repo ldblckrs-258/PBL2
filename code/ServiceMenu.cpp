@@ -4,7 +4,7 @@ void ServiceMenu(bool manager = false)
 { // Services options
     int choice;
     LinkedList<std::string> list;
-    list.push_back("Servie menu");
+    list.push_back("Service menu");
     list.push_back("1. View all service");
     list.push_back("2. Open a service");
     if (manager)

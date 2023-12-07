@@ -4,6 +4,20 @@ Invoice::Invoice() : Time(getTime()), Customer_ID("C0"), Total(0)
     SetNextID();
 }
 
+Invoice::~Invoice()
+{
+    List.clear();
+}
+
+std::string Invoice::getID() const
+{
+    return ID;
+}
+std::string Invoice::getTime() const
+{
+    return Time;
+}
+
 std::string Invoice::getCustomerID() const
 {
     return Customer_ID;
@@ -140,11 +154,11 @@ void Invoice::PrintInvoice()
     std::cout << sample[0];
     setColor(7);
 
-    gotoXY(24, 3);
+    gotoXY(44, 3);
     std::cout << ID;
-    moveInLine(42);
+    moveInLine(62);
     std::cout << getCustomerName(Customer_ID);
-    moveInLine(87);
+    moveInLine(107);
     std::cout << Time;
     moveLine(4);
 
@@ -154,25 +168,25 @@ void Invoice::PrintInvoice()
         setColor(3);
         std::cout << sample[1];
         setColor(7);
-        moveCursor(12, -2);
+        moveCursor(32, -2);
         printCenter(temp->data.node_id, 10);
         if (temp->data.type == 1)
         {
-            moveInLine(25);
+            moveInLine(45);
             printCenter(getShopPetName(temp->data.node_id), 42);
-            moveInLine(81);
+            moveInLine(101);
             printCenter(commaInt(getShopPetPrice(temp->data.node_id)) + " vnd", 29);
         }
         else if (temp->data.type == 2)
         {
-            moveInLine(25);
+            moveInLine(45);
             printCenter(getServiceName(temp->data.node_id), 42);
-            moveInLine(81);
+            moveInLine(101);
             printCenter(commaInt(getServicePrice(temp->data.node_id)) + " vnd", 29);
         }
         else
             continue;
-        moveInLine(70);
+        moveInLine(90);
         printCenter(std::to_string(temp->data.quantity), 8);
         moveLine(2);
         temp = temp->next;
@@ -180,7 +194,7 @@ void Invoice::PrintInvoice()
     setColor(3);
     std::cout << sample[2];
     setColor(7);
-    moveCursor(81, -2);
+    moveCursor(101, -2);
     printCenter(commaInt(Total) + " vnd", 29);
     moveLine(2);
     holdString("");

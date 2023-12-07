@@ -162,3 +162,43 @@ void OpenExistInvoice()
     }
     return;
 }
+
+void ViewAllInvoices()
+{
+    std::ifstream IDFile(getFolder() + "database\\invoices\\IDList.txt");
+
+    system("cls");
+    LinkedList<std::string> sample = getSample("AllInvoiceSample.txt");
+    setColor(3);
+    std::cout << sample[0];
+    setColor(7);
+
+    std::string line;
+    while (getline(IDFile, line))
+    {
+        if (!line.empty())
+        {
+            Invoice NewI;
+            NewI.setID(line);
+            NewI.ReadInvoice();
+
+            setColor(3);
+            std::cout << sample[1];
+            setColor(7);
+            moveCursor(27, -2);
+            printCenter(NewI.getID(), 10);
+            moveInLine(40);
+            std::string temp = NewI.getCustomerID();
+            printCenter(temp + " - " + getCustomerName(temp), 42);
+            moveInLine(85);
+            printCenter(NewI.getTime(), 28);
+            moveLine(2);
+        }
+    }
+    IDFile.close();
+    moveLine(-1);
+    setColor(3);
+    std::cout << sample[2] << std::endl;
+    setColor(7);
+    holdString("");
+}

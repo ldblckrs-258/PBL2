@@ -46,14 +46,11 @@ void SpeciesMenu(bool manager = false)
 {
     int choice;
     LinkedList<std::string> menuList;
-    menuList.push_back("PETS MENU");
+    menuList.push_back("SPECIES MENU");
     menuList.push_back("1. Search species");
     menuList.push_back("2. View all species");
     if (manager)
-    {
         menuList.push_back("3. Add new species");
-        menuList.push_back("4. Edit species");
-    }
     menuList.push_back("0. Exit");
     do
     {
@@ -63,7 +60,7 @@ void SpeciesMenu(bool manager = false)
         switch (choice)
         {
         case 1:
-            SearchSpc();
+            SearchSpc(manager);
             break;
         case 2:
             ViewAllSpc();
@@ -71,13 +68,6 @@ void SpeciesMenu(bool manager = false)
         case 3:
             if (manager)
                 CreateNewSpc();
-            else
-                return;
-            break;
-            break;
-        case 4:
-            if (manager)
-                EditSpc();
             else
                 return;
             break;

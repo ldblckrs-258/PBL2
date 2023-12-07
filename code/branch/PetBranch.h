@@ -23,7 +23,7 @@ extern LinkedList<Species> SpeciesList;
 void getSpeciesList();
 void saveSpc();
 void ViewAllSpc();
-void SearchSpc();
+void SearchSpc(bool manager = false);
 void CreateNewSpc();
 void EditSpc();
 std::string getSpcName(std::string id);

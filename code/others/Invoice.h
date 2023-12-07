@@ -27,7 +27,10 @@ private:
 
 public:
     Invoice();
+    ~Invoice();
     std::string getCustomerID() const;
+    std::string getID() const;
+    std::string getTime() const;
     void setCustomerID(std::string);
     void setID(std::string);
     void SaveID();

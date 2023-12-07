@@ -56,12 +56,12 @@ void ViewAllCustomers()
         setColor(3);
         std::cout << sample[1];
         setColor(7);
-        moveCursor(27, -2);
+        moveCursor(37, -2);
         printCenter(temp->data.getID(), 8);
-        moveInLine(38);
-        printCenter(temp->data.getName(), 40);
-        moveInLine(81);
-        printCenter(temp->data.getContact(), 27);
+        moveInLine(48);
+        printCenter(temp->data.getName(), 42);
+        moveInLine(93);
+        printCenter(temp->data.getContact(), 28);
         moveLine(2);
         temp = temp->next;
     }

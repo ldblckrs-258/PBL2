@@ -54,11 +54,11 @@ void ViewAllServices()
         setColor(3);
         std::cout << sample[1];
         setColor(7);
-        moveCursor(17, -2);
+        moveCursor(27, -2);
         printCenter(temp->data.getID(), 10);
-        moveInLine(30);
+        moveInLine(40);
         printCenter(temp->data.getName(), 42);
-        moveInLine(75);
+        moveInLine(85);
         printCenter(commaInt(temp->data.getPrice()) + " vnd", 28);
         moveLine(2);
         temp = temp->next;

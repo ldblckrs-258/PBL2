@@ -81,17 +81,17 @@ void Customer::ShowDetails(int except)
     printFile(getFolder() + "source\\Customer.txt", 3);
     if (except != 0)
     {
-        gotoXY(27, 3);
+        gotoXY(37, 3);
         printCenter(ID, 8);
     }
     if (except != 1)
     {
-        gotoXY(38, 3);
+        gotoXY(48, 3);
         printCenter(Name, 42);
     }
     if (except != 2)
     {
-        gotoXY(83, 3);
+        gotoXY(93, 3);
         printCenter(Contact, 28);
     }
     moveLine(3);
@@ -105,7 +105,7 @@ void Customer::EditInfo()
     std::string i;
     do
     {
-        ShowDetails(0);
+        ShowDetails(10);
         std::cout << std::endl
                   << ">> Press a number 1-2 to edit, others to escape: ";
         c = pickMenu();
@@ -114,7 +114,7 @@ void Customer::EditInfo()
         // case 0:
         //     ShowDetails(0);
         //     std::cout << "Enter customer ID";
-        //     gotoXY(17, 3);
+        //     gotoXY(37, 3);
         //     i = safeInput(8, false);
         //     ID = (i.empty() ? ID : i);
         //     gotoXY(0, 7);
@@ -122,16 +122,16 @@ void Customer::EditInfo()
         case 1:
             ShowDetails(1);
             std::cout << "Enter customer name";
-            gotoXY(38, 3);
-            i = safeInput(40, false);
+            gotoXY(48, 3);
+            i = safeInput(41, false);
             Name = (i.empty() ? Name : i);
             gotoXY(0, 7);
             break;
         case 2:
             ShowDetails(2);
             std::cout << "Enter customer contact";
-            gotoXY(83, 3);
-            i = safeInput(28, false);
+            gotoXY(93, 3);
+            i = safeInput(29, false);
             Contact = (i.empty() ? Contact : i);
             gotoXY(0, 7);
             break;

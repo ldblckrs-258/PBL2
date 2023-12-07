@@ -80,37 +80,37 @@ void Species::showDetails(int except)
     getCursorPosition(xx, yy);
     if (except != 1)
     {
-        moveCursor(7, -10);
+        moveCursor(17, -10);
         printCenter(ID, 8);
         gotoXY(xx, yy);
     }
     if (except != 2)
     {
-        moveCursor(18, -10);
+        moveCursor(28, -10);
         printCenter(breed, 19);
         gotoXY(xx, yy);
     }
     if (except != 3)
     {
-        moveCursor(40, -10);
+        moveCursor(50, -10);
         printCenter(name, 37);
         gotoXY(xx, yy);
     }
     if (except != 4)
     {
-        moveCursor(80, -10);
+        moveCursor(90, -10);
         printCenter(origin, 24);
         gotoXY(xx, yy);
     }
     if (except != 5)
     {
-        moveCursor(107, -10);
+        moveCursor(117, -10);
         printCenter(lifespan, 22);
         gotoXY(xx, yy);
     }
     if (except != 6)
     {
-        moveCursor(8, -6);
+        moveCursor(18, -6);
         safeOutput(traits, 120, 5);
         gotoXY(xx, yy);
     }
@@ -118,78 +118,67 @@ void Species::showDetails(int except)
 
 void Species::editDetails()
 {
-    int c, xx, yy;
-    system("cls");
-    showDetails();
-    getCursorPosition(xx, yy);
-    std::cout << ">> Press a number 1-7 to edit, others to escape: ";
-    c = pickMenu();
+    int c;
     std::string temp;
     do
     {
+        system("cls");
+        showDetails();
+        std::cout << ">> Press a number 1-7 to edit, others to escape: ";
+        c = pickMenu();
         switch (c)
         {
         case 1:
             system("cls");
             showDetails(1);
             std::cout << ">> Enter species ID";
-            gotoXY(7, 5);
+            gotoXY(17, 5);
             temp = safeInput(8, false);
             ID = (temp.empty() ? ID : temp);
-            gotoXY(xx, yy);
             break;
         case 2:
             system("cls");
             showDetails(2);
             std::cout << ">> Enter breed";
-            gotoXY(18, 5);
+            gotoXY(28, 5);
             temp = safeInput(19, false);
             breed = (temp.empty() ? breed : temp);
-            gotoXY(xx, yy);
             break;
         case 3:
             system("cls");
             showDetails(3);
             std::cout << ">> Enter species name";
-            gotoXY(40, 5);
+            gotoXY(50, 5);
             temp = safeInput(37, false);
             name = (temp.empty() ? name : temp);
-            gotoXY(xx, yy);
             break;
         case 4:
             system("cls");
             showDetails(4);
             std::cout << ">> Enter species origin";
-            gotoXY(80, 5);
+            gotoXY(90, 5);
             temp = safeInput(24, false);
             origin = (temp.empty() ? origin : temp);
-            gotoXY(xx, yy);
             break;
         case 5:
             system("cls");
             showDetails(5);
             std::cout << ">> Enter species average lifespan";
-            gotoXY(107, 5);
+            gotoXY(117, 5);
             temp = safeInput(22, false);
             lifespan = (temp.empty() ? lifespan : temp);
-            gotoXY(xx, yy);
             break;
         case 6:
             system("cls");
             showDetails(6);
             std::cout << ">> Enter species traits";
-            gotoXY(8, 9);
+            gotoXY(18, 9);
             temp = boxInput(120, 5);
             traits = (temp.empty() ? traits : temp);
-            gotoXY(xx, yy);
             break;
         default:
             std::cout << "Exit ..." << std::endl;
             return;
         };
-        drawLine(' ', 120);
-        moveCursor(-120, 0);
-        std::cout << "Edit other (press 0 to escape): ";
-        c = pickMenu();
     } while (c != 0);
 }

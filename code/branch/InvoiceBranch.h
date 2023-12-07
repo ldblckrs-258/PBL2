@@ -10,4 +10,5 @@
 
 void CreateInvoice();
 void OpenExistInvoice();
+void ViewAllInvoices();
 #endif // !INVOICE_BRANCH

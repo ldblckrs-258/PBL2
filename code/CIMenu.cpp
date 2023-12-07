@@ -8,9 +8,10 @@ void CIMenu()
     menuList.push_back("CUSTOMER & INVOICE MENU");
     menuList.push_back("1. Create new invoice");
     menuList.push_back("2. Open existing invoice");
-    menuList.push_back("3. Create new customer profile");
-    menuList.push_back("4. Open existing customer profile");
-    menuList.push_back("5. View all customer profile");
+    menuList.push_back("3. View all invoices");
+    menuList.push_back("4. Create new customer profile");
+    menuList.push_back("5. Open existing customer profile");
+    menuList.push_back("6. View all customer profile");
     menuList.push_back("0. Exit");
     do
     {
@@ -26,12 +27,15 @@ void CIMenu()
             OpenExistInvoice();
             break;
         case 3:
-            CreateNewCustomer();
+            ViewAllInvoices();
             break;
         case 4:
-            OpenExistCustomer();
+            CreateNewCustomer();
             break;
         case 5:
+            OpenExistCustomer();
+            break;
+        case 6:
             ViewAllCustomers();
             break;
         default:

@@ -260,7 +260,7 @@ void ViewAllSpc()
     system("pause");
 }
 
-void SearchSpc()
+void SearchSpc(bool manager)
 {
     system("cls");
     LinkedList<std::string> menulist;
@@ -306,13 +306,32 @@ void SearchSpc()
 
         if (index != -1)
         {
-            SpeciesList[index].showDetails();
+            if (manager)
+            {
+                system("cls");
+                SpeciesList[index].editDetails();
+                setColor(4);
+                std::cout << "\nPRESS BACKSCAPE TO REMOVE THIS SPECIES, OTHERS NUMBER TO REFUSE" << std::endl;
+                setColor(7);
+                int choice = pickMenu();
+                if (choice == -99)
+                {
+                    SpeciesList.remove(index);
+                    holdString("Deleting ...", 0.5);
+                }
+                saveSpc();
+            }
+            else
+            {
+                system("cls");
+                SpeciesList[index].showDetails();
+            }
         }
         else
         {
             std::cout << "Value not found!" << std::endl;
         }
-        system("pause");
+        holdString("");
     } while (1);
 }
 
