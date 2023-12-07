@@ -1,4 +1,0 @@
-ID	Name	Age	Gender	Species ID	Status	Owner ID	Service Used ID	Height	Weight	Temperament	Intelligence	Special Needs
-CP1	Lizzy	11	0	A7	This is pet 	C3	S3	1.320000	2.310000	Good bro	9	None
-CP2	Bolar	17	1	C1	Very very good	C4	S5	2.340000	3.420000	none	7	Nothing
-CP3	Hazars	5	1	A5	Status is here	C5	S1	1.500000	2.500000	Temp 5	5	Sneeds 5

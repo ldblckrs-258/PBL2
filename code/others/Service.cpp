@@ -69,22 +69,22 @@ void Service::showDetails(int except)
     system("cls");
     setColor(3);
     std::cout << "              ++============+============================================+==============================++" << std::endl;
-    std::cout << "              ||     ID     |                Service Name                |             Price            ||" << std::endl;
+    std::cout << "              ||   0. ID    |              1. Service Name               |           2. Price           ||" << std::endl;
     std::cout << "              |+------------+--------------------------------------------+------------------------------+|" << std::endl;
     std::cout << "              ||            |                                            |                              ||" << std::endl;
     std::cout << "              ++============+============================================+==============================++" << std::endl;
     setColor(7);
-    if (except != 1)
+    if (except != 0)
     {
         gotoXY(17, 3);
         printCenter(ID, 10);
     }
-    if (except != 2)
+    if (except != 1)
     {
         gotoXY(30, 3);
         printCenter(Name, 42);
     }
-    if (except != 3)
+    if (except != 2)
     {
         gotoXY(75, 3);
         printCenter(commaInt(Price) + " vnd", 28);
@@ -100,28 +100,28 @@ void Service::editInfo()
     {
         showDetails();
         std::cout << std::endl
-                  << ">> Press a number 1-3 to edit, others to escape: ";
+                  << ">> Press a number 1-2 to edit, others to escape: ";
         c = pickMenu();
         switch (c)
         {
+        // case 0:
+        //     showDetails(0);
+        //     std::cout << "Enter service ID";
+        //     gotoXY(17, 3);
+        //     i = safeInput(10, false);
+        //     ID = (i.empty() ? ID : i);
+        //     gotoXY(0, 6);
+        //     break;
         case 1:
             showDetails(1);
-            std::cout << "Enter service ID";
-            gotoXY(17, 3);
-            i = safeInput(10, false);
-            ID = (i.empty() ? ID : i);
-            gotoXY(0, 6);
-            break;
-        case 2:
-            showDetails(2);
             std::cout << "Enter service name";
             gotoXY(30, 3);
             i = safeInput(42, false);
             Name = (i.empty() ? Name : i);
             gotoXY(0, 6);
             break;
-        case 3:
-            showDetails(3);
+        case 2:
+            showDetails(2);
             std::cout << "Enter service price";
             gotoXY(75, 3);
             i2 = Price;

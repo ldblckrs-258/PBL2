@@ -74,7 +74,7 @@ void CustomerPet::showDetails(int except)
     if (except != 6)
     {
         gotoXY(34, 15);
-        std::cout << getCustomerName(owner_id);
+        std::cout << owner_id << " - " << getCustomerName(owner_id);
     }
     if (except != 7)
     {
@@ -163,7 +163,7 @@ void CustomerPet::editInfo()
             showDetails(4);
             std::cout << ">> Enter species id";
             gotoXY(34, 11);
-            i2 = safeInput(36, false);
+            i2 = toUpperCase(safeInput(36, false));
             species_id = ((i2.empty()) ? species_id : i2);
             gotoXY(0, 21);
             break;
@@ -179,7 +179,7 @@ void CustomerPet::editInfo()
             showDetails(6);
             std::cout << ">> Enter owner id";
             gotoXY(34, 15);
-            i2 = safeInput(36, false);
+            i2 = toUpperCase(safeInput(36, false));
             owner_id = ((i2.empty()) ? owner_id : i2);
             gotoXY(0, 21);
             break;
@@ -187,7 +187,7 @@ void CustomerPet::editInfo()
             showDetails(7);
             std::cout << ">> Enter service used id";
             gotoXY(34, 17);
-            i2 = safeInput(36, false);
+            i2 = toUpperCase(safeInput(36, false));
             service_used = ((i2.empty()) ? service_used : i2);
             gotoXY(0, 21);
             break;

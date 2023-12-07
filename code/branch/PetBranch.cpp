@@ -473,6 +473,7 @@ void SoldPet(std::string shoppet_id, std::string customer_id)
     CustomerPet NewCP = SPetsList[index];
     NewCP.setOwnerID(customer_id);
     SPetsList[index].setSold(true);
+    SPetsList[index].setHistory(SPetsList[index].getHistory() + " >SOLD!");
     CPetsList.push_back(NewCP);
     saveCPList();
     saveSPList();

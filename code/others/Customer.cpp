@@ -79,22 +79,22 @@ void Customer::ShowDetails(int except)
 {
     system("cls");
     printFile(getFolder() + "source\\Customer.txt", 3);
+    if (except != 0)
+    {
+        gotoXY(27, 3);
+        printCenter(ID, 8);
+    }
     if (except != 1)
     {
-        gotoXY(17, 3);
-        printCenter(ID, 8);
+        gotoXY(38, 3);
+        printCenter(Name, 42);
     }
     if (except != 2)
     {
-        gotoXY(28, 3);
-        printCenter(Name, 42);
-    }
-    if (except != 3)
-    {
-        gotoXY(73, 3);
+        gotoXY(83, 3);
         printCenter(Contact, 28);
     }
-    moveLine(2);
+    moveLine(3);
     if (except == -1)
         ViewAllCP(ID);
 }
@@ -107,33 +107,33 @@ void Customer::EditInfo()
     {
         ShowDetails(0);
         std::cout << std::endl
-                  << ">> Press a number 1-3 to edit, others to escape: ";
+                  << ">> Press a number 1-2 to edit, others to escape: ";
         c = pickMenu();
         switch (c)
         {
+        // case 0:
+        //     ShowDetails(0);
+        //     std::cout << "Enter customer ID";
+        //     gotoXY(17, 3);
+        //     i = safeInput(8, false);
+        //     ID = (i.empty() ? ID : i);
+        //     gotoXY(0, 7);
+        //     break;
         case 1:
             ShowDetails(1);
-            std::cout << "Enter customer ID";
-            gotoXY(17, 3);
-            i = safeInput(8, false);
-            ID = (i.empty() ? ID : i);
-            gotoXY(0, 6);
+            std::cout << "Enter customer name";
+            gotoXY(38, 3);
+            i = safeInput(40, false);
+            Name = (i.empty() ? Name : i);
+            gotoXY(0, 7);
             break;
         case 2:
             ShowDetails(2);
-            std::cout << "Enter customer name";
-            gotoXY(29, 3);
-            i = safeInput(40, false);
-            Name = (i.empty() ? Name : i);
-            gotoXY(0, 6);
-            break;
-        case 3:
-            ShowDetails(3);
             std::cout << "Enter customer contact";
-            gotoXY(73, 3);
+            gotoXY(83, 3);
             i = safeInput(28, false);
             Contact = (i.empty() ? Contact : i);
-            gotoXY(0, 6);
+            gotoXY(0, 7);
             break;
         default:
             std::cout << "Exit ..." << std::endl;

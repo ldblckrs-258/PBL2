@@ -4,16 +4,29 @@ void CreateInvoice()
 {
     Invoice newI;
     std::string inputStr;
-
-    system("cls");
-    printFile(getFolder() + "source\\InputOne.txt", 2);
-    gotoXY(69, 1);
-    std::cout << "ENTER CUSTOMER ID";
-    gotoXY(60, 3);
-    std::cout << "ID";
-    gotoXY(72, 3);
-    std::cin >> inputStr;
-    moveLine(2);
+    int choice;
+    do
+    {
+        system("cls");
+        printFile(getFolder() + "source\\InputOne.txt", 2);
+        gotoXY(69, 1);
+        std::cout << "ENTER CUSTOMER ID";
+        gotoXY(60, 3);
+        std::cout << "ID";
+        gotoXY(72, 3);
+        std::cin >> inputStr;
+        moveLine(3);
+        int index = CustomerList.search(inputStr, &Customer::getID);
+        if (index == -1)
+        {
+            std::cout << "ID does not exist, press 1 to re-enter, 0 to exit";
+            choice = pickMenu();
+            if (choice != 1)
+                return;
+        }
+        else
+            break;
+    } while (1);
     newI.setCustomerID(toUpperCase(inputStr));
 
     int c;

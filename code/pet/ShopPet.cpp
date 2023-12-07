@@ -172,7 +172,7 @@ void ShopPet::editInfo()
             showDetails(4);
             std::cout << ">> Enter species id";
             gotoXY(34, 11);
-            i2 = safeInput(36, false);
+            i2 = toUpperCase(safeInput(36, false));
             species_id = ((i2.empty()) ? species_id : i2);
             gotoXY(0, 21);
             break;

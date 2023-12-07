@@ -10,7 +10,7 @@ private:
     bool sold;
 
 public:
-    ShopPet(std::string pid = "SP1", std::string sid = "S1");
+    ShopPet(std::string pid = "SP1", std::string sid = "S0");
 
     int getPrice() const;
     std::string getHistory() const;
