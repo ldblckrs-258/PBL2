@@ -268,9 +268,9 @@ void EditExistAccount()
             break;
         case 2:
             moveCursor(70, -4);
-            std::cout << "SACCESS VIA NAME" << std::endl;
+            std::cout << "ACCESS VIA NAME" << std::endl;
             moveCursor(56, 1);
-            std::cout << "Species name" << std::endl;
+            std::cout << "Employee name" << std::endl;
             moveCursor(72, -1);
             value = safeInput(30, false);
             moveLine(2);
@@ -284,7 +284,7 @@ void EditExistAccount()
         {
             EAList[index].UpdateInfo(true);
             setColor(4);
-            std::cout << "PRESS BACKSCAPE TO REMOVE THIS SPECIES, OTHERS NUMBER TO REFUSE" << std::endl;
+            std::cout << "\nPRESS BACKSCAPE TO REMOVE THIS EMPLOYEE ACCOUNT, OTHERS NUMBER TO REFUSE" << std::endl;
             setColor(7);
             int choice = pickMenu();
             if (choice == -99)
@@ -297,8 +297,8 @@ void EditExistAccount()
         else
         {
             std::cout << "Value not found!" << std::endl;
+            holdString("");
         }
-        system("pause");
     } while (1);
 }
 

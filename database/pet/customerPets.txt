@@ -1,11 +1,10 @@
 ID	Name	Age	Gender	Species ID	Status	Owner ID	Service Used ID	Height	Weight	Temperament	Intelligence	Special Needs
 CP1	Lizzy	11	0	A7	This is pet 	C1	S3	1.320000	2.310000	Good bro	9	None
-CP2	Bolar	17	1	C1	Very very good	C3	S5	2.340000	3.420000	none	7	Nothing
+CP2	Bolar	17	1	C1	Very very good	C3	S5	2.340000	3.420000	Temp 2	7	Nothing
 CP3	Hazars	5	1	A5	Status 3	C1	S1	1.540000	2.110000	Temp 3	4	Sneeds 3
 CP4	Hani	5	0	B2	Status 4	C2	S5	1.120000	2.320000	Temp 4	3	Sneeds 4
 CP5	Dsxa	5	1	C2	Status 5	C3	S0	1.210000	2.310000	Temp 5	7	Sneeds 5
 CP6	Nami	5	0	C3	Status 6	C1	S2	1.510000	2.110000	Temp 6	8	Sneeds 6
 CP7	Luxy	5	0	B3	Status 7	C2	S4	1.120000	2.000000	Temp 7	9	Sneeds 7
-CP8	Olaf	11	1	A5	Status 08	C4	S0	1.400000	2.330000	Temp 8	8	None
+CP8	Olaf	11	1	A5	Status 8	C4	S0	1.400000	2.330000	Temp 8	8	None
 CP9	Heskai	5	1	C4	Status 9	C3	S6	2.320000	1.220000	Temperament 9	7	Some special needs
-CP10	Doraemon	321	1	B1	Status here	C4	S0	1.670000	50.400000	Cuteee	7	SNedd here
