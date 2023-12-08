@@ -388,7 +388,7 @@ std::string boxInput(int maxlength, int maxheight)
     return str;
 }
 
-std::string getTime()
+std::string getCTime()
 {
     std::time_t currentTime = std::time(nullptr);
     std::tm *localTime = std::localtime(&currentTime);

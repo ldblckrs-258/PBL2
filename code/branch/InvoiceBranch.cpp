@@ -2,7 +2,6 @@
 #include <fstream>
 void CreateInvoice()
 {
-    Invoice newI;
     std::string inputStr;
     int choice;
     do
@@ -27,6 +26,7 @@ void CreateInvoice()
         else
             break;
     } while (1);
+    Invoice newI;
     newI.setCustomerID(toUpperCase(inputStr));
 
     int c;

@@ -1,5 +1,5 @@
 #include "./Invoice.h"
-Invoice::Invoice() : Time(getTime()), Customer_ID("C0"), Total(0)
+Invoice::Invoice() : Time(getCTime()), Customer_ID("C0"), Total(0)
 {
     SetNextID();
 }
