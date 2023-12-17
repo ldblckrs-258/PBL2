@@ -1,8 +1,4 @@
 #include "./ManagerAccount.h"
-#include <iostream>
-#include <fstream>
-#include "../mylib/FuncLib.h"
-#include "../mylib/Cursor.h"
 
 ManagerAccount::ManagerAccount() : Account()
 {

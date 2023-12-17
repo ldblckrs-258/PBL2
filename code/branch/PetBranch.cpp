@@ -1,10 +1,6 @@
 
 #include "./PetBranch.h"
-#include <iostream>
-#include <fstream>
 #include <iomanip>
-#include <limits>
-#include "../mylib/Cursor.h"
 
 // =============== CUSTOMER'S PETS  =============== //
 

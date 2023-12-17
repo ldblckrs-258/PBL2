@@ -17,13 +17,13 @@ public:
     std::string getStatus() const;
     void setOwnerID(std::string);
 
-    void showDetails(int except = -1);
-    void editInfo();
-    void editChar();
-    void setPet();
-    void readLine(const std::string &);
-    std::string writeLine();
-    void setNextID();
+    void readLine(const std::string &) override;
+    std::string writeLine() override;
+    void showDetails(int except = -1) override;
+    void editInfo() override;
+    void editChar() override;
+    void setPet() override;
+    void setNextID() override;
 };
 
 #endif // !CPET_H

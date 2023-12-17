@@ -7,4 +7,3 @@ S4	Grooming and Coat Care	35000
 S5	Hair Styling	75000
 S6	Combo Grooming & Hair Styling	99000
 S7	Full Combo	149000
-S8	Service name	0

@@ -26,6 +26,14 @@ public:
     std::string getName() const;
     std::string getSpcID() const;
     std::string getGender() const;
+
+    virtual void readLine(const std::string &) = 0; // Đọc một chuỗi string thành dữ liệu của đối tượng
+    virtual std::string writeLine() = 0;            // Chuyển dữ liệu đối tượng thành một chuỗi string
+    virtual void showDetails(int) = 0;              // In ra thông tin đối tượng
+    virtual void editInfo() = 0;                    // Chỉnh sửa thông tin đối tượng
+    virtual void editChar() = 0;                    // Chỉnh sửa đặc điểm đối tượng
+    virtual void setPet() = 0;                      // Menu chỉnh sửa đối tượng
+    virtual void setNextID() = 0;                   // Đặt ID đối tượng là ID tiếp theo dựa vào dữ liệu database
 };
 
 #endif // !PET_H

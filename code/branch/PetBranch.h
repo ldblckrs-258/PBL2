@@ -4,7 +4,6 @@
 #include "../pet/CustomerPet.h"
 #include "../pet/ShopPet.h"
 #include "../pet/Species.h"
-#include "../mylib/FuncLib.h"
 #include "../branch/CustomerBranch.h"
 
 extern LinkedList<CustomerPet> CPetsList;

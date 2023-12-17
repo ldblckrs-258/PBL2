@@ -1,10 +1,4 @@
 #include "./ShopPet.h"
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <limits>
-#include "../mylib/FuncLib.h"
-#include "../mylib/Cursor.h"
 #include "../branch/PetBranch.h"
 
 ShopPet::ShopPet(std::string pid, std::string sid) : Pet(pid, sid), price(0), history(UDF), sold(false) {}

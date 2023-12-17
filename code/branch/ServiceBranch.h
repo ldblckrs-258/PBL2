@@ -2,8 +2,6 @@
 #define SERVICE_BRANCH
 
 #include "../others/Service.h"
-#include "../mylib/FuncLib.h"
-#include "../mylib/Cursor.h"
 extern LinkedList<Service> ServiceList;
 
 void getServiceList();

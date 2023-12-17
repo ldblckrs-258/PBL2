@@ -1,8 +1,7 @@
 #ifndef CUSTOMER_BRANCH
 #define CUSTOMER_BRANCH
 #include "../others/Customer.h"
-#include "../mylib/FuncLib.h"
-#include "../mylib/Cursor.h"
+
 extern LinkedList<Customer> CustomerList;
 
 void getCustomerList();

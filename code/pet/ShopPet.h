@@ -1,7 +1,6 @@
 #ifndef SPET_H
 #define SPET_H
 #include "./Pet.h"
-#include <iostream>
 class ShopPet : public Pet
 {
 private:
@@ -19,13 +18,13 @@ public:
     bool hadSold() const;
     void setSold(bool);
 
-    void readLine(const std::string &);
-    std::string writeLine();
-    void showDetails(int except = -1);
-    void editInfo();
-    void editChar();
-    void setPet();
-    void setNextID();
+    void readLine(const std::string &) override;
+    std::string writeLine() override;
+    void showDetails(int except = -1) override;
+    void editInfo() override;
+    void editChar() override;
+    void setPet() override;
+    void setNextID() override;
 };
 
 #endif // !SPET_H

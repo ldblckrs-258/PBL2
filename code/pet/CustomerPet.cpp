@@ -1,10 +1,4 @@
 #include "./CustomerPet.h"
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <limits>
-#include "../mylib/FuncLib.h"
-#include "../mylib/Cursor.h"
 #include "../branch/PetBranch.h"
 #include "../branch/ServiceBranch.h"
 

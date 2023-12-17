@@ -4,6 +4,7 @@
 #include "./code/ServiceMenu.cpp"
 #include "./code/CIMenu.cpp"
 #include "./code/branch/CustomerBranch.h"
+
 LinkedList<Species> SpeciesList;
 LinkedList<CustomerPet> CPetsList;
 LinkedList<ShopPet> SPetsList;
@@ -11,6 +12,45 @@ LinkedList<ManagerAccount> MAList;
 LinkedList<EmployeeAccount> EAList;
 LinkedList<Service> ServiceList;
 LinkedList<Customer> CustomerList;
+
+template <typename T>
+bool Logged(T &Acc);
+void PrintMain();
+LinkedList<int> LogIO();
+
+int main()
+{
+    int choice;
+    bool reLogin;
+    LinkedList<int> LogInfo;
+
+    getSpeciesList();
+    getCPList();
+    getSPList();
+    getEAList();
+    getMAList();
+    getServiceList();
+    getCustomerList();
+
+    do
+    {
+        reLogin = false;
+        LogInfo = LogIO();
+        if (LogInfo[1] == 0)
+            break;
+        if (LogInfo[0] != -1)
+        {
+            if (LogInfo[1] == 1)
+                reLogin = Logged(EAList[LogInfo[0]]);
+            else if (LogInfo[1] == 2)
+                reLogin = Logged(MAList[LogInfo[0]]);
+            else
+                break;
+        }
+    } while (reLogin);
+
+    return 0;
+}
 
 template <typename T>
 bool Logged(T &Acc)
@@ -132,34 +172,4 @@ LinkedList<int> LogIO()
             break;
         }
     } while (1);
-}
-
-int main()
-{
-    int choice;
-    bool reLogin;
-    LinkedList<int> LogInfo;
-    getSpeciesList();
-    getCPList();
-    getSPList();
-    getEAList();
-    getMAList();
-    getServiceList();
-    getCustomerList();
-    do
-    {
-        reLogin = false;
-        LogInfo = LogIO();
-        if (LogInfo[1] == 0)
-            break;
-        if (LogInfo[0] != -1)
-        {
-            if (LogInfo[1] == 1)
-                reLogin = Logged(EAList[LogInfo[0]]);
-            else if (LogInfo[1] == 2)
-                reLogin = Logged(MAList[LogInfo[0]]);
-            else
-                break;
-        }
-    } while (reLogin);
 }

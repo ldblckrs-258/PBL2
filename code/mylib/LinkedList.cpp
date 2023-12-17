@@ -93,34 +93,6 @@ public:
         size = 0;
     }
 
-    // void removeFront() {
-    //     if (head) {
-    //         Node<T>* temp = head;
-    //         head = head->next;
-    //         delete temp;
-    //         --size;
-    //     }
-    // }
-
-    // void removeBack() {
-    //     if (!head) {
-    //         return;
-    //     }
-
-    //     if (!head->next) {
-    //         delete head;
-    //         head = nullptr;
-    //     } else {
-    //         Node<T>* temp = head;
-    //         while (temp->next->next) {
-    //             temp = temp->next;
-    //         }
-    //         delete temp->next;
-    //         temp->next = nullptr;
-    //     }
-    //     --size;
-    // }
-
     T &operator[](int index)
     {
         int currentIndex = 0;
@@ -162,7 +134,7 @@ public:
 
     void remove(int index)
     {
-        if (index < 0 || !head)
+        if (index < 0 || !head || index >= size)
         {
             return;
         }
