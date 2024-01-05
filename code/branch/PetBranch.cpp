@@ -321,13 +321,14 @@ void SearchSpc(bool manager)
             {
                 system("cls");
                 SpeciesList[index].showDetails();
+                holdString("");
             }
         }
         else
         {
             std::cout << "Value not found!" << std::endl;
+            holdString("");
         }
-        holdString("");
     } while (1);
 }
 

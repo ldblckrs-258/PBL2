@@ -1,10 +1,10 @@
 ID	Name	Age	Gender	Species ID	Status	Owner ID	Service Used ID	Height	Weight	Temperament	Intelligence	Special Needs
-CP1	Lizzy	11	0	A7	This is pet 	C1	S3	1.320000	2.310000	Good bro	9	None
-CP2	Bolar	17	1	C1	Very very good	C3	S5	2.340000	3.420000	Temp 2	7	Nothing
-CP3	Hazars	5	1	A5	Status 3	C1	S1	1.540000	2.130000	Temp 3	4	Sneeds 3
-CP4	Hani	5	0	B2	Status 4	C2	S5	1.120000	2.320000	Temp 4	3	Sneeds 4
-CP5	Dsxa	5	1	C2	Status 5	C3	S0	1.210000	2.310000	Temp 5	7	Sneeds 5
-CP6	Nami	5	0	C3	Status 6	C1	S2	1.510000	2.110000	Temp 6	8	Sneeds 6
-CP7	Luxy	5	0	B3	Status 7	C2	S4	1.120000	2.000000	Temp 7	9	Sneeds 7
-CP8	Olaf	11	1	A5	Status 8	C4	S0	1.400000	2.330000	Temp 8	8	None
-CP9	Heskai	5	1	C4	Status 9	C3	S6	2.320000	1.220000	Temperament 9	7	Some special needs
+CP1	Lizzy	11	0	A7	Happy	C1	S3	1.320000	2.310000	Good	9	None
+CP2	Max	5	1	B2	Healthy	C1	S1	1.100000	1.800000	Playful	7	Regular exercise
+CP3	Bella	3	0	A5	Recovering	C2	S2	0.900000	1.500000	Shy	5	Dietary restrictions
+CP4	Rocky	8	1	C3	Good condition	C3	S1	1.500000	2.500000	Energetic	8	None
+CP5	Luna	2	0	B4	Happy	C3	S3	1.200000	2.000000	Friendly	6	None
+CP6	Daisy	4	0	A4	Healthy	C4	S2	1.000000	1.700000	Calm	6	None
+CP7	Oliver	7	1	C5	Good condition	C4	S3	1.400000	2.200000	Playful	8	None
+CP8	Chloe	1	0	B5	Happy	C5	S1	1.100000	1.900000	Curious	7	None
+CP9	Doraemon	321	1	B1	Good health	C5	S0	1.670000	50.400000	Cuteee	7	Dorayaki

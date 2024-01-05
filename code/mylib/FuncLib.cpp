@@ -349,7 +349,7 @@ std::string boxInput(int maxlength, int maxheight)
     std::string str;
     int cursor[maxheight + 2][2];
     getCursorPosition(cursor[0][0], cursor[0][1]);
-    int width = 1, height = 1;
+    int width = 0, height = 1;
     char ch;
     while ((ch = _getch()) != '\r')
     {
@@ -370,7 +370,7 @@ std::string boxInput(int maxlength, int maxheight)
                 --width;
             }
         }
-        else if (height <= maxheight)
+        else if (height < maxheight)
         {
             if ((width >= maxlength) && ch != ' ')
             {
@@ -379,6 +379,12 @@ std::string boxInput(int maxlength, int maxheight)
                 width = 0;
                 ++height;
             }
+            str.push_back(ch);
+            std::cout << ch;
+            ++width;
+        }
+        else if ((height == maxheight) && (width < maxlength))
+        {
             str.push_back(ch);
             std::cout << ch;
             ++width;

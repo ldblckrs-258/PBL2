@@ -1,5 +1,4 @@
 ID (Username)	Password	Manager?	Full Name	Date of birth	Position	Contact
-manager1	123123	1	Elon Musk	12/04/1987	Manager	manager1shoppetcomvn
-manager2	000000	1	Manager 02	23/07/1999	Manager	manager2shoppetcomvn
-manager3	111111	1	Manager 03	23/05/1998	Manager	manager3shoppetcomvn
-manager4	123123	1	Manager Name	25/07/2001	Manager	manager4petshopcomvn
+manager1	123123	1	Manager Name	12/04/1987	Pet manager	manager1shoppetcomvn
+manager2	123123	1	Elon Musk	25/07/2001	Service manager	manager2petshopcomvn
+manager3	123123	1	Le Duc Bao	25/08/2004	Developer	ldb258204@gmail.com

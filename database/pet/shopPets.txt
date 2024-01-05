@@ -1,4 +1,11 @@
 ID	Name	Age	Gender	Species ID	Status	History	Price	Height	Weight	Temperament	Intelligence	Special Needs	Had Sold ?
-SP1	Doraemon	321	1	B1	Status here	History here	1123000	1.670000	50.400000	Cuteee	7	SNedd here	1
-SP2	Doggo	5	0	A7	Statusss	None	7654300	1.500000	2.110000	undefined	7	None	0
-SP3	Flappy	5	1	C1	Very good	History here	4328000	1.400000	1.140000	undefined	4	None	0
+SP1	Doraemon	321	1	B1	Status here	Future >SOLD!	1123000	1.670000	50.400000	Cuteee	7	Dorayaki	1
+SP2	Pikachu	15	1	A4	Healthy	Born in Pallet	800000	0.400000	6.000000	Playful	8	None	0
+SP3	Garfield	10	0	C4	Good condition	Found in a comic	1200000	0.800000	8.500000	Lazy	6	None	0
+SP4	Simba	5	1	A1	Healthy	Pride Lands	950000	0.700000	7.000000	Brave	9	None	0
+SP5	Hello Kitty	8	0	B3	Good condition	Japan	500000	0.500000	3.500000	Cute	7	None	0
+SP6	Scooby-Doo	12	1	C2	Good condition	Mystery Inc. Headquarters	1500000	1.000000	25.000000	Courageous	7	None	0
+SP7	Mickey Mouse	90	1	A3	Legendary	Disneyland	2000000	0.600000	5.000000	Cheerful	9	None	0
+SP8	Elsa	25	0	B4	Frozen	Arendelle	1800000	1.500000	40.000000	Powerful	8	Many foods	0
+SP9	Bugs Bunny	80	1	C1	Classic	Looney Tunes	1000000	0.900000	10.000000	Witty	8	None	0
+SP10	Nemo	3	1	A2	Adventurous	Great Barrier Reef	600000	0.200000	0.300000	Curious	7	None	0
